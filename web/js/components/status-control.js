@@ -15,7 +15,9 @@ let count = 0;
 
 /**
  * The button that opens the status dialog. Its accessible name includes the demo title, so a
- * list of these buttons stays distinguishable for screen reader and voice control users.
+ * list of these buttons stays distinguishable for screen reader and voice control users. The
+ * hidden part starts with a space: name computation may add one of its own around a hidden
+ * (absolutely positioned) element, and whitespace collapses either way.
  * @param {string} title
  * @param {(button: HTMLButtonElement) => void} onClick
  */
@@ -24,7 +26,7 @@ export function statusButton(title, onClick) {
     'button',
     { type: 'button', class: 'btn btn--secondary' },
     h('span', { i18n: 'admin.changeStatus' }),
-    h('span', { class: 'visually-hidden', text: `: ${title}` }),
+    h('span', { class: 'visually-hidden', text: ` (${title})` }),
   );
   button.addEventListener('click', () => onClick(button));
   return button;
