@@ -34,10 +34,13 @@ let stopLangSync = null;
 let stopThemeSync = null;
 
 /**
+ * The team's work is the review desk, so an admin's menu holds only that; the pages written for
+ * artists and guests stay reachable from the home page.
  * @param {User | null} user
  * @returns {NavLink[]}
  */
 export function navLinks(user) {
+  if (user?.role === 'admin') return [...ROLE_LINKS.admin];
   return [...(user ? ROLE_LINKS[user.role] ?? [] : []), ...PUBLIC_LINKS];
 }
 
@@ -134,6 +137,25 @@ export function renderHeader(user) {
   );
 }
 
+/**
+ * While the sticky header lies on a dark scene at the top of the page (the home hero, the upload
+ * page's head) it is dark glass over it (components.css); once the scene has scrolled out from
+ * under it, it is the page's own frosted bar again.
+ * @param {HTMLElement} scene
+ */
+export function glassOver(scene) {
+  const header = document.getElementById('site-header');
+  if (!header) return;
+  let frame = 0;
+  const update = () => {
+    frame = 0;
+    header.toggleAttribute('data-over-scene', scene.getBoundingClientRect().bottom > header.offsetHeight);
+  };
+  update();
+  addEventListener('scroll', () => (frame ||= requestAnimationFrame(update)), { passive: true });
+  addEventListener('resize', update);
+}
+
 /** @param {NavLink} link */
 function navLink({ href, key }) {
   return h('a', {
@@ -172,12 +194,28 @@ function account(user) {
     h(
       'p',
       { class: 'account__user' },
+      h('span', { class: 'account__avatar', 'aria-hidden': 'true', text: initials(user.displayName) }),
       h('span', { class: 'visually-hidden', i18n: 'nav.signedInAs' }),
       ' ',
       h('span', { class: 'account__name', text: user.displayName }),
     ),
     signOutButton,
   );
+}
+
+/**
+ * Up to two initials for the badge beside the name; it still says who is signed in where the
+ * name itself has no room.
+ * @param {string} name
+ */
+function initials(name) {
+  return name
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((part) => [...part][0] ?? '')
+    .join('')
+    .toLocaleUpperCase(getLang());
 }
 
 /** @param {HTMLButtonElement} button */

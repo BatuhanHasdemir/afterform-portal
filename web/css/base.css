@@ -84,6 +84,8 @@ html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   background: var(--bg);
+  /* Anchors and focused fields stop below the sticky header instead of under it. */
+  scroll-padding-top: var(--header-h);
 }
 
 body {

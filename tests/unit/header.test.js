@@ -12,9 +12,12 @@ describe('navLinks', () => {
     assert.deepEqual(hrefs(null), ['/lab/', '/security.html']);
   });
 
-  test('signed-in users get their own area first', () => {
+  test('artists get their own area first', () => {
     assert.deepEqual(hrefs(artist), ['/portal/demos.html', '/portal/upload.html', '/lab/', '/security.html']);
-    assert.deepEqual(hrefs(admin), ['/admin/', '/lab/', '/security.html']);
+  });
+
+  test('admins get only the review desk', () => {
+    assert.deepEqual(hrefs(admin), ['/admin/']);
   });
 });
 

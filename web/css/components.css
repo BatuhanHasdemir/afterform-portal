@@ -55,8 +55,30 @@
 /* Site header. Below 1100px the menu folds behind a toggle; the role-dependent links do not
    fit on one line any earlier. */
 
+/* The header stays at the top while the page scrolls, as frosted glass over what passes under it.
+   Over a dark scene at the top of a page it turns into dark glass (glassOver in header.js). */
 .site-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
   border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 84%, transparent);
+  color: var(--text);
+  backdrop-filter: blur(16px) saturate(1.4);
+  transition:
+    background-color 240ms var(--ease-out),
+    border-color 240ms var(--ease-out);
+}
+
+.site-header[data-over-scene] {
+  color-scheme: dark;
+  border-bottom-color: rgb(255 255 255 / 0.14);
+  background: rgb(12 12 13 / 0.32);
+}
+
+/* An open menu covers the photo, so it needs a solid backing to be read. */
+.site-header[data-over-scene][data-menu-open] {
+  background: rgb(12 12 13 / 0.94);
 }
 
 .site-header__bar {
@@ -64,7 +86,7 @@
   flex-wrap: wrap;
   align-items: center;
   column-gap: var(--space-5);
-  min-height: 64px;
+  min-height: calc(var(--header-h) - 1px);
   padding-block: var(--space-2);
 }
 
@@ -130,10 +152,33 @@
 }
 
 .account__user {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.account__avatar {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--accent) 14%, var(--surface-2));
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.account__name {
   min-width: 0;
   max-width: 22ch;
   overflow: hidden;
-  color: var(--text-muted);
+  font-weight: 500;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -234,20 +279,26 @@
      menu dropping below the wordmark. */
   .site-header__bar {
     flex-wrap: nowrap;
+    column-gap: var(--space-7);
   }
 
   .menu-toggle {
     display: none;
   }
 
+  /* Three groups, each with its own spacing: the links next to the wordmark, then the account
+     and the preferences on the right, set apart by a rule. */
   .site-menu {
     display: flex;
     flex: 1 1 auto;
     min-width: 0;
     align-items: center;
-    justify-content: flex-end;
-    gap: var(--space-4);
+    gap: var(--space-5);
     padding: 0;
+  }
+
+  .site-nav {
+    margin-right: auto;
   }
 
   /* The preferences keep their size; when space runs short the user's name gives way. */
@@ -255,6 +306,8 @@
     flex: none;
     flex-wrap: nowrap;
     gap: var(--space-2);
+    padding-left: var(--space-5);
+    border-left: 1px solid var(--line);
   }
 
   .theme-switch__option {
@@ -266,26 +319,42 @@
     white-space: nowrap;
   }
 
+  /* The gap between two links is several word spaces wide, so a two-word link never reads as
+     part of its neighbour. */
   .site-nav__list {
     display: flex;
-    gap: var(--space-4);
+    gap: var(--space-6);
   }
 
   .site-nav__link {
     border-bottom: 0;
+    color: var(--text-muted);
+    font-size: var(--text-sm);
     white-space: nowrap;
+    transition: color var(--duration) ease;
+  }
+
+  .site-nav__link[aria-current] {
+    color: var(--text);
   }
 
   .account {
     flex-wrap: nowrap;
+    gap: var(--space-4);
     min-width: 0;
   }
 }
 
+@media (min-width: 1100px) and (hover: hover) and (pointer: fine) {
+  .site-nav__link:hover {
+    color: var(--text);
+  }
+}
+
 /* Up to 1280px a signed-in menu fits on one line only without the name, which a squeezed
-   ellipsis would make unreadable anyway; screen readers still hear it. */
+   ellipsis would make unreadable anyway; the initials stay, and screen readers still hear it. */
 @media (min-width: 1100px) and (max-width: 1279.98px) {
-  .account__user {
+  .account__name {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -295,36 +364,245 @@
   }
 }
 
-/* Site footer: the brand line and the links, then the name as wide as the page. */
+/* Scene head: the dark top of a page (upload, security), like the home page's hero: a photo under
+   a shade, the sticky header as glass over it (glassOver in header.js), and the page's title. */
+
+.scene-head {
+  --head-ink: #f6f3ec;
+  --head-soft: #dcd7cd;
+
+  position: relative;
+  display: grid;
+  align-items: end;
+  min-height: clamp(400px, 56svh, 560px);
+  margin-top: calc(-1 * var(--header-h));
+  overflow: clip;
+  color-scheme: dark;
+  background: #0c0c0d;
+  color: var(--head-ink);
+}
+
+.scene-head__media {
+  position: absolute;
+  inset: 0;
+}
+
+.scene-head__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 64% 45%;
+}
+
+.scene-head__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, rgb(10 9 9 / 0.94) 0%, rgb(10 9 9 / 0.6) 40%, rgb(10 9 9 / 0) 78%),
+    linear-gradient(to right, rgb(10 9 9 / 0.78) 0%, rgb(10 9 9 / 0.3) 50%, rgb(10 9 9 / 0) 72%),
+    linear-gradient(to bottom, rgb(10 9 9 / 0.55) 0%, rgb(10 9 9 / 0) 30%);
+}
+
+.scene-head__inner {
+  position: relative;
+  padding-block: calc(var(--header-h) + var(--space-8)) var(--space-7);
+}
+
+.scene-head__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 32px;
+  padding: 0 var(--space-3);
+  border: 1px solid rgb(255 255 255 / 0.34);
+  border-radius: var(--radius);
+  background: rgb(12 12 13 / 0.4);
+  color: var(--head-soft);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
+}
+
+.scene-head__eyebrow .icon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--accent);
+}
+
+.scene-head__title {
+  margin-top: var(--space-4);
+  color: var(--head-ink);
+  font-size: clamp(2.75rem, 1.4rem + 4.6vw, 5.25rem);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+}
+
+.scene-head__lead {
+  max-width: 46ch;
+  margin-top: var(--space-4);
+  color: var(--head-soft);
+  font-size: var(--text-lg);
+}
+
+/* Status counts on a scene head: one button per status, the number first. They are also the
+   status filter of the list below (Gönderilerim, the review desk). */
+
+/* On a phone "all" takes the whole first row and the four statuses pair up below it. */
+.demo-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+.demo-stat:first-of-type {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 640px) {
+  .demo-stats {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .demo-stat:first-of-type {
+    grid-column: auto;
+  }
+}
+
+.demo-stat {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  min-height: 88px;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid rgb(255 255 255 / 0.2);
+  border-radius: var(--radius);
+  background: rgb(12 12 13 / 0.5);
+  color: var(--head-soft);
+  font: inherit;
+  text-align: left;
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  transition:
+    border-color var(--duration) var(--ease-out),
+    background-color var(--duration) var(--ease-out),
+    transform var(--duration-press) var(--ease-out);
+}
+
+.demo-stat:active {
+  transform: scale(0.97);
+}
+
+/* The number reads first, though the label comes first in the button's name. */
+.demo-stat__count {
+  order: -1;
+  color: var(--head-ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.demo-stat__label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+}
+
+.demo-stat__label .icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.demo-stat--pending .icon {
+  color: var(--warn);
+}
+
+.demo-stat--in_review .icon {
+  color: var(--info);
+}
+
+.demo-stat--accepted .icon {
+  color: var(--ok);
+}
+
+.demo-stat--rejected .icon {
+  color: var(--danger);
+}
+
+.demo-stat[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: rgb(12 12 13 / 0.74);
+  color: var(--head-ink);
+}
+
+.demo-stat[aria-pressed="true"] .demo-stat__count {
+  color: var(--accent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .demo-stat:hover {
+    border-color: rgb(255 255 255 / 0.5);
+  }
+}
+
+/* Site footer: the closing scene of every page. It is dark in both themes, like the hero, and its
+   top edge is cut along the brand's slash. The cut sits inside the footer's own padding, so it
+   never covers the end of the page above it. */
 
 .site-footer {
-  margin-top: var(--space-8);
-  border-top: 1px solid var(--line);
+  --cut: 32px;
+
+  padding-top: calc(var(--cut) + var(--space-7));
+  color-scheme: dark;
+  background:
+    radial-gradient(70% 80% at 100% 0%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%),
+    var(--surface-1);
+  color: var(--text);
+  clip-path: polygon(0 var(--cut), 100% 0, 100% 100%, 0 100%);
 }
 
-.site-footer__inner {
+.site-footer__main {
   display: grid;
-  gap: var(--space-6);
-  padding-block: var(--space-7) var(--space-6);
+  gap: var(--space-7);
 }
 
-.site-footer__top {
+.site-footer__brand {
   display: grid;
-  gap: var(--space-6);
+  justify-items: start;
+  align-content: start;
+  gap: var(--space-4);
+  max-width: 26rem;
 }
 
-.site-footer__tagline {
-  max-width: 14ch;
+.site-footer__brand .wordmark {
   font-size: var(--text-xl);
-  font-weight: 650;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+}
+
+.site-footer__about {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.site-footer__cta {
+  margin-top: var(--space-2);
+}
+
+.site-footer__cta .icon {
+  width: 1rem;
+  height: 1rem;
 }
 
 .site-footer__nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-5) var(--space-8);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-6) var(--space-5);
 }
 
 .site-footer__group-title {
@@ -337,7 +615,7 @@
 
 .site-footer__links {
   display: grid;
-  margin-top: var(--space-2);
+  margin: var(--space-2) 0 0;
   padding: 0;
   list-style: none;
 }
@@ -346,15 +624,46 @@
   display: inline-flex;
   align-items: center;
   min-height: var(--touch-min);
+  padding-block: var(--space-1);
+  line-height: var(--leading-tight);
+  color: var(--text);
+  text-decoration: none;
+  transition: color var(--duration) ease;
 }
 
+/* What the portal protects accounts and files with, as small tags. */
+.site-footer__security {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-8);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--line);
+}
+
+.site-footer__specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-footer__spec {
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+/* The name as wide as the page, so faint that it reads as texture. */
 .site-footer__mark {
   display: block;
   width: 100%;
   height: auto;
-  overflow: visible;
-  fill: var(--surface-2);
-  font-family: var(--font-body);
+  margin-top: var(--space-8);
+  fill: color-mix(in srgb, var(--text) 8%, transparent);
   font-size: 149px;
   font-weight: 700;
 }
@@ -363,22 +672,136 @@
   fill: var(--accent);
 }
 
-.site-footer__note {
-  max-width: none;
-  padding-top: var(--space-4);
+.site-footer__bar {
+  margin-top: var(--space-5);
   border-top: 1px solid var(--line);
+}
+
+.site-footer__bar-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-6);
+  padding-block: var(--space-4);
+}
+
+.site-footer__note {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  max-width: none;
   color: var(--text-muted);
   font-size: var(--text-sm);
 }
 
-@media (min-width: 768px) {
-  .site-footer__inner {
-    padding-block-start: var(--space-8);
+.site-footer__copyright {
+  color: var(--text);
+}
+
+.site-footer__up {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--touch-min);
+  color: var(--text);
+  font-size: var(--text-sm);
+  text-decoration: none;
+}
+
+.site-footer__up .icon {
+  width: 1rem;
+  height: 1rem;
+  transition: transform var(--duration) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .site-footer__links a:hover {
+    color: var(--accent);
   }
 
-  .site-footer__top {
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: start;
+  .site-footer__up:hover .icon {
+    transform: translateY(-3px);
+  }
+}
+
+/* The name rises into the footer as the footer comes into view. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .site-footer__mark text {
+      animation: mark-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 45%;
+    }
+  }
+}
+
+@keyframes mark-rise {
+  from {
+    opacity: 0;
+    transform: translateY(40%);
+  }
+}
+
+@media (min-width: 768px) {
+  .site-footer {
+    --cut: 56px;
+  }
+
+  .site-footer__nav {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .site-footer {
+    --cut: 72px;
+
+    padding-top: calc(var(--cut) + var(--space-8));
+  }
+
+  .site-footer__main {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    column-gap: var(--space-9);
+  }
+}
+
+/* The team's footer: a lower cut, the brand and one row of the desk's shortcuts. */
+.site-footer--desk {
+  --cut: 24px;
+
+  padding-top: calc(var(--cut) + var(--space-6));
+}
+
+.site-footer--desk .site-footer__nav {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.site-footer--desk .site-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .site-footer--desk {
+    --cut: 32px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .site-footer--desk {
+    --cut: 40px;
+
+    padding-top: calc(var(--cut) + var(--space-7));
+  }
+
+  .site-footer--desk .site-footer__main {
+    align-items: end;
+  }
+
+  .site-footer--desk .site-footer__nav {
+    justify-items: end;
   }
 }
 

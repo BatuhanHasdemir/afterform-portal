@@ -52,6 +52,8 @@
   --measure: 68ch;
 
   --gutter: 16px;
+  /* The header bar and the rule under it; the home hero slides under the header by this much. */
+  --header-h: 65px;
   --content-max: 1280px;
   --touch-min: 44px;
 
