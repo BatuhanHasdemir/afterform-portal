@@ -16,26 +16,19 @@
 
 /* Lab index */
 
+.lab-index__title {
+  font-size: var(--text-3xl);
+  letter-spacing: -0.03em;
+}
+
 .lab-section {
-  padding-block: var(--space-6);
+  padding-block: var(--space-7);
   border-top: 1px solid var(--line);
 }
 
-.concepts,
-.experiments {
-  display: grid;
-  gap: var(--space-4);
-  margin-top: var(--space-5);
-  padding: 0;
-  list-style: none;
-}
-
-.concept,
-.experiment {
-  padding: var(--space-5);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface-1);
+.lab-section__title {
+  font-size: var(--text-2xl);
+  letter-spacing: -0.02em;
 }
 
 .concept__title,
@@ -49,26 +42,174 @@
   color: var(--text-muted);
 }
 
-.experiment {
-  position: relative;
-  transition: border-color var(--duration) var(--ease-out);
+/* The three properties: text on the left, a small computed picture on the right. */
+
+.concept-rows {
+  display: grid;
+  margin-top: var(--space-5);
+  padding: 0;
+  list-style: none;
 }
 
-.experiment:hover,
-.experiment:focus-within {
-  border-color: var(--accent);
+.concept-row {
+  display: grid;
+  gap: var(--space-5);
+  padding-block: var(--space-6);
+  border-top: 1px solid var(--line);
 }
 
-.experiment__title {
-  display: flex;
-  justify-content: space-between;
+.concept-row__text {
+  max-width: 62ch;
+}
+
+.concept-row__visual {
+  display: grid;
+  align-content: center;
   gap: var(--space-3);
 }
 
-.experiment__title::after {
-  content: "\2192";
-  content: "\2192" / "";
-  color: var(--accent);
+@media (min-width: 900px) {
+  .concept-row {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    align-items: center;
+    column-gap: var(--space-8);
+  }
+}
+
+.oneway {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-base);
+}
+
+.oneway .icon {
+  color: var(--accent-text);
+}
+
+.oneway--back .icon {
+  color: var(--text-muted);
+}
+
+.oneway__unknown {
+  color: var(--accent-text);
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .oneway {
+    opacity: 0;
+    transform: translateX(-8px);
+    transition:
+      opacity 400ms var(--ease-out),
+      transform 400ms var(--ease-out);
+  }
+
+  [data-inview] .oneway {
+    opacity: 1;
+    transform: none;
+  }
+
+  [data-inview] .oneway--back {
+    transition-delay: 300ms;
+  }
+}
+
+.bound {
+  font-family: var(--font-mono);
+  font-size: var(--text-3xl);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.bound sup {
+  display: inline-block;
+  min-width: 3ch;
+  color: var(--accent-text);
+  font-size: 0.5em;
+  font-variant-numeric: tabular-nums;
+  vertical-align: top;
+}
+
+.bound__label {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+/* 256 output bits, 16 to a row: the ones that differ between the two inputs are in the accent. */
+.bitgrid {
+  display: grid;
+  grid-template-columns: repeat(16, minmax(0, 1fr));
+  gap: 3px;
+  max-width: 240px;
+}
+
+.bitgrid__cell {
+  aspect-ratio: 1;
+  border-radius: 1px;
+  background: var(--surface-2);
+}
+
+.bitgrid__cell.is-changed {
+  background: var(--accent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .bitgrid__cell.is-changed {
+    background: var(--surface-2);
+    transition: background-color 240ms var(--ease-out);
+    transition-delay: calc(var(--i, 0) * 3ms);
+  }
+
+  [data-inview] .bitgrid__cell.is-changed {
+    background: var(--accent);
+  }
+}
+
+.bitgrid__caption {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+/* The experiments as a bento: the step-by-step screen takes the tall cell. */
+
+.lab-bento {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+  padding: 0;
+  list-style: none;
+}
+
+.experiment {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+  transition:
+    border-color var(--duration) var(--ease-out),
+    background-color var(--duration) var(--ease-out);
+}
+
+.lab-bento__sha256 {
+  background:
+    radial-gradient(110% 70% at 100% 0%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 60%),
+    var(--surface-1);
+}
+
+.experiment:focus-within {
+  border-color: var(--accent-text);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .experiment:hover {
+    border-color: var(--accent-text);
+  }
 }
 
 .experiment__link {
@@ -82,20 +223,141 @@
   inset: 0;
 }
 
+.experiment__preview {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: auto;
+  padding-top: var(--space-5);
+}
+
+@media (min-width: 900px) {
+  .lab-bento {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-areas:
+      "sha256 avalanche"
+      "sha256 pbkdf2"
+      "compare compare";
+  }
+
+  .lab-bento__sha256 {
+    grid-area: sha256;
+    padding: var(--space-6);
+  }
+
+  .lab-bento__avalanche {
+    grid-area: avalanche;
+  }
+
+  .lab-bento__pbkdf2 {
+    grid-area: pbkdf2;
+  }
+
+  .lab-bento__compare {
+    grid-area: compare;
+  }
+}
+
+.block {
+  display: grid;
+  grid-template-columns: repeat(16, minmax(0, 1fr));
+  gap: 2px;
+  margin-bottom: var(--space-3);
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.block__byte {
+  padding-block: 2px;
+  border-radius: 1px;
+  background: var(--surface-2);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.block__byte.is-message {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.block__byte.is-marker,
+.block__byte.is-length {
+  color: var(--accent-text);
+  font-weight: 600;
+}
+
+.registers {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-2);
+  padding: 0;
+  list-style: none;
+}
+
+.registers__cell {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg);
+  font-size: var(--text-sm);
+}
+
+.registers__name {
+  color: var(--accent-text);
+  font-family: var(--font-mono);
+}
+
+.lab-bento__print {
+  height: 32px;
+}
+
+.lengths {
+  display: grid;
+  gap: var(--space-2);
+  padding: 0;
+  list-style: none;
+}
+
+.lengths__row {
+  display: grid;
+  grid-template-columns: 9ch minmax(0, 1fr) 4ch;
+  align-items: center;
+  column-gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.lengths__bar {
+  height: 6px;
+  border-radius: var(--radius);
+  background: var(--line-strong);
+  transform: scaleX(var(--share, 1));
+  transform-origin: left;
+}
+
+.lengths__bits {
+  color: var(--text-muted);
+  text-align: right;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lengths__bar {
+    transform: scaleX(0.02);
+    transition: transform 900ms var(--ease-out);
+  }
+
+  [data-inview] .lengths__bar {
+    transform: scaleX(var(--share, 1));
+  }
+}
+
 .lab-sources {
   margin-top: var(--space-5);
   color: var(--text-muted);
   font-size: var(--text-sm);
-}
-
-@media (min-width: 768px) {
-  .concepts {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .experiments {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 /* Shared experiment layout */
@@ -175,7 +437,7 @@
 }
 
 .lab-step__index {
-  color: var(--accent);
+  color: var(--accent-text);
   font-family: var(--font-mono);
   font-size: var(--text-base);
 }
@@ -228,9 +490,10 @@
   outline-offset: -1px;
 }
 
+/* The page background is the colour that stays readable on --info in both themes. */
 .byte--length {
   background: var(--info);
-  color: var(--accent-ink);
+  color: var(--bg);
 }
 
 .legend {
@@ -286,7 +549,7 @@
 }
 
 .word.is-current {
-  border-color: var(--accent);
+  border-color: var(--accent-text);
   background: var(--surface-2);
   box-shadow: inset 4px 0 0 var(--accent);
 }
@@ -322,7 +585,7 @@
 .round-controls__slider {
   width: 100%;
   min-height: var(--touch-min);
-  accent-color: var(--accent);
+  accent-color: var(--accent-text);
 }
 
 .round-controls__buttons {
@@ -378,7 +641,7 @@
 }
 
 .reg-table tr.is-fresh td:last-child {
-  color: var(--accent);
+  color: var(--accent-text);
   font-weight: 600;
 }
 
@@ -424,7 +687,7 @@
 }
 
 .feed-table__out {
-  color: var(--accent);
+  color: var(--accent-text);
   font-weight: 600;
 }
 
@@ -548,7 +811,7 @@
 }
 
 .bit-grid__cell.is-changed {
-  border-color: var(--accent);
+  border-color: var(--accent-text);
   background: var(--accent);
 }
 
@@ -580,7 +843,7 @@
   position: absolute;
   top: 0;
   transform: translateX(-50%);
-  color: var(--accent);
+  color: var(--accent-text);
   font-size: var(--text-sm);
   white-space: nowrap;
 }
@@ -597,7 +860,7 @@
 }
 
 .pb-value.is-project {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .pb-project {
@@ -686,7 +949,7 @@
 }
 
 .data-table tr.is-project td {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 /* Comparison */
