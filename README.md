@@ -19,6 +19,7 @@ npm run mock                     # http://localhost:3000 (web/ ve /api aynı ori
 npm test                         # birim, entegrasyon ve sözleşme uyum testleri
 npm run check                    # JSDoc tip denetimi (tsc, checkJs)
 npm run openapi                  # docs/openapi.yaml dosyasını dev-mock/openapi.mjs'den yeniden yazar
+npm run e2e                      # Playwright ile tarayıcı testleri (kurulu Chrome'u kullanır)
 node dev-mock/make-fixtures.mjs  # yükleme denemesi için örnek MP3 dosyaları -> dev-mock/.data/fixtures/
 ```
 
@@ -30,7 +31,7 @@ node dev-mock/make-fixtures.mjs  # yükleme denemesi için örnek MP3 dosyaları
 |--------|--------|
 | `web/` | Yayına giden her şey: HTML, CSS, ES modülleri. Derleme adımı ve çalışma zamanı bağımlılığı yok. |
 | `dev-mock/` | Sözleşmeyi uygulayan geliştirme sunucusu; ayrıntılar [`dev-mock/README.md`](dev-mock/README.md). Yayına girmez. |
-| `tests/` | `unit/`, `integration/` (mock sunucuya gerçek HTTP; sözleşme uyumu dahil). `e2e/` tarayıcı testleri için ayrılmıştır. |
+| `tests/` | `unit/`, `integration/` (mock sunucuya gerçek HTTP; sözleşme uyumu dahil), `e2e/` (Playwright; mock'u 3200 portunda geçici veriyle kendisi açar). |
 | `docs/` | Mimari ve `openapi.yaml`. |
 
 Deneme hesapları ve parolaları `dev-mock/seed.json` dosyasındadır: iki sanatçı ve bir yönetici. Veriyi baştan almak için sunucu açıkken `POST /dev/reset` çağrılır ya da sunucu kapalıyken `dev-mock/.data/` silinir.

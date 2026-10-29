@@ -83,7 +83,7 @@ afterform-portal/
 ├─ dev-mock/         server.mjs  routes/  store.mjs  seed.json  make-fixtures.mjs  openapi.mjs  README.md
 ├─ tests/            unit/  integration/  e2e/
 ├─ docs/             ARCHITECTURE.md  openapi.yaml
-├─ package.json  tsconfig.json  .editorconfig  .gitignore  README.md
+├─ package.json  tsconfig.json  playwright.config.js  .editorconfig  .gitattributes  .gitignore  README.md
 ```
 
 - `web/` dışındaki hiçbir şey yayına girmez.
@@ -420,7 +420,7 @@ Bunlara ek olarak Node `crypto` (`sha256`, `sha1`, `md5`, `sha3-256`, `pbkdf2Syn
 - Sanatçı hesabı yönetici uç noktalarında 403 alır; yönetici tek demoyu sanatçısıyla birlikte alır, olmayan kimlik 404.
 - Mock deposunda parola düz metin değildir: PBKDF2-HMAC-SHA512, 220.000 iterasyon, kullanıcı başına farklı tuz.
 
-**Uçtan uca** (Playwright, isteğe bağlı): giriş → yükleme → özet görünür → çıkış; kilit geri sayımı; dil değişimi kalıcı; yönetici durumu değiştirir ve sanatçı yeni durumu görür; klavyeyle tur gezinme.
+**Uçtan uca** (Playwright, `tests/e2e/`, `npm run e2e`): giriş → yükleme → özet görünür → dosya doğrulama → çıkış; kilit geri sayımı; dil değişimi kalıcı; yönetici durumu değiştirir ve sanatçı yeni durumu görür, sanatçı yönetim paneline giremez; klavyeyle tur gezinme; karşılaştırmada altı özet. Her test seed'den başlar; sayfa hatası, konsol hatası veya CSP ihlali testi düşürür.
 
 **Sözleşme uyumu** (`tests/integration/contract.test.js`): `docs/openapi.yaml` ile mock birbirinin aynasıdır; belgedeki her uç nokta mock'ta, mock'taki her uç nokta belgede bulunur, mock'un verdiği her yanıt belgede listelenmiş bir durum koduyla ve şemaya uyan bir gövdeyle gelir, belgedeki her yanıt da testlerde en az bir kez üretilir. Dosyanın `dev-mock/openapi.mjs` ile güncel olduğu da denetlenir.
 
