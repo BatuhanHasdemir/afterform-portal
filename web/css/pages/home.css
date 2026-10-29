@@ -1,24 +1,248 @@
+/* Hero: the headline and the way in on top, the stage photo below it with the fingerprint card
+   on its edge. */
+
 .hero {
-  padding-block: var(--space-7) var(--space-8);
+  padding-block: var(--space-6) var(--space-8);
+}
+
+.hero__head {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 32px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero__eyebrow .icon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--accent-text);
 }
 
 .hero__title {
-  max-width: 15ch;
-  margin-top: var(--space-4);
-  font-size: var(--text-3xl);
-  letter-spacing: -0.02em;
+  max-width: 14ch;
+  margin-top: var(--space-5);
+  font-size: clamp(2.75rem, 1.3rem + 5.6vw, 6.25rem);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
 }
 
 .hero__lead {
-  max-width: 54ch;
-  margin-top: var(--space-5);
+  max-width: 40ch;
   color: var(--text-muted);
   font-size: var(--text-lg);
 }
 
 .hero .actions {
-  margin-top: var(--space-6);
+  margin-top: var(--space-5);
 }
+
+/* The stage: a concert photo, shown edge to edge on a phone. Until it arrives the frame holds the
+   photo's own colours, so the page does not flash an empty box. */
+
+.hero__stage {
+  position: relative;
+  margin-top: var(--space-7);
+}
+
+.hero__photo {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  margin-inline: calc(-1 * var(--gutter));
+  /* clip, not hidden: hidden would make this a scroll container and pin the drift below. */
+  overflow: clip;
+  background: linear-gradient(180deg, #f7a52b 0%, #f2541f 55%, #2a0805 100%);
+}
+
+.hero__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The fingerprint card: below the photo's lower edge on a phone, on its corner from tablets up. */
+
+.signal {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: var(--space-2);
+  margin: calc(-1 * var(--space-8)) var(--space-4) 0;
+  padding: var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--surface-1) 88%, transparent);
+  box-shadow: var(--shadow-float);
+  backdrop-filter: blur(16px) saturate(1.2);
+}
+
+.signal__art {
+  display: block;
+  height: 64px;
+  margin-bottom: var(--space-2);
+}
+
+.signal__bars {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.signal__track {
+  fill: var(--surface-2);
+}
+
+.signal__bar {
+  fill: var(--accent);
+  transform-box: fill-box;
+  transform-origin: bottom;
+}
+
+.signal__caption {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.signal__label {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+/* Two rows of four groups; a selection still copies the plain 64 digits. */
+.signal__digest {
+  max-width: calc(32.5ch + 3em + 4 * var(--space-2));
+  min-height: 3em;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+.signal__group {
+  display: inline-block;
+  margin-right: var(--space-2);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* The stage opens along the brand's slash: a thin slanted cut widens into the whole frame,
+     while the photo settles from a closer crop. The photo stays a little larger than its frame
+     so the drift and the lean below never show an edge. */
+  .hero__photo {
+    animation: stage-open 1200ms var(--ease-in-out) 120ms both;
+  }
+
+  .hero__img {
+    scale: 1.1;
+    animation: stage-settle 2400ms var(--ease-out) 120ms both;
+  }
+
+  /* As the page scrolls the photo moves a little slower than its frame, which gives it depth. */
+  @supports (animation-timeline: view()) {
+    .hero__img {
+      animation:
+        stage-settle 2400ms var(--ease-out) 120ms both,
+        stage-drift linear both;
+      animation-timeline: auto, view();
+      animation-range: normal, cover 0% cover 100%;
+    }
+  }
+
+  .signal.enter {
+    animation-delay: 520ms;
+  }
+
+  .signal__group {
+    opacity: 0;
+    transform: translateY(4px);
+    transition:
+      opacity 320ms var(--ease-out),
+      transform 320ms var(--ease-out);
+    transition-delay: calc(var(--i, 0) * 45ms);
+  }
+
+  .signal[data-state="print"] .signal__group {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes stage-open {
+  from {
+    clip-path: polygon(53% 0, 57% 0, 47% 100%, 43% 100%);
+  }
+
+  to {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+@keyframes stage-settle {
+  from {
+    scale: 1.24;
+  }
+}
+
+@keyframes stage-drift {
+  from {
+    translate: 0 -3.5%;
+  }
+
+  to {
+    translate: 0 3.5%;
+  }
+}
+
+@media (min-width: 640px) {
+  .hero__photo {
+    aspect-ratio: 2 / 1;
+    margin-inline: 0;
+    border-radius: var(--radius);
+  }
+
+  .signal {
+    position: absolute;
+    right: var(--space-5);
+    bottom: calc(-1 * var(--space-7));
+    width: min(372px, 56%);
+    margin: 0;
+  }
+}
+
+@media (min-width: 1100px) {
+  .hero {
+    padding-block: var(--space-8) var(--space-9);
+  }
+
+  .hero__head {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    align-items: end;
+    column-gap: var(--space-8);
+  }
+
+  .hero__photo {
+    aspect-ratio: 9 / 4;
+  }
+
+  .signal {
+    right: var(--space-7);
+  }
+}
+
+/* Sections */
 
 .section {
   padding-block: var(--space-7);
@@ -27,123 +251,427 @@
 
 .section__title {
   max-width: 20ch;
-  margin-top: var(--space-3);
-}
-
-.section__content {
-  margin-top: var(--space-6);
+  font-size: var(--text-2xl);
+  letter-spacing: -0.02em;
 }
 
 .section__lead {
-  color: var(--text-muted);
-}
-
-.section__lead + .teasers,
-.section__lead + .actions {
-  margin-top: var(--space-5);
-}
-
-.steps {
-  display: grid;
-  gap: var(--space-5);
-  padding: 0;
-  list-style: none;
-  counter-reset: step;
-}
-
-.steps__item {
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--line-strong);
-  counter-increment: step;
-}
-
-.steps__item::before {
-  content: counter(step, decimal-leading-zero);
-  display: block;
-  margin-bottom: var(--space-3);
-  color: var(--accent);
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-}
-
-.steps__body {
-  margin-top: var(--space-2);
-  color: var(--text-muted);
-}
-
-.teasers {
-  display: grid;
-  gap: var(--space-4);
-  padding: 0;
-  list-style: none;
-}
-
-.teaser {
-  position: relative;
-  padding: var(--space-5);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface-1);
-  transition: border-color var(--duration) var(--ease-out);
-}
-
-.teaser:hover,
-.teaser:focus-within {
-  border-color: var(--accent);
-}
-
-.teaser__title {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--space-3);
-}
-
-.teaser__title::after {
-  content: "\2192";
-  content: "\2192" / "";
-  color: var(--accent);
-}
-
-.teaser__link {
-  text-decoration: none;
-}
-
-/* The whole card is the link's hit area, while the link text alone stays its accessible name. */
-.teaser__link::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-}
-
-.teaser__body {
-  margin-top: var(--space-2);
+  max-width: 60ch;
+  margin-top: var(--space-4);
   color: var(--text-muted);
 }
 
 @media (min-width: 768px) {
-  .steps {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .teasers {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .section {
+    padding-block: var(--space-9);
   }
 }
 
-@media (min-width: 1100px) {
-  .section__grid {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: var(--space-5);
-    align-items: start;
+/* Three steps as a bento: the upload, the step that matters most, takes the tall cell. */
+
+.process {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+  padding: 0;
+  list-style: none;
+}
+
+.process__step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+}
+
+.process__step--upload {
+  background:
+    radial-gradient(120% 90% at 100% 100%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 62%),
+    var(--surface-1);
+}
+
+.process__title {
+  font-size: var(--text-lg);
+}
+
+.process__body {
+  max-width: 42ch;
+  color: var(--text-muted);
+}
+
+.process__preview {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: auto;
+  padding-top: var(--space-5);
+}
+
+@media (min-width: 900px) {
+  .process {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-areas:
+      "account upload"
+      "status upload";
   }
 
-  .section__head {
-    grid-column: 1 / span 4;
+  .process__step--account {
+    grid-area: account;
   }
 
-  .section__content {
-    grid-column: 5 / span 8;
-    margin-top: 0;
+  .process__step--upload {
+    grid-area: upload;
+    padding: var(--space-6);
+  }
+
+  .process__step--status {
+    grid-area: status;
+  }
+}
+
+/* Previews: small real pieces of the portal, drawn with its own components. */
+
+.preview-field {
+  display: flex;
+  align-items: center;
+  min-height: var(--touch-min);
+  padding: 0 var(--space-3);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+
+.preview-field__dots {
+  font-family: var(--font-mono);
+  letter-spacing: 0.12em;
+}
+
+.preview-meter__text {
+  opacity: 0;
+  transition: opacity 300ms var(--ease-out);
+}
+
+.preview-meter[data-level="strong"] .preview-meter__text {
+  opacity: 1;
+}
+
+.preview-progress {
+  height: 6px;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--surface-2);
+}
+
+.preview-progress__fill {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+[data-inview] .preview-progress__fill {
+  transform: scaleX(1);
+  transition: transform 1000ms var(--ease-out) 150ms;
+}
+
+.preview-file {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--touch-min);
+  padding: 0 var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.preview-file .icon {
+  color: var(--accent-text);
+}
+
+.preview-file__size {
+  margin-left: auto;
+  color: var(--text-muted);
+}
+
+.preview-print {
+  height: 72px;
+}
+
+@media (min-width: 900px) {
+  .process__step--upload .preview-print {
+    height: 128px;
+  }
+}
+
+.preview-digest {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.preview-status {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-2);
+  padding: 0;
+  list-style: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .preview-status__item {
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity 320ms var(--ease-out),
+      transform 320ms var(--ease-out);
+  }
+
+  [data-inview] .preview-status__item {
+    opacity: 1;
+    transform: none;
+  }
+
+  [data-inview] .preview-status__item:nth-child(2) {
+    transition-delay: 450ms;
+  }
+
+  [data-inview] .preview-status__item:nth-child(3) {
+    transition-delay: 900ms;
+  }
+}
+
+/* The real numbers behind the security story, large. */
+
+.figures {
+  display: grid;
+  gap: var(--space-5);
+  margin-top: var(--space-6);
+}
+
+.figures__item {
+  display: grid;
+  gap: var(--space-1);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line-strong);
+}
+
+.figures__value {
+  order: -1;
+  font-family: var(--font-mono);
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.figures__label {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+@media (min-width: 768px) {
+  .figures {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* The closing band: the last line and its buttons beside a turntable, the arm coming down on
+   the record as the band comes into view. */
+
+.section-end {
+  padding-block: var(--space-7) 0;
+}
+
+/* clip, not hidden: a hidden overflow would make the band a scroll container, and the record
+   would follow its (never changing) scroll position instead of the page's. */
+.closing {
+  display: grid;
+  overflow: clip;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(60% 80% at 78% 64%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%),
+    var(--surface-1);
+}
+
+.closing__copy {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: var(--space-4);
+  padding: var(--space-6) var(--space-5) 0;
+}
+
+.closing__title {
+  max-width: 13ch;
+  font-size: var(--text-3xl);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.closing__guest,
+.closing__user {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-5);
+}
+
+.closing__body {
+  max-width: 40ch;
+  color: var(--text-muted);
+}
+
+.turntable {
+  view-timeline-name: --turntable;
+
+  --vinyl: light-dark(#151517, #070708);
+  --platter: light-dark(#2b2b30, #1d1d21);
+  --metal: light-dark(#b9b9c0, #9a9aa3);
+  --metal-dark: light-dark(#5d5d66, #3d3d44);
+}
+
+.turntable__art {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.record__disc {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.record__platter {
+  fill: var(--platter);
+}
+
+.record__dot {
+  fill: var(--metal-dark);
+}
+
+.record__vinyl {
+  fill: var(--vinyl);
+}
+
+.record__groove {
+  fill: none;
+  stroke: rgb(255 255 255 / 0.07);
+  stroke-width: 0.8;
+}
+
+/* The smooth bands between tracks: no grooves, so they read darker. */
+.record__gap {
+  fill: none;
+  stroke: var(--vinyl);
+  stroke-width: 3;
+}
+
+.record__label {
+  fill: var(--accent);
+}
+
+.record__label-ring {
+  fill: none;
+  stroke: var(--accent-ink);
+  stroke-opacity: 0.25;
+}
+
+.record__brand {
+  fill: var(--accent-ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.record__meta {
+  fill: var(--accent-ink);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  opacity: 0.75;
+}
+
+.record__spindle {
+  fill: var(--metal);
+}
+
+.record__stop--light {
+  stop-color: #fff;
+}
+
+.tonearm {
+  transform-box: view-box;
+  transform-origin: 556px 74px;
+}
+
+.tonearm__base {
+  fill: var(--platter);
+  stroke: var(--metal-dark);
+}
+
+.tonearm__bearing {
+  fill: var(--metal);
+}
+
+.tonearm__weight {
+  fill: var(--metal-dark);
+}
+
+.tonearm__arm {
+  fill: none;
+  stroke: var(--metal);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tonearm__head {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 12;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tonearm {
+    transform: rotate(-48deg);
+    transition: transform 1400ms var(--ease-in-out) 250ms;
+  }
+
+  .turntable[data-inview] .tonearm {
+    transform: none;
+  }
+
+  /* The record turns as the page scrolls past it, and stands still when the page does. */
+  @supports (animation-timeline: view()) {
+    .record__disc {
+      animation: record-turn linear both;
+      animation-timeline: --turntable;
+      animation-range: cover 0% cover 100%;
+    }
+  }
+}
+
+@keyframes record-turn {
+  to {
+    transform: rotate(320deg);
+  }
+}
+
+@media (min-width: 900px) {
+  .closing {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .closing__copy {
+    padding: var(--space-8) 0 var(--space-8) var(--space-8);
+  }
+
+  .turntable {
+    align-self: end;
   }
 }

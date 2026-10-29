@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title data-i18n="home.pageTitle">AFTER/FORM · Sanatçı Portalı</title>
     <meta name="description" content="AFTER/FORM sanatçı portalı: demonu yükle, değerlendirmeyi izle; parolaların ve dosyaların nasıl korunduğunu gör." data-i18n-attr="content:home.metaDescription">
+    <meta name="color-scheme" content="dark light">
+    <script src="/js/theme-boot.js"></script>
     <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" href="/assets/fonts/archivo/archivo-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/assets/fonts/archivo/archivo-latin-ext-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -19,81 +21,115 @@
     <a class="skip-link" href="#main" data-i18n="common.skipToContent">İçeriğe geç</a>
     <header id="site-header"></header>
     <main id="main" tabindex="-1">
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="container">
-          <p class="eyebrow" data-i18n="home.hero.eyebrow">Bağımsız müzik şirketi</p>
-          <h1 class="hero__title" id="hero-title" data-i18n="home.tagline">Biçimden sonra gelen ses.</h1>
-          <p class="hero__lead" data-i18n="home.hero.lead">AFTER/FORM, sesini arayan sanatçıların demolarını dinler. Parçanı yükle, değerlendirmenin her adımını buradan izle.</p>
-          <div class="actions" data-show-for="guest">
-            <a class="btn btn--primary" href="/register.html" data-i18n="home.hero.primary">Demonu gönder</a>
-            <a class="btn btn--secondary" href="/login.html" data-i18n="home.hero.secondary">Giriş yap</a>
+      <section class="container hero" aria-labelledby="hero-title">
+        <div class="hero__head">
+          <div class="hero__intro">
+            <p class="hero__eyebrow enter">
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#microphone"></use></svg>
+              <span data-i18n="home.hero.eyebrow">Bağımsız müzik şirketi</span>
+            </p>
+            <h1 class="hero__title enter enter-2" id="hero-title" data-i18n="home.tagline">Biçimden sonra gelen ses.</h1>
           </div>
-          <div class="actions" data-show-for="user" hidden>
-            <a class="btn btn--primary" href="/" data-home-link data-i18n="home.continue">Kaldığın yerden devam et</a>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" aria-labelledby="artists-title">
-        <div class="container section__grid">
-          <div class="section__head">
-            <p class="eyebrow"><span class="eyebrow__index">01</span><span data-i18n="home.artists.eyebrow">Sanatçılar için</span></p>
-            <h2 class="section__title" id="artists-title" data-i18n="home.artists.title">Demodan karara üç adım</h2>
-          </div>
-          <div class="section__content">
-            <ol class="steps" role="list">
-              <li class="steps__item">
-                <h3 class="steps__title" data-i18n="home.artists.step1.title">Hesap aç</h3>
-                <p class="steps__body" data-i18n="home.artists.step1.body">E-posta adresin ve bir parolayla hesabını oluştur.</p>
-              </li>
-              <li class="steps__item">
-                <h3 class="steps__title" data-i18n="home.artists.step2.title">Demonu yükle</h3>
-                <p class="steps__body" data-i18n="home.artists.step2.body">Parçanın adını ve türünü yaz; istersen kısa bir not ekle.</p>
-              </li>
-              <li class="steps__item">
-                <h3 class="steps__title" data-i18n="home.artists.step3.title">Durumu izle</h3>
-                <p class="steps__body" data-i18n="home.artists.step3.body">Değerlendirme ilerledikçe demonun durumu ve ekibin notu burada görünür.</p>
-              </li>
-            </ol>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" aria-labelledby="behind-title">
-        <div class="container section__grid">
-          <div class="section__head">
-            <p class="eyebrow"><span class="eyebrow__index">02</span><span data-i18n="home.behind.eyebrow">Güvenlik ve Lab</span></p>
-            <h2 class="section__title" id="behind-title" data-i18n="home.behind.title">Arka planda ne oluyor?</h2>
-          </div>
-          <div class="section__content">
-            <p class="section__lead" data-i18n="home.behind.body">Parolan düz metin olarak saklanmaz: her özetlemede yeni üretilen rastgele bir tuz (salt) ile, PBKDF2-HMAC-SHA512 ve 220.000 iterasyonla özetlenir. Yüklediğin her dosyanın SHA-256 özeti hesaplanıp saklanır.</p>
-            <ul class="teasers" role="list">
-              <li class="teaser">
-                <h3 class="teaser__title"><a class="teaser__link" href="/security.html" data-i18n="home.behind.security.title">Güvenlik</a></h3>
-                <p class="teaser__body" data-i18n="home.behind.security.body">Parolaların ve dosyaların nasıl korunduğu, dört kısa kartta.</p>
-              </li>
-              <li class="teaser">
-                <h3 class="teaser__title"><a class="teaser__link" href="/lab/" data-i18n="home.behind.lab.title">Hash Lab</a></h3>
-                <p class="teaser__body" data-i18n="home.behind.lab.body">SHA-256’nın içini adım adım aç: dolgu, mesaj çizelgesi, 64 tur ve çığ etkisi.</p>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" aria-labelledby="cta-title" data-show-for="guest">
-        <div class="container section__grid">
-          <div class="section__head">
-            <p class="eyebrow"><span class="eyebrow__index">03</span><span data-i18n="home.cta.eyebrow">Başla</span></p>
-            <h2 class="section__title" id="cta-title" data-i18n="home.cta.title">Sıradaki demo seninki olabilir.</h2>
-          </div>
-          <div class="section__content">
-            <p class="section__lead" data-i18n="home.cta.body">Hesabın varsa giriş yap; yoksa birkaç dakikada oluştur.</p>
-            <div class="actions">
-              <a class="btn btn--primary" href="/register.html" data-i18n="home.cta.register">Hesap oluştur</a>
-              <a class="btn btn--secondary" href="/login.html" data-i18n="home.cta.login">Giriş yap</a>
+          <div class="hero__side">
+            <p class="hero__lead enter enter-3" data-i18n="home.hero.lead">AFTER/FORM, sesini arayan sanatçıların demolarını dinler. Parçanı yükle, değerlendirmenin her adımını buradan izle.</p>
+            <div class="actions enter enter-4" data-show-for="guest">
+              <a class="btn btn--primary" href="/register.html" data-i18n="home.hero.primary">Kayıt ol</a>
+              <a class="btn btn--secondary" href="/login.html" data-i18n="home.hero.secondary">Giriş yap</a>
+            </div>
+            <div class="actions enter enter-4" data-show-for="user" hidden>
+              <a class="btn btn--primary" href="/" data-home-link data-i18n="home.continue">Kaldığın yerden devam et</a>
             </div>
           </div>
+        </div>
+        <div class="hero__stage">
+          <div class="hero__photo" aria-hidden="true" data-hero-photo>
+            <picture>
+              <source media="(max-width: 639px)" type="image/avif" srcset="/assets/photos/stage-tall-640.avif 640w, /assets/photos/stage-tall-960.avif 960w" sizes="100vw">
+              <source type="image/avif" srcset="/assets/photos/stage-wide-1280.avif 1280w, /assets/photos/stage-wide-1920.avif 1920w, /assets/photos/stage-wide-2560.avif 2560w" sizes="(min-width: 1280px) 1184px, 100vw">
+              <img class="hero__img" src="/assets/photos/stage-wide-1920.webp" alt="" width="1920" height="853" fetchpriority="high">
+            </picture>
+          </div>
+          <figure class="signal enter" data-signal data-state="sound" aria-labelledby="signal-caption">
+            <span class="signal__art" data-signal-art></span>
+            <figcaption class="signal__caption" id="signal-caption">
+              <span class="signal__label" data-i18n="home.signal.caption">Başlıktaki cümlenin SHA-256 parmak izi</span>
+              <code class="signal__digest" translate="no" data-signal-digest></code>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="container section reveal" aria-labelledby="process-title">
+        <h2 class="section__title" id="process-title" data-i18n="home.artists.title">Demodan karara üç adım</h2>
+        <ol class="process" role="list">
+          <li class="process__step process__step--account" data-step="account">
+            <h3 class="process__title" data-i18n="home.artists.step1.title">Hesap aç</h3>
+            <p class="process__body" data-i18n="home.artists.step1.body">E-posta adresin ve bir parolayla hesabını oluştur.</p>
+            <div class="process__preview" aria-hidden="true" data-preview></div>
+          </li>
+          <li class="process__step process__step--upload" data-step="upload">
+            <h3 class="process__title" data-i18n="home.artists.step2.title">Demonu yükle</h3>
+            <p class="process__body" data-i18n="home.artists.step2.body">Parçanın adını ve türünü yaz; istersen kısa bir not ekle.</p>
+            <div class="process__preview" aria-hidden="true" data-preview></div>
+          </li>
+          <li class="process__step process__step--status" data-step="status">
+            <h3 class="process__title" data-i18n="home.artists.step3.title">Durumu izle</h3>
+            <p class="process__body" data-i18n="home.artists.step3.body">Değerlendirme ilerledikçe demonun durumu ve ekibin notu burada görünür.</p>
+            <div class="process__preview" aria-hidden="true" data-preview></div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="container section reveal" aria-labelledby="behind-title">
+        <h2 class="section__title" id="behind-title" data-i18n="home.behind.title">Arka planda ne oluyor?</h2>
+        <p class="section__lead" data-i18n="home.behind.body">Parolan düz metin olarak saklanmaz: her özetlemede yeni üretilen rastgele bir tuz (salt) ile, PBKDF2-HMAC-SHA512 ve 220.000 iterasyonla özetlenir. Yüklediğin her dosyanın SHA-256 özeti hesaplanıp saklanır.</p>
+        <dl class="figures" data-figures>
+          <div class="figures__item">
+            <dt class="figures__label" data-i18n="home.figures.iterations">PBKDF2 iterasyonu</dt>
+            <dd class="figures__value" data-figure="iterations">220.000</dd>
+          </div>
+          <div class="figures__item">
+            <dt class="figures__label" data-i18n="home.figures.salt">her parolaya ayrı rastgele tuz</dt>
+            <dd class="figures__value" data-figure="salt">16 bayt</dd>
+          </div>
+          <div class="figures__item">
+            <dt class="figures__label" data-i18n="home.figures.digest">her dosyanın SHA-256 özeti</dt>
+            <dd class="figures__value" data-figure="digest">256 bit</dd>
+          </div>
+        </dl>
+        <ul class="paths" role="list">
+          <li class="path">
+            <h3 class="path__title"><a class="path__link" href="/security.html" data-i18n="home.behind.security.title">Güvenlik</a></h3>
+            <p class="path__body" data-i18n="home.behind.security.body">Parolaların ve dosyaların nasıl korunduğu, dört kısa kartta.</p>
+            <svg class="icon path__arrow" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#arrow-right"></use></svg>
+          </li>
+          <li class="path">
+            <h3 class="path__title"><a class="path__link" href="/lab/" data-i18n="home.behind.lab.title">Hash Lab</a></h3>
+            <p class="path__body" data-i18n="home.behind.lab.body">SHA-256’nın içini adım adım aç: dolgu, mesaj çizelgesi, 64 tur ve çığ etkisi.</p>
+            <svg class="icon path__arrow" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#arrow-right"></use></svg>
+          </li>
+        </ul>
+      </section>
+
+      <section class="container section-end reveal" aria-labelledby="cta-title">
+        <div class="closing">
+          <div class="closing__copy">
+            <h2 class="closing__title" id="cta-title" data-i18n="home.cta.title">Sıradaki demo seninki olabilir.</h2>
+            <div class="closing__guest" data-show-for="guest">
+              <p class="closing__body" data-i18n="home.cta.body">Hesabın varsa giriş yap; yoksa birkaç dakikada oluştur.</p>
+              <div class="actions">
+                <a class="btn btn--primary" href="/register.html" data-i18n="home.cta.register">Kayıt ol</a>
+                <a class="btn btn--secondary" href="/login.html" data-i18n="home.cta.login">Giriş yap</a>
+              </div>
+            </div>
+            <div class="closing__user" data-show-for="user" hidden>
+              <p class="closing__body" data-i18n="home.cta.userBody">Her şey bıraktığın gibi duruyor.</p>
+              <div class="actions">
+                <a class="btn btn--primary" href="/" data-home-link data-i18n="home.continue">Kaldığın yerden devam et</a>
+              </div>
+            </div>
+          </div>
+          <div class="turntable" data-turntable></div>
         </div>
       </section>
     </main>

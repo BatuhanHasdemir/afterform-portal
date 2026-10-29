@@ -1,0 +1,10 @@
+Stage photo on the home page (stage-*.avif, stage-*.webp)
+
+"A group of people standing on top of a stage" by Gene Brutty (@genebrut)
+https://unsplash.com/photos/XiQNkiI7bwg
+
+Published on Unsplash on 8 November 2021 and free to use under the Unsplash License:
+https://unsplash.com/license
+
+The files in this folder are crops of the original photo (a wide one for tablets and desktops,
+a 4:5 one for phones), re-encoded at several widths.
