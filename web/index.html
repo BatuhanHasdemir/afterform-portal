@@ -21,45 +21,85 @@
     <a class="skip-link" href="#main" data-i18n="common.skipToContent">İçeriğe geç</a>
     <header id="site-header"></header>
     <main id="main" tabindex="-1">
-      <section class="container hero" aria-labelledby="hero-title">
-        <div class="hero__head">
-          <div class="hero__intro">
+      <section class="hero" aria-labelledby="hero-title" data-hero>
+        <div class="hero__media" aria-hidden="true" data-hero-media>
+          <div class="hero__layer" data-hero-layer>
+            <div class="hero__slide hero__slide--band" data-slide data-state="active">
+              <picture>
+                <source media="(max-width: 639px)" type="image/avif" srcset="/assets/photos/band-tall-720.avif 720w, /assets/photos/band-tall-1080.avif 1080w" sizes="100vw">
+                <source type="image/avif" srcset="/assets/photos/band-wide-1280.avif 1280w, /assets/photos/band-wide-1920.avif 1920w, /assets/photos/band-wide-2560.avif 2560w" sizes="100vw">
+                <img class="hero__img" src="/assets/photos/band-wide-1920.webp" alt="" width="1920" height="1200" fetchpriority="high">
+              </picture>
+            </div>
+            <div class="hero__slide hero__slide--singer" data-slide>
+              <picture>
+                <source media="(max-width: 639px)" type="image/avif" srcset="/assets/photos/singer-tall-720.avif 720w, /assets/photos/singer-tall-1080.avif 1080w" sizes="100vw">
+                <source type="image/avif" srcset="/assets/photos/singer-wide-1280.avif 1280w, /assets/photos/singer-wide-1920.avif 1920w, /assets/photos/singer-wide-2365.avif 2365w" sizes="100vw">
+                <img class="hero__img" src="/assets/photos/singer-wide-1920.webp" alt="" width="1920" height="1200" fetchpriority="low">
+              </picture>
+            </div>
+            <div class="hero__slide hero__slide--mic" data-slide>
+              <picture>
+                <source media="(max-width: 639px)" type="image/avif" srcset="/assets/photos/mic-tall-720.avif 720w, /assets/photos/mic-tall-1080.avif 1080w" sizes="100vw">
+                <source type="image/avif" srcset="/assets/photos/mic-wide-1280.avif 1280w, /assets/photos/mic-wide-1920.avif 1920w, /assets/photos/mic-wide-2560.avif 2560w" sizes="100vw">
+                <img class="hero__img" src="/assets/photos/mic-wide-1920.webp" alt="" width="1920" height="1200" fetchpriority="low">
+              </picture>
+            </div>
+            <div class="hero__slide hero__slide--frame" data-slide>
+              <picture>
+                <source media="(max-width: 639px)" type="image/avif" srcset="/assets/photos/frame-tall-720.avif 720w, /assets/photos/frame-tall-1080.avif 1080w" sizes="100vw">
+                <source type="image/avif" srcset="/assets/photos/frame-wide-1280.avif 1280w, /assets/photos/frame-wide-1920.avif 1920w, /assets/photos/frame-wide-2560.avif 2560w" sizes="100vw">
+                <img class="hero__img" src="/assets/photos/frame-wide-1920.webp" alt="" width="1920" height="1200" fetchpriority="low">
+              </picture>
+            </div>
+          </div>
+        </div>
+        <div class="container hero__controls" data-hero-controls hidden>
+          <ol class="hero__bars" aria-hidden="true">
+            <li class="hero__bar"><span class="hero__fill"></span></li>
+            <li class="hero__bar"><span class="hero__fill"></span></li>
+            <li class="hero__bar"><span class="hero__fill"></span></li>
+            <li class="hero__bar"><span class="hero__fill"></span></li>
+          </ol>
+          <button class="hero__pause" type="button" aria-pressed="false" aria-label="Fotoğrafları durdur" title="Fotoğrafları durdur" data-i18n-attr="aria-label:home.hero.pause;title:home.hero.pause" data-hero-pause>
+            <svg class="icon hero__pause-icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#pause"></use></svg>
+            <svg class="icon hero__play-icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#play"></use></svg>
+          </button>
+        </div>
+        <div class="container hero__inner">
+          <div class="hero__copy">
             <p class="hero__eyebrow enter">
               <svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#microphone"></use></svg>
               <span data-i18n="home.hero.eyebrow">Bağımsız müzik şirketi</span>
             </p>
-            <h1 class="hero__title enter enter-2" id="hero-title" data-i18n="home.tagline">Biçimden sonra gelen ses.</h1>
-          </div>
-          <div class="hero__side">
-            <p class="hero__lead enter enter-3" data-i18n="home.hero.lead">AFTER/FORM, sesini arayan sanatçıların demolarını dinler. Parçanı yükle, değerlendirmenin her adımını buradan izle.</p>
-            <div class="actions enter enter-4" data-show-for="guest">
-              <a class="btn btn--primary" href="/register.html" data-i18n="home.hero.primary">Kayıt ol</a>
-              <a class="btn btn--secondary" href="/login.html" data-i18n="home.hero.secondary">Giriş yap</a>
+            <h1 class="hero__title" id="hero-title">
+              <span class="hero__line"><span class="hero__words" data-i18n="home.taglineStart">Biçimden sonra</span></span>
+              <span class="hero__line hero__line--end"><span class="hero__words" data-i18n="home.taglineEnd">gelen ses.</span></span>
+            </h1>
+            <div class="hero__more">
+              <p class="hero__lead enter enter-3" data-i18n="home.hero.lead">AFTER/FORM, sesini arayan sanatçıların demolarını dinler. Parçanı yükle, değerlendirmenin her adımını buradan izle.</p>
+              <div class="actions enter enter-4" data-show-for="guest">
+                <a class="btn btn--primary" href="/register.html" data-i18n="home.hero.primary">Kayıt ol</a>
+                <a class="btn btn--secondary" href="/login.html" data-i18n="home.hero.secondary">Giriş yap</a>
+              </div>
+              <div class="actions enter enter-4" data-show-for="user" hidden>
+                <a class="btn btn--primary" href="/" data-home-link data-i18n="home.continue">Kaldığın yerden devam et</a>
+              </div>
             </div>
-            <div class="actions enter enter-4" data-show-for="user" hidden>
-              <a class="btn btn--primary" href="/" data-home-link data-i18n="home.continue">Kaldığın yerden devam et</a>
+            <div class="hero__card">
+              <figure class="signal enter" data-signal data-state="sound" aria-labelledby="signal-caption">
+                <span class="signal__art" data-signal-art></span>
+                <figcaption class="signal__caption" id="signal-caption">
+                  <span class="signal__label" data-i18n="home.signal.caption">Başlıktaki cümlenin SHA-256 parmak izi</span>
+                  <code class="signal__digest" translate="no" data-signal-digest></code>
+                </figcaption>
+              </figure>
             </div>
           </div>
-        </div>
-        <div class="hero__stage">
-          <div class="hero__photo" aria-hidden="true" data-hero-photo>
-            <picture>
-              <source media="(max-width: 639px)" type="image/avif" srcset="/assets/photos/stage-tall-640.avif 640w, /assets/photos/stage-tall-960.avif 960w" sizes="100vw">
-              <source type="image/avif" srcset="/assets/photos/stage-wide-1280.avif 1280w, /assets/photos/stage-wide-1920.avif 1920w, /assets/photos/stage-wide-2560.avif 2560w" sizes="(min-width: 1280px) 1184px, 100vw">
-              <img class="hero__img" src="/assets/photos/stage-wide-1920.webp" alt="" width="1920" height="853" fetchpriority="high">
-            </picture>
-          </div>
-          <figure class="signal enter" data-signal data-state="sound" aria-labelledby="signal-caption">
-            <span class="signal__art" data-signal-art></span>
-            <figcaption class="signal__caption" id="signal-caption">
-              <span class="signal__label" data-i18n="home.signal.caption">Başlıktaki cümlenin SHA-256 parmak izi</span>
-              <code class="signal__digest" translate="no" data-signal-digest></code>
-            </figcaption>
-          </figure>
         </div>
       </section>
 
-      <section class="container section reveal" aria-labelledby="process-title">
+      <section class="container section" aria-labelledby="process-title">
         <h2 class="section__title" id="process-title" data-i18n="home.artists.title">Demodan karara üç adım</h2>
         <ol class="process" role="list">
           <li class="process__step process__step--account" data-step="account">
@@ -80,7 +120,7 @@
         </ol>
       </section>
 
-      <section class="container section reveal" aria-labelledby="behind-title">
+      <section class="container section" aria-labelledby="behind-title">
         <h2 class="section__title" id="behind-title" data-i18n="home.behind.title">Arka planda ne oluyor?</h2>
         <p class="section__lead" data-i18n="home.behind.body">Parolan düz metin olarak saklanmaz: her özetlemede yeni üretilen rastgele bir tuz (salt) ile, PBKDF2-HMAC-SHA512 ve 220.000 iterasyonla özetlenir. Yüklediğin her dosyanın SHA-256 özeti hesaplanıp saklanır.</p>
         <dl class="figures" data-figures>
@@ -111,7 +151,7 @@
         </ul>
       </section>
 
-      <section class="container section-end reveal" aria-labelledby="cta-title">
+      <section class="container section-end" aria-labelledby="cta-title">
         <div class="closing">
           <div class="closing__copy">
             <h2 class="closing__title" id="cta-title" data-i18n="home.cta.title">Sıradaki demo seninki olabilir.</h2>

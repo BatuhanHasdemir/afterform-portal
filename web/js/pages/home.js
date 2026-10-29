@@ -1,6 +1,7 @@
 // @ts-check
 import { groupHex } from '../components/digest.js';
 import { fingerprint } from '../components/fingerprint.js';
+import { glassOver } from '../components/header.js';
 import { whenInView } from '../components/in-view.js';
 import { signal } from '../components/signal.js';
 import { statusBadge } from '../components/status-badge.js';
@@ -35,24 +36,73 @@ if (user) {
   applyTranslations(closingTitle);
 }
 
-stage(qs('[data-hero-photo]'));
+const hero = qs('[data-hero]');
+glassOver(hero);
+slides(hero);
+lean(hero);
 signal(qs('[data-signal]'));
 closing(qs('[data-turntable]'));
 await previews();
 figures(qs('[data-figures]'));
 
 /**
- * The photo leans a little away from the pointer, as if the visitor were looking past the crowd
- * at the stage. The offset eases towards its target every frame instead of jumping, and the loop
- * stops once it has arrived. Only `transform` is set here: the settle and the scroll drift in
- * home.css use `scale` and `translate`, so the three movements add up instead of fighting.
+ * The photos behind the headline take turns. Each bar fills while its photo is on (CSS), and the
+ * end of that fill is what moves the show on, so pausing the bars pauses everything and the
+ * timing lives in one place. Reduced motion keeps the first photo and shows no controls.
  * @param {HTMLElement} root
  */
-function stage(root) {
+function slides(root) {
+  const photos = [...root.querySelectorAll('[data-slide]')].filter((el) => el instanceof HTMLElement);
+  const controls = qs('[data-hero-controls]', root);
+  const bars = [...controls.querySelectorAll('.hero__bar')].filter((el) => el instanceof HTMLElement);
+  const pause = qs('[data-hero-pause]', root);
+  if (reduce || photos.length < 2) return;
+
+  const fadeMs = parseFloat(getComputedStyle(root).getPropertyValue('--fade-ms')) || 1400;
+  let current = 0;
+  /** @type {ReturnType<typeof setTimeout> | undefined} */
+  let settle;
+  bars[current].dataset.state = 'active';
+  controls.hidden = false;
+
+  const next = () => {
+    const previous = current;
+    current = (current + 1) % photos.length;
+    // The outgoing photo stays drawn until the incoming one has covered it.
+    clearTimeout(settle);
+    for (const photo of photos) if (photo.dataset.state === 'leaving') delete photo.dataset.state;
+    photos[previous].dataset.state = 'leaving';
+    photos[current].dataset.state = 'active';
+    settle = setTimeout(() => {
+      if (photos[previous].dataset.state === 'leaving') delete photos[previous].dataset.state;
+    }, fadeMs);
+    // A new round starts with empty bars.
+    if (current === 0) for (const bar of bars) delete bar.dataset.state;
+    else bars[previous].dataset.state = 'done';
+    bars[current].dataset.state = 'active';
+  };
+
+  controls.addEventListener('animationend', (event) => {
+    if (event.target instanceof Element && event.target.closest('.hero__bar') === bars[current]) next();
+  });
+  pause.addEventListener('click', () => {
+    const paused = pause.getAttribute('aria-pressed') !== 'true';
+    pause.setAttribute('aria-pressed', String(paused));
+    root.toggleAttribute('data-paused', paused);
+  });
+}
+
+/**
+ * The photos lean a little away from the pointer, as if the visitor were looking past the crowd
+ * at the stage. The offset eases towards its target every frame instead of jumping, and the loop
+ * stops once it has arrived. Only `transform` is set here: the push-in and the scroll drift in
+ * home.css use `scale` and `translate`, so the movements add up instead of fighting.
+ * @param {HTMLElement} root
+ */
+function lean(root) {
   if (reduce || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-  const photo = qs('img', root);
-  const area = root.parentElement ?? root;
-  const reach = { x: 14, y: 6 };
+  const layer = qs('[data-hero-layer]', root);
+  const reach = { x: 16, y: 8 };
   const current = { x: 0, y: 0 };
   const target = { x: 0, y: 0 };
   let frame = 0;
@@ -60,7 +110,7 @@ function stage(root) {
   const step = () => {
     current.x += (target.x - current.x) * 0.08;
     current.y += (target.y - current.y) * 0.08;
-    photo.style.transform = `translate3d(${current.x.toFixed(2)}px, ${current.y.toFixed(2)}px, 0)`;
+    layer.style.transform = `translate3d(${current.x.toFixed(2)}px, ${current.y.toFixed(2)}px, 0)`;
     const settled = Math.abs(target.x - current.x) + Math.abs(target.y - current.y) < 0.05;
     frame = settled ? 0 : requestAnimationFrame(step);
   };
@@ -71,13 +121,13 @@ function stage(root) {
     if (!frame) frame = requestAnimationFrame(step);
   };
 
-  area.addEventListener('pointermove', (event) => {
+  root.addEventListener('pointermove', (event) => {
     const box = root.getBoundingClientRect();
     const dx = (event.clientX - box.left) / box.width - 0.5;
     const dy = (event.clientY - box.top) / box.height - 0.5;
     aim(-dx * 2 * reach.x, -dy * 2 * reach.y);
   });
-  area.addEventListener('pointerleave', () => aim(0, 0));
+  root.addEventListener('pointerleave', () => aim(0, 0));
 }
 
 /**

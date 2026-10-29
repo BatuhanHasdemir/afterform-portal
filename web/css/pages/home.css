@@ -1,71 +1,56 @@
-/* Hero: the headline and the way in on top, the stage photo below it with the fingerprint card
-   on its edge. */
+/* Hero: one scene from edge to edge. Concert photos take turns behind the headline, the way in
+   and the fingerprint card, which all sit on the photo. The scene is dark in both themes, so
+   color-scheme pins every token inside it to its dark value. */
 
 .hero {
-  padding-block: var(--space-6) var(--space-8);
-}
+  --slide-ms: 7000ms;
+  --fade-ms: 1400ms;
+  --hero-ink: #f6f3ec;
+  --hero-soft: #dcd7cd;
 
-.hero__head {
+  position: relative;
   display: grid;
-  gap: var(--space-5);
-}
-
-.hero__eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  min-height: 32px;
-  padding: 0 var(--space-3);
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius);
-  color: var(--text-muted);
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.hero__eyebrow .icon {
-  width: 1rem;
-  height: 1rem;
-  color: var(--accent-text);
-}
-
-.hero__title {
-  max-width: 14ch;
-  margin-top: var(--space-5);
-  font-size: clamp(2.75rem, 1.3rem + 5.6vw, 6.25rem);
-  font-weight: 700;
-  line-height: 0.98;
-  letter-spacing: -0.045em;
-  text-wrap: balance;
-}
-
-.hero__lead {
-  max-width: 40ch;
-  color: var(--text-muted);
-  font-size: var(--text-lg);
-}
-
-.hero .actions {
-  margin-top: var(--space-5);
-}
-
-/* The stage: a concert photo, shown edge to edge on a phone. Until it arrives the frame holds the
-   photo's own colours, so the page does not flash an empty box. */
-
-.hero__stage {
-  position: relative;
-  margin-top: var(--space-7);
-}
-
-.hero__photo {
-  position: relative;
-  aspect-ratio: 4 / 5;
-  margin-inline: calc(-1 * var(--gutter));
-  /* clip, not hidden: hidden would make this a scroll container and pin the drift below. */
+  grid-template-rows: auto 1fr;
+  /* The scene starts under the sticky header, which turns into glass over it. */
+  min-height: clamp(640px, 100svh, 1000px);
+  margin-top: calc(-1 * var(--header-h));
   overflow: clip;
-  background: linear-gradient(180deg, #f7a52b 0%, #f2541f 55%, #2a0805 100%);
+  color-scheme: dark;
+  background: #0c0c0d;
+  color: var(--hero-ink);
+}
+
+/* The photos. The layer is larger than the scene, so the lean and the drift never show an edge. */
+
+.hero__media {
+  position: absolute;
+  inset: 0;
+}
+
+.hero__layer {
+  position: absolute;
+  inset: -48px -24px;
+}
+
+.hero__slide {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity var(--fade-ms) var(--ease-in-out);
+}
+
+/* The incoming photo fades in over the outgoing one, which stays fully drawn underneath until
+   it has been covered, so the scene never dips to black between two photos. */
+.hero__slide[data-state="active"] {
+  z-index: 2;
+  opacity: 1;
+}
+
+.hero__slide[data-state="leaving"] {
+  z-index: 1;
+  opacity: 1;
+  transition: none;
 }
 
 .hero__img {
@@ -75,25 +60,233 @@
   object-fit: cover;
 }
 
-/* The fingerprint card: below the photo's lower edge on a phone, on its corner from tablets up. */
+.hero__slide--band .hero__img {
+  object-position: 55% 60%;
+}
+
+.hero__slide--singer .hero__img {
+  object-position: 52% 40%;
+}
+
+.hero__slide--mic .hero__img {
+  object-position: 50% 50%;
+}
+
+.hero__slide--frame .hero__img {
+  object-position: 50% 45%;
+}
+
+/* Shade where the words are: from the bottom and from the left, and a little along the top for
+   the controls. Every photo gets the same shade, so the words read the same on each. */
+.hero__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background:
+    linear-gradient(to top, rgb(10 9 9 / 0.95) 0%, rgb(10 9 9 / 0.8) 45%, rgb(10 9 9 / 0.35) 68%, rgb(10 9 9 / 0) 88%),
+    linear-gradient(to bottom, rgb(10 9 9 / 0.5) 0%, rgb(10 9 9 / 0) 22%);
+}
+
+/* On wider screens the words take less height, so the shade can leave more of the photo. */
+@media (min-width: 640px) {
+  .hero__media::after {
+    background:
+      linear-gradient(to top, rgb(10 9 9 / 0.94) 0%, rgb(10 9 9 / 0.72) 30%, rgb(10 9 9 / 0.2) 62%, rgb(10 9 9 / 0) 80%),
+      linear-gradient(to right, rgb(10 9 9 / 0.66) 0%, rgb(10 9 9 / 0.24) 46%, rgb(10 9 9 / 0) 70%),
+      linear-gradient(to bottom, rgb(10 9 9 / 0.5) 0%, rgb(10 9 9 / 0) 22%);
+  }
+}
+
+/* The controls: a bar per photo that fills while that photo is on, and a pause button. */
+
+.hero__controls {
+  position: relative;
+  z-index: 4;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-4);
+  padding-top: calc(var(--header-h) + var(--space-4));
+}
+
+.hero__bars {
+  display: flex;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hero__bar {
+  position: relative;
+  width: 40px;
+  height: 2px;
+  overflow: clip;
+  background: rgb(255 255 255 / 0.28);
+}
+
+.hero__fill {
+  position: absolute;
+  inset: 0;
+  background: var(--hero-ink);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.hero__bar[data-state="done"] .hero__fill {
+  transform: none;
+}
+
+.hero__pause {
+  display: inline-grid;
+  place-items: center;
+  width: var(--touch-min);
+  height: var(--touch-min);
+  border: 1px solid rgb(255 255 255 / 0.32);
+  border-radius: var(--radius);
+  background: rgb(12 12 13 / 0.45);
+  color: var(--hero-ink);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: transform var(--duration-press) var(--ease-out);
+}
+
+.hero__pause:active {
+  transform: scale(0.97);
+}
+
+.hero__play-icon,
+.hero__pause[aria-pressed="true"] .hero__pause-icon {
+  display: none;
+}
+
+.hero__pause[aria-pressed="true"] .hero__play-icon {
+  display: block;
+}
+
+/* The words and the card, at the bottom of the scene. */
+
+/* Always the second row: with the controls hidden (reduced motion) it still sits at the bottom. */
+.hero__inner {
+  position: relative;
+  z-index: 4;
+  grid-row: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: end;
+  gap: var(--space-6);
+  /* On a phone the words take most of the height; the top third is left to the photo. */
+  padding-block: max(var(--space-9), 34svh) var(--space-6);
+}
+
+.hero__copy {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.hero__copy > .hero__eyebrow {
+  justify-self: start;
+}
+
+.hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 32px;
+  padding: 0 var(--space-3);
+  border: 1px solid rgb(255 255 255 / 0.34);
+  border-radius: var(--radius);
+  background: rgb(12 12 13 / 0.4);
+  color: var(--hero-soft);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
+}
+
+.hero__eyebrow .icon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--accent);
+}
+
+/* The headline in two lines across the scene. Its size follows the width of the page: the longer
+   first line (EN "Sound that comes", 8.15em) fills the container and never runs past it. On a
+   short screen the height caps it, so the way in stays on the first screen. The second line
+   steps in behind the brand's slash. */
+.hero__title {
+  margin-top: var(--space-5);
+  color: var(--hero-ink);
+  font-size: clamp(3rem, min(calc((min(100vw, var(--content-max)) - 2 * var(--gutter)) / 8.4), 17svh), 9rem);
+  font-weight: 750;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  text-shadow: 0 2px 40px rgb(0 0 0 / 0.4);
+}
+
+/* Each line is a mask its words rise into; the padding keeps the descenders inside it. */
+.hero__line {
+  display: block;
+  overflow: clip;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+
+.hero__words {
+  display: inline-block;
+}
+
+.hero__line--end .hero__words::before {
+  content: "";
+  display: inline-block;
+  width: 0.11em;
+  height: 0.74em;
+  margin-right: 0.2em;
+  background: var(--accent);
+  transform: skewX(-20deg);
+  transform-origin: bottom;
+}
+
+.hero__more {
+  margin-top: var(--space-6);
+}
+
+.hero__lead {
+  max-width: 44ch;
+  color: var(--hero-soft);
+  font-size: clamp(1.0625rem, 0.92rem + 0.5vw, 1.375rem);
+}
+
+.hero .actions {
+  margin-top: var(--space-6);
+}
+
+.hero__card {
+  margin-top: var(--space-6);
+}
+
+/* The fingerprint card, frosted glass on the photo. */
 
 .signal {
   position: relative;
-  z-index: 1;
   display: grid;
   gap: var(--space-2);
-  margin: calc(-1 * var(--space-8)) var(--space-4) 0;
+  width: 100%;
+  max-width: 380px;
   padding: var(--space-4);
-  border: 1px solid var(--line);
+  border: 1px solid rgb(255 255 255 / 0.16);
   border-radius: var(--radius);
-  background: color-mix(in srgb, var(--surface-1) 88%, transparent);
+  background: color-mix(in srgb, var(--surface-1) 70%, transparent);
   box-shadow: var(--shadow-float);
-  backdrop-filter: blur(16px) saturate(1.2);
+  backdrop-filter: blur(18px) saturate(1.3);
 }
 
 .signal__art {
   display: block;
-  height: 64px;
+  height: 56px;
   margin-bottom: var(--space-2);
 }
 
@@ -105,7 +298,7 @@
 }
 
 .signal__track {
-  fill: var(--surface-2);
+  fill: rgb(255 255 255 / 0.1);
 }
 
 .signal__bar {
@@ -120,7 +313,7 @@
 }
 
 .signal__label {
-  color: var(--text-muted);
+  color: var(--hero-soft);
   font-size: var(--text-sm);
 }
 
@@ -128,6 +321,7 @@
 .signal__digest {
   max-width: calc(32.5ch + 3em + 4 * var(--space-2));
   min-height: 3em;
+  color: var(--hero-ink);
   font-size: var(--text-sm);
   line-height: 1.5;
 }
@@ -138,31 +332,82 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  /* The stage opens along the brand's slash: a thin slanted cut widens into the whole frame,
-     while the photo settles from a closer crop. The photo stays a little larger than its frame
-     so the drift and the lean below never show an edge. */
-  .hero__photo {
-    animation: stage-open 1200ms var(--ease-in-out) 120ms both;
+  /* The scene opens along the brand's slash: a thin slanted cut widens into the whole frame. */
+  .hero__media {
+    animation: stage-open 1200ms var(--ease-in-out) 80ms both;
   }
 
-  .hero__img {
-    scale: 1.1;
-    animation: stage-settle 2400ms var(--ease-out) 120ms both;
+  /* Each photo moves in slowly while it is on, and keeps moving while the next one covers it. */
+  .hero__slide:is([data-state="active"], [data-state="leaving"]) .hero__img {
+    animation: slide-push calc(var(--slide-ms) + var(--fade-ms)) linear both;
   }
 
-  /* As the page scrolls the photo moves a little slower than its frame, which gives it depth. */
+  .hero__bar[data-state="active"] .hero__fill {
+    animation: bar-fill var(--slide-ms) linear both;
+  }
+
+  .hero[data-paused] :is(.hero__img, .hero__fill) {
+    animation-play-state: paused;
+  }
+
+  /* The headline's lines rise out of their masks one after the other, then the slash is cut. */
+  .hero__words {
+    animation: line-rise 1100ms var(--ease-out) 160ms both;
+  }
+
+  .hero__line--end .hero__words {
+    animation-delay: 300ms;
+  }
+
+  .hero__line--end .hero__words::before {
+    animation: slash-cut 520ms var(--ease-out) 900ms both;
+  }
+
+  /* Scrolling away from the scene: the photos move at a third of the page's speed and dim, the
+     headline's lines part to either side, and the lead and the card lift off first. */
   @supports (animation-timeline: view()) {
-    .hero__img {
+    .hero {
+      view-timeline: --hero block;
+    }
+
+    .hero__layer {
+      animation: scene-drift linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+    }
+
+    .hero__media {
       animation:
-        stage-settle 2400ms var(--ease-out) 120ms both,
-        stage-drift linear both;
-      animation-timeline: auto, view();
-      animation-range: normal, cover 0% cover 100%;
+        stage-open 1200ms var(--ease-in-out) 80ms both,
+        scene-dim linear both;
+      animation-timeline: auto, --hero;
+      animation-range: normal, exit 0% exit 90%;
+    }
+
+    .hero__line {
+      animation: line-part-start linear both;
+      animation-timeline: --hero;
+      animation-range: exit 0% exit 75%;
+    }
+
+    .hero__line--end {
+      animation-name: line-part-end;
+    }
+
+    .hero__more,
+    .hero__card {
+      animation: copy-lift linear both;
+      animation-timeline: --hero;
+      animation-range: exit 5% exit 70%;
+    }
+
+    .hero__card {
+      animation-range: exit 0% exit 60%;
     }
   }
 
   .signal.enter {
-    animation-delay: 520ms;
+    animation-delay: 420ms;
   }
 
   .signal__group {
@@ -190,55 +435,122 @@
   }
 }
 
-@keyframes stage-settle {
+@keyframes slide-push {
   from {
-    scale: 1.24;
-  }
-}
-
-@keyframes stage-drift {
-  from {
-    translate: 0 -3.5%;
+    scale: 1;
   }
 
   to {
-    translate: 0 3.5%;
+    scale: 1.1;
+  }
+}
+
+@keyframes bar-fill {
+  to {
+    transform: none;
+  }
+}
+
+@keyframes scene-drift {
+  to {
+    translate: 0 28%;
+  }
+}
+
+@keyframes scene-dim {
+  to {
+    opacity: 0.3;
+  }
+}
+
+@keyframes line-rise {
+  from {
+    transform: translateY(110%);
+  }
+}
+
+@keyframes slash-cut {
+  from {
+    transform: skewX(-20deg) scaleY(0);
+  }
+}
+
+@keyframes line-part-start {
+  to {
+    opacity: 0.25;
+    translate: -14vw 0;
+  }
+}
+
+@keyframes line-part-end {
+  to {
+    opacity: 0.25;
+    translate: 14vw 0;
+  }
+}
+
+@keyframes copy-lift {
+  to {
+    opacity: 0;
+    translate: 0 -64px;
   }
 }
 
 @media (min-width: 640px) {
-  .hero__photo {
-    aspect-ratio: 2 / 1;
-    margin-inline: 0;
-    border-radius: var(--radius);
+  .hero__controls {
+    padding-top: calc(var(--header-h) + var(--space-5));
   }
 
-  .signal {
-    position: absolute;
-    right: var(--space-5);
-    bottom: calc(-1 * var(--space-7));
-    width: min(372px, 56%);
-    margin: 0;
+  /* Less room above the words on a short screen, so the way in stays on the first screen. */
+  .hero__inner {
+    padding-block: clamp(var(--space-5), 10svh - 2.5rem, var(--space-9)) var(--space-7);
   }
 }
 
-@media (min-width: 1100px) {
-  .hero {
-    padding-block: var(--space-8) var(--space-9);
+@media (min-width: 768px) {
+  .hero__line {
+    white-space: nowrap;
   }
 
-  .hero__head {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  .hero__line--end {
+    padding-left: 1.1em;
+  }
+}
+
+/* The headline spans the scene; the lead and the way in sit under its first line, the card
+   under its second. */
+@media (min-width: 1100px) {
+  .hero__inner {
+    padding-bottom: var(--space-8);
+  }
+
+  .hero__copy {
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
+    grid-template-areas:
+      "eyebrow eyebrow"
+      "title title"
+      "more card";
     align-items: end;
     column-gap: var(--space-8);
   }
 
-  .hero__photo {
-    aspect-ratio: 9 / 4;
+  .hero__eyebrow {
+    grid-area: eyebrow;
   }
 
-  .signal {
-    right: var(--space-7);
+  .hero__title {
+    grid-area: title;
+  }
+
+  .hero__more {
+    grid-area: more;
+  }
+
+  .hero__card {
+    grid-area: card;
+    justify-self: end;
+    width: 100%;
+    max-width: 380px;
   }
 }
 
@@ -259,6 +571,39 @@
   max-width: 60ch;
   margin-top: var(--space-4);
   color: var(--text-muted);
+}
+
+/* Coming into view, each part of a section rises on its own: the words first, then every card
+   as it reaches the screen. The scroll position drives it, so scrolling back plays it backwards;
+   a browser without scroll timelines shows everything in place. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    :is(.section__title, .section__lead, .closing__copy) {
+      animation: rise-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 28%;
+    }
+
+    :is(.process__step, .figures__item, .path) {
+      animation: card-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 34%;
+    }
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(56px);
+  }
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(96px) scale(0.92);
+  }
 }
 
 @media (min-width: 768px) {
