@@ -20,56 +20,120 @@
     <a class="skip-link" href="#main" data-i18n="common.skipToContent">İçeriğe geç</a>
     <header id="site-header"></header>
     <main id="main" tabindex="-1">
-      <section class="container page-head" aria-labelledby="upload-title">
-        <p class="eyebrow"><span class="eyebrow__index">02</span><span data-i18n="common.areas.artist">Sanatçı portalı</span></p>
-        <h1 class="page-head__title" id="upload-title" data-i18n="upload.title">Demo yükle</h1>
-        <p class="page-head__lead" data-i18n="upload.lead">Parçanı birkaç bilgiyle gönder; değerlendirme durumunu Gönderilerim sayfasından izleyebilirsin.</p>
+      <section class="scene-head" aria-labelledby="upload-title" data-scene-head>
+        <div class="scene-head__media" aria-hidden="true">
+          <picture>
+            <source media="(max-width: 639px)" type="image/avif" srcset="/assets/photos/studio-tall-720.avif 720w, /assets/photos/studio-tall-1080.avif 1080w" sizes="100vw">
+            <source type="image/avif" srcset="/assets/photos/studio-wide-1280.avif 1280w, /assets/photos/studio-wide-1920.avif 1920w, /assets/photos/studio-wide-2000.avif 2000w" sizes="100vw">
+            <img class="scene-head__img" src="/assets/photos/studio-wide-1920.webp" alt="" width="1920" height="1200" fetchpriority="high">
+          </picture>
+        </div>
+        <div class="container scene-head__inner">
+          <p class="scene-head__eyebrow enter">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#upload"></use></svg>
+            <span data-i18n="common.areas.artist">Sanatçı portalı</span>
+          </p>
+          <h1 class="scene-head__title enter enter-2" id="upload-title" data-i18n="upload.title">Demo yükle</h1>
+          <p class="scene-head__lead enter enter-3" data-i18n="upload.lead">Parçanı birkaç bilgiyle gönder; değerlendirme durumunu Gönderilerim sayfasından izleyebilirsin.</p>
+          <ol class="upload-steps enter enter-4" aria-label="Adımlar" data-i18n-attr="aria-label:upload.steps.label">
+            <li class="upload-steps__item" data-upload-step="details"><span class="upload-steps__index" aria-hidden="true">1</span><span data-i18n="upload.steps.details">Parçanı anlat</span></li>
+            <li class="upload-steps__item" data-upload-step="file"><span class="upload-steps__index" aria-hidden="true">2</span><span data-i18n="upload.steps.file">Kaydını ekle</span></li>
+            <li class="upload-steps__item" data-upload-step="send"><span class="upload-steps__index" aria-hidden="true">3</span><span data-i18n="upload.steps.send">Gönder</span></li>
+          </ol>
+        </div>
       </section>
       <div class="container upload">
         <p class="notice" role="status" data-status></p>
-        <form class="upload__form" id="upload-form" aria-labelledby="upload-title" novalidate>
-          <fieldset class="form-stack" data-fields>
-            <legend class="visually-hidden" data-i18n="upload.legend">Demo bilgileri</legend>
-            <div class="field">
-              <label class="field__label" for="upload-title-input" data-i18n="upload.fields.title">Parça adı</label>
-              <p class="field__hint" id="upload-title-hint" data-i18n="upload.hints.title">En fazla 120 karakter.</p>
-              <input class="input" id="upload-title-input" name="title" type="text" autocomplete="off" aria-describedby="upload-title-hint" required>
-            </div>
-            <div class="field">
-              <label class="field__label" for="upload-genre" data-i18n="upload.fields.genre">Tür</label>
-              <select class="select" id="upload-genre" name="genre" required>
-                <option value="" data-i18n="upload.genrePlaceholder">Bir tür seç</option>
-              </select>
-            </div>
-            <div class="field">
-              <label class="field__label" for="upload-note" data-i18n="upload.fields.note">Not</label>
-              <p class="field__hint" id="upload-note-hint" data-i18n="upload.hints.note">İsteğe bağlı; ekibe iletmek istediğin kısa bir not. En fazla 1000 karakter.</p>
-              <textarea class="textarea" id="upload-note" name="note" rows="4" aria-describedby="upload-note-hint"></textarea>
-            </div>
-            <div class="field">
-              <label class="field__label" id="upload-file-label" for="upload-file" data-i18n="upload.fields.file">Ses dosyası</label>
-              <div class="file-drop" data-file-drop>
-                <input class="file-drop__input" id="upload-file" name="file" type="file" aria-labelledby="upload-file-label" aria-describedby="upload-file-hint upload-file-selected" required>
-                <label class="file-drop__zone" for="upload-file" data-file-zone>
-                  <svg class="icon file-drop__icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#upload"></use></svg>
-                  <span class="file-drop__title" data-i18n="upload.drop.title">Dosyayı buraya bırak ya da seçmek için tıkla</span>
-                  <span class="file-drop__hint" id="upload-file-hint" data-upload-rules><span data-i18n="upload.drop.hint">Tek bir ses dosyası.</span></span>
-                </label>
-                <p class="file-drop__selected" id="upload-file-selected" aria-live="polite" data-file-selected></p>
+        <div class="upload__layout">
+          <div class="upload__main">
+            <form class="upload__form" id="upload-form" aria-labelledby="upload-title" novalidate>
+              <fieldset class="upload__fields" data-fields>
+                <legend class="visually-hidden" data-i18n="upload.legend">Demo bilgileri</legend>
+                <section class="upload-card">
+                  <h2 class="upload-card__title"><span class="upload-card__index" aria-hidden="true">1</span><span data-i18n="upload.steps.details">Parçanı anlat</span></h2>
+                  <div class="upload-card__fields">
+                    <div class="field">
+                      <label class="field__label" for="upload-title-input" data-i18n="upload.fields.title">Parça adı</label>
+                      <p class="field__hint" id="upload-title-hint" data-i18n="upload.hints.title">En fazla 120 karakter.</p>
+                      <input class="input" id="upload-title-input" name="title" type="text" autocomplete="off" aria-describedby="upload-title-hint" required>
+                    </div>
+                    <div class="field">
+                      <label class="field__label" for="upload-genre" data-i18n="upload.fields.genre">Tür</label>
+                      <p class="field__hint" id="upload-genre-hint" data-i18n="upload.hints.genre">Parçana en yakın olanı seç.</p>
+                      <select class="select" id="upload-genre" name="genre" aria-describedby="upload-genre-hint" required>
+                        <option value="" data-i18n="upload.genrePlaceholder">Bir tür seç</option>
+                      </select>
+                    </div>
+                    <div class="field upload-card__wide">
+                      <label class="field__label" for="upload-note" data-i18n="upload.fields.note">Not</label>
+                      <p class="field__hint" id="upload-note-hint" data-i18n="upload.hints.note">İsteğe bağlı; ekibe iletmek istediğin kısa bir not. En fazla 1000 karakter.</p>
+                      <textarea class="textarea" id="upload-note" name="note" rows="4" aria-describedby="upload-note-hint"></textarea>
+                    </div>
+                  </div>
+                </section>
+                <section class="upload-card">
+                  <h2 class="upload-card__title"><span class="upload-card__index" aria-hidden="true">2</span><span data-i18n="upload.steps.file">Kaydını ekle</span></h2>
+                  <div class="field">
+                    <label class="field__label" id="upload-file-label" for="upload-file" data-i18n="upload.fields.file">Ses dosyası</label>
+                    <div class="file-drop file-drop--stage" data-file-drop>
+                      <input class="file-drop__input" id="upload-file" name="file" type="file" aria-labelledby="upload-file-label" aria-describedby="upload-file-hint upload-file-selected" required>
+                      <label class="file-drop__zone" for="upload-file" data-file-zone>
+                        <span class="file-drop__wave" aria-hidden="true" data-drop-wave></span>
+                        <span class="file-drop__badge" aria-hidden="true"><svg class="icon file-drop__icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#upload"></use></svg></span>
+                        <span class="file-drop__title" data-i18n="upload.drop.title">Dosyayı buraya bırak ya da seçmek için tıkla</span>
+                        <span class="file-drop__hint" id="upload-file-hint" data-upload-rules><span data-i18n="upload.drop.hint">Tek bir ses dosyası.</span></span>
+                      </label>
+                      <p class="file-drop__selected" id="upload-file-selected" aria-live="polite" data-file-selected></p>
+                    </div>
+                  </div>
+                </section>
+              </fieldset>
+              <div class="upload__actions">
+                <button class="btn btn--primary upload__submit" type="submit"><span data-i18n="upload.submit">Demonu yükle</span><svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#arrow-up-right"></use></svg></button>
+                <p class="upload__assure" data-i18n="upload.assure">Dosyan değiştirilmeden saklanır; özeti hem tarayıcında hem sunucuda ayrı ayrı hesaplanır.</p>
+              </div>
+              <div class="upload-progress" data-progress hidden>
+                <div class="upload-progress__head">
+                  <p class="upload-progress__label" id="upload-progress-label" data-i18n="upload.progressLabel">Yükleme ilerlemesi</p>
+                  <p class="upload-progress__percent" aria-hidden="true" data-progress-percent></p>
+                </div>
+                <progress class="upload-progress__bar" max="100" value="0" aria-labelledby="upload-progress-label"></progress>
+                <p class="upload-progress__text" data-progress-text></p>
+                <p class="visually-hidden" role="status" data-progress-milestone></p>
+                <button class="btn btn--secondary" type="button" data-cancel data-i18n="upload.cancel">Yüklemeyi iptal et</button>
+              </div>
+            </form>
+          </div>
+          <aside class="upload-aside" aria-label="Gönderim özeti" data-i18n-attr="aria-label:upload.summary.title">
+            <div class="upload-summary">
+              <p class="upload-aside__title" data-i18n="upload.summary.title">Gönderim özeti</p>
+              <dl class="upload-summary__list">
+                <div class="upload-summary__row">
+                  <dt data-i18n="upload.summary.track">Parça</dt>
+                  <dd data-summary="title"></dd>
+                </div>
+                <div class="upload-summary__row">
+                  <dt data-i18n="upload.summary.genre">Müzik türü</dt>
+                  <dd data-summary="genre"></dd>
+                </div>
+                <div class="upload-summary__row">
+                  <dt data-i18n="upload.summary.file">Kayıt</dt>
+                  <dd data-summary="file"></dd>
+                </div>
+              </dl>
+              <div class="upload-summary__print">
+                <p class="upload-summary__print-label" data-i18n="upload.summary.print">Parmak izi (SHA-256)</p>
+                <div class="upload-summary__print-art" data-summary-print-art></div>
+                <code class="upload-summary__digest" translate="no" data-summary-digest></code>
+                <p class="upload-summary__print-note" data-summary-print-note></p>
               </div>
             </div>
-          </fieldset>
-          <div class="upload__actions">
-            <button class="btn btn--primary" type="submit" data-i18n="upload.submit">Yükle</button>
-          </div>
-          <div class="upload-progress" data-progress hidden>
-            <p class="upload-progress__label" id="upload-progress-label" data-i18n="upload.progressLabel">Yükleme ilerlemesi</p>
-            <progress class="upload-progress__bar" max="100" value="0" aria-labelledby="upload-progress-label"></progress>
-            <p class="upload-progress__text" data-progress-text></p>
-            <p class="visually-hidden" role="status" data-progress-milestone></p>
-            <button class="btn btn--secondary" type="button" data-cancel data-i18n="upload.cancel">Yüklemeyi iptal et</button>
-          </div>
-        </form>
+            <div class="upload-next">
+              <p class="upload-aside__title" data-i18n="upload.next.title">Sonra ne olacak?</p>
+              <ol class="upload-next__list" data-upload-next></ol>
+            </div>
+          </aside>
+        </div>
       </div>
     </main>
     <footer id="site-footer"></footer>

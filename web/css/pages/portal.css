@@ -1,4 +1,60 @@
-/* List of demos */
+/* Submissions: the dark scene head with a count per status (components.css), and those counts
+   are the status filter; below, one row per demo. */
+
+.scene-head--demos .scene-head__img {
+  object-position: 58% 30%;
+}
+
+.demos-head {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.demos-head__cta {
+  justify-self: start;
+}
+
+.demos-head__cta .icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.demos-list {
+  padding-block: var(--space-6) var(--space-8);
+}
+
+.demos-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-5);
+}
+
+.demos-bar__summary {
+  margin: 0;
+}
+
+.demos-bar__controls .field {
+  max-width: none;
+}
+
+.field--inline {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.field--inline .select {
+  width: auto;
+  min-width: 12rem;
+}
+
+.demos-list .list-results {
+  margin-top: var(--space-5);
+}
+
+/* The list of demos */
 
 .demo-list {
   display: grid;
@@ -11,40 +67,52 @@
   position: relative;
   display: grid;
   grid-template-areas:
-    "body"
-    "badge"
-    "print";
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-3) var(--space-4);
+    "cover body"
+    "side side";
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: var(--space-4);
   padding: var(--space-4);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--surface-1);
-  transition: border-color var(--duration) var(--ease-out);
+  transition:
+    border-color var(--duration) var(--ease-out),
+    transform 200ms var(--ease-out);
 }
 
-.demo-card:hover,
 .demo-card:focus-within {
   border-color: var(--accent-text);
 }
 
-.demo-card__body {
-  grid-area: body;
-  min-width: 0;
-}
-
-.demo-card .status-badge {
-  grid-area: badge;
-  justify-self: start;
+/* The cover: the file's fingerprint on a dark tile, so every demo has its own picture. */
+.demo-card__cover {
+  grid-area: cover;
+  display: grid;
+  aspect-ratio: 1;
+  padding: 10px;
+  border-radius: var(--radius);
+  color-scheme: dark;
+  background:
+    radial-gradient(90% 90% at 30% 110%, color-mix(in srgb, var(--accent) 28%, transparent), transparent 70%),
+    #141416;
 }
 
 .demo-card__print {
-  grid-area: print;
-  height: 24px;
+  width: 100%;
+  height: 100%;
+}
+
+.demo-card__body {
+  grid-area: body;
+  display: grid;
+  align-content: center;
+  gap: var(--space-2);
+  min-width: 0;
 }
 
 .demo-card__title {
   font-size: var(--text-lg);
+  letter-spacing: -0.01em;
   overflow-wrap: anywhere;
 }
 
@@ -63,7 +131,6 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0 var(--space-2);
-  margin-top: var(--space-1);
   color: var(--text-muted);
   font-size: var(--text-sm);
 }
@@ -79,40 +146,392 @@
   font-family: var(--font-mono);
 }
 
+/* Sent, review, decision: a filled square for each stage reached; the last one takes the
+   colour of the decision. */
+.demo-journey {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.demo-journey__step {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.demo-journey__step::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: 1px;
+}
+
+.demo-journey__step[data-state="done"] {
+  color: var(--text);
+}
+
+.demo-journey__step[data-state="done"]::before {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.demo-card[data-status="accepted"] .demo-journey__step:last-child::before {
+  border-color: var(--ok);
+  background: var(--ok);
+}
+
+.demo-card[data-status="rejected"] .demo-journey__step:last-child::before {
+  border-color: var(--danger);
+  background: var(--danger);
+}
+
+.demo-card__side {
+  grid-area: side;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+}
+
+.demo-card__note {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.demo-card__note .icon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--info);
+}
+
+.demo-card__updated {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.demo-card__updated time {
+  font-family: var(--font-mono);
+}
+
+.demo-card__go {
+  display: none;
+}
+
 .demo-card--skeleton {
-  display: grid;
   grid-template-areas: none;
-  grid-template-columns: 1fr;
-  gap: var(--space-3);
+  grid-template-columns: 64px minmax(0, 1fr);
+  align-items: center;
+}
+
+.skeleton--cover {
+  grid-row: span 2;
+  aspect-ratio: 1;
+  height: auto;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .demo-card:hover {
+    border-color: var(--accent-text);
+    transform: translateY(-2px);
+  }
 }
 
 @media (min-width: 768px) {
   .demo-card {
-    grid-template-areas: "body print badge";
-    grid-template-columns: minmax(0, 1fr) 10rem auto;
+    grid-template-areas: "cover body side go";
+    grid-template-columns: 80px minmax(0, 1fr) auto 20px;
     align-items: center;
+    padding: var(--space-4) var(--space-5);
   }
 
-  .demo-card .status-badge {
-    align-self: center;
+  .demo-card__side {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-2);
+    text-align: right;
   }
 
-  .demo-card__print {
-    height: 32px;
+  .demo-card__go {
+    display: block;
+    grid-area: go;
+    color: var(--text-muted);
+    transition:
+      transform var(--duration) var(--ease-out),
+      color var(--duration) var(--ease-out);
+  }
+
+  .demo-card__go .icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .demo-card--skeleton {
+    grid-template-columns: 80px minmax(0, 1fr);
   }
 }
 
-/* Upload */
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  .demo-card:hover .demo-card__go {
+    color: var(--accent-text);
+    transform: translateX(3px);
+  }
+}
+
+@media (min-width: 1100px) {
+  .demos-head {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+  }
+
+  .demos-head__cta {
+    justify-self: end;
+  }
+
+  .demos-head .demo-stats {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Upload: the dark scene head (components.css) with the steps on it; below, the form as two
+   numbered cards and, beside it, a summary that follows what has been filled in. */
+
+/* The three steps light up as the form is filled in: the step in hand in orange, the finished
+   ones in green. The words carry the meaning; the colours only follow them. */
+.upload-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.upload-steps__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 40px;
+  padding: 0 var(--space-4) 0 var(--space-2);
+  border: 1px solid rgb(255 255 255 / 0.2);
+  border-radius: var(--radius);
+  background: rgb(12 12 13 / 0.45);
+  color: var(--head-soft);
+  font-size: var(--text-sm);
+  backdrop-filter: blur(10px);
+  transition:
+    border-color 240ms var(--ease-out),
+    color 240ms var(--ease-out);
+}
+
+.upload-steps__index {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid rgb(255 255 255 / 0.3);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition:
+    background-color 240ms var(--ease-out),
+    border-color 240ms var(--ease-out),
+    color 240ms var(--ease-out);
+}
+
+.upload-steps__item[data-state="current"] {
+  border-color: var(--accent);
+  color: var(--head-ink);
+}
+
+.upload-steps__item[data-state="current"] .upload-steps__index {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.upload-steps__item[data-state="done"] {
+  color: var(--head-ink);
+}
+
+.upload-steps__item[data-state="done"] .upload-steps__index {
+  border-color: var(--ok);
+  background: var(--ok);
+  color: var(--accent-ink);
+}
+
+/* The form and the summary */
 
 .upload {
-  padding-bottom: var(--space-6);
+  padding-block: var(--space-7) var(--space-8);
+}
+
+.upload__layout {
+  display: grid;
+  gap: var(--space-6);
+}
+
+/* The form and the error summary and alert that the form script puts in front of it. */
+.upload__main {
+  display: grid;
+  align-content: start;
+  gap: var(--space-5);
+  min-width: 0;
 }
 
 .upload__form {
   display: grid;
   gap: var(--space-5);
-  max-width: 40rem;
-  margin-top: var(--space-5);
+  min-width: 0;
+}
+
+.upload__fields {
+  display: grid;
+  gap: var(--space-5);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.upload-card {
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+}
+
+.upload-card__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-xl);
+  letter-spacing: -0.02em;
+}
+
+.upload-card__index {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.upload-card__fields {
+  display: grid;
+  gap: var(--space-5);
+}
+
+/* The drop zone as a small stage: a waveform waits across its foot and lights up in orange
+   while a file is dragged over it and once one is chosen. */
+.file-drop--stage .file-drop__zone {
+  position: relative;
+  overflow: clip;
+  align-content: center;
+  gap: var(--space-3);
+  min-height: 264px;
+  /* The words keep clear of the waveform along the foot of the zone. */
+  padding: var(--space-6) var(--space-5) calc(56px + var(--space-6));
+  background:
+    radial-gradient(120% 90% at 50% 120%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 62%),
+    var(--bg);
+}
+
+.file-drop__wave {
+  position: absolute;
+  inset: auto var(--space-4) var(--space-4);
+  height: 48px;
+  pointer-events: none;
+}
+
+.file-drop__bars {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.file-drop__bar {
+  fill: var(--line);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: fill 320ms var(--ease-out);
+}
+
+.file-drop[data-dragging] .file-drop__bar,
+.file-drop[data-has-file] .file-drop__bar {
+  fill: color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+.file-drop__badge {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: 0 12px 32px -12px var(--accent);
+}
+
+.file-drop__badge .file-drop__icon {
+  width: 24px;
+  height: 24px;
+  color: inherit;
+}
+
+.file-drop--stage .file-drop__title,
+.file-drop--stage .file-drop__hint {
+  position: relative;
+}
+
+.file-drop--stage .file-drop__title {
+  font-size: var(--text-lg);
+}
+
+.upload__actions {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-3);
+}
+
+.upload__submit {
+  min-height: 52px;
+  padding-inline: var(--space-6);
+  font-size: var(--text-base);
+}
+
+.upload__submit .icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.upload__assure {
+  max-width: 52ch;
+  color: var(--text-muted);
+  font-size: var(--text-sm);
 }
 
 .upload-progress {
@@ -124,8 +543,25 @@
   background: var(--surface-1);
 }
 
+.upload-progress__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
 .upload-progress__label {
   font-weight: 600;
+}
+
+.upload-progress__percent {
+  color: var(--accent-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
 }
 
 .upload-progress__text {
@@ -137,6 +573,184 @@
 
 .upload-progress .btn {
   justify-self: start;
+}
+
+/* The aside. The summary is a dark card in both themes, like the hero and the footer. */
+
+.upload-aside {
+  display: grid;
+  align-content: start;
+  gap: var(--space-5);
+  min-width: 0;
+}
+
+.upload-summary,
+.upload-next {
+  padding: var(--space-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+}
+
+.upload-summary {
+  color-scheme: dark;
+  background:
+    radial-gradient(110% 80% at 100% 0%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 62%),
+    var(--surface-1);
+  color: var(--text);
+}
+
+.upload-aside__title {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.upload-summary__list {
+  display: grid;
+  margin: var(--space-3) 0 0;
+}
+
+.upload-summary__row {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  gap: var(--space-3);
+  padding-block: var(--space-3);
+  border-bottom: 1px solid var(--line);
+}
+
+.upload-summary__row dt {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.upload-summary__row dd {
+  margin: 0;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.upload-summary__row dd[data-empty] {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.upload-summary__print {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.upload-summary__print-label {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+/* Until there is a file the fingerprint's place shows its empty tracks. */
+.upload-summary__print-art {
+  height: 40px;
+}
+
+.upload-summary__print-art:empty {
+  background: repeating-linear-gradient(90deg, var(--surface-2) 0 4px, transparent 4px 7px);
+}
+
+.upload-summary__fp {
+  width: 100%;
+  height: 100%;
+}
+
+.upload-summary__digest {
+  min-height: 1.5em;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+.upload-summary__digest .digest__group {
+  display: inline-block;
+  margin-right: var(--space-2);
+}
+
+.upload-summary__print-note {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.upload-next__list {
+  display: grid;
+  gap: var(--space-4);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.upload-next__item {
+  display: grid;
+  gap: var(--space-2);
+  padding-left: var(--space-4);
+  border-left: 2px solid var(--line);
+}
+
+.upload-next__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.upload-next__text {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* While a file is over the zone the waveform breathes, to say "let go here". It stops as soon
+     as the file is dropped or taken away. */
+  .file-drop[data-dragging] .file-drop__bar {
+    animation: bar-breathe 900ms var(--ease-in-out) infinite alternate;
+    animation-delay: calc(var(--i, 0) * -32ms);
+  }
+}
+
+@keyframes bar-breathe {
+  from {
+    transform: scaleY(0.45);
+  }
+}
+
+@media (min-width: 768px) {
+  .upload-card {
+    padding: var(--space-6);
+  }
+
+  .upload-card__fields {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  }
+
+  .upload-card__wide {
+    grid-column: 1 / -1;
+  }
+
+  .upload__actions {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    column-gap: var(--space-5);
+  }
+}
+
+@media (min-width: 1100px) {
+  .upload__layout {
+    grid-template-columns: minmax(0, 1fr) 360px;
+    align-items: start;
+    column-gap: var(--space-7);
+  }
+
+  /* The summary stays in view beside the form while the form scrolls. */
+  .upload-aside {
+    position: sticky;
+    top: calc(var(--header-h) + var(--space-5));
+  }
 }
 
 /* Demo detail */

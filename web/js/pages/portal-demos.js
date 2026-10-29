@@ -1,22 +1,26 @@
 // @ts-check
 import { fingerprint } from '../components/fingerprint.js';
+import { glassOver } from '../components/header.js';
 import { pageInfo, pager } from '../components/pager.js';
 import { statusBadge } from '../components/status-badge.js';
 import { GENRES, SORT_ORDERS, STATUSES } from '../core/config.js';
-import { h, qs, replaceContent } from '../core/dom.js';
+import { h, icon, qs, replaceContent } from '../core/dom.js';
 import { errorKey, toApiError } from '../core/errors.js';
-import { formatBytes, formatDateTime, localizeFormats } from '../core/format.js';
+import { formatBytes, formatDateTime, formatNumber, localizeFormats } from '../core/format.js';
 import { bootPage } from '../core/guard.js';
 import { onLangChange } from '../core/i18n.js';
 import { listDemos, listQueryString, readListQuery } from '../services/demos.js';
-/** @import { Demo, Page } from '../core/types.js' */
+/** @import { Demo, Page, Status } from '../core/types.js' */
 /** @import { ListQuery } from '../services/demos.js' */
 
 const SKELETON_CARDS = 3;
+// Where a demo is on its way: sent, under review, decided.
+const STAGES = /** @type {const} */ (['sent', 'review', 'decision']);
 
 const context = await bootPage({ access: 'artist' });
 if (context) {
-  const statusSelect = /** @type {HTMLSelectElement} */ (qs('#filter-status'));
+  glassOver(qs('[data-scene-head]'));
+  const stats = [...document.querySelectorAll('[data-stats] [data-status]')].filter((el) => el instanceof HTMLButtonElement);
   const sortSelect = /** @type {HTMLSelectElement} */ (qs('#filter-sort'));
   const results = qs('[data-results]');
   const summary = qs('[data-summary]');
@@ -26,12 +30,12 @@ if (context) {
   /** @type {AbortController | null} */
   let inflight = null;
 
-  statusSelect.replaceChildren(
-    h('option', { value: '', i18n: 'demos.filters.all' }),
-    ...STATUSES.map((status) => h('option', { value: status, i18n: `status.${status}` })),
-  );
   sortSelect.replaceChildren(...SORT_ORDERS.map((sort) => h('option', { value: sort, i18n: `demos.sort.${sort}` })));
-  statusSelect.value = query.status ?? '';
+  // The counts per status are also the status filter: the pressed one is the list shown.
+  const syncStats = () => {
+    for (const button of stats) button.setAttribute('aria-pressed', String((button.dataset.status || null) === query.status));
+  };
+  syncStats();
   sortSelect.value = query.sort;
 
   const showLoading = () => {
@@ -45,6 +49,7 @@ if (context) {
           h(
             'li',
             { class: 'demo-card demo-card--skeleton' },
+            h('span', { class: 'skeleton skeleton--cover' }),
             h('span', { class: 'skeleton skeleton--title' }),
             h('span', { class: 'skeleton skeleton--text' }),
           ),
@@ -114,10 +119,10 @@ if (context) {
             i18n: 'demos.emptyFiltered.action',
             on: {
               click: () => {
-                statusSelect.value = '';
                 query = { ...query, status: null, page: 1 };
+                syncStats();
                 void load();
-                statusSelect.focus();
+                stats[0]?.focus();
               },
             },
           })
@@ -148,11 +153,15 @@ if (context) {
     }
   };
 
-  statusSelect.addEventListener('change', () => {
-    const status = STATUSES.find((value) => value === statusSelect.value) ?? null;
-    query = { ...query, status, page: 1 };
-    void load();
-  });
+  for (const button of stats) {
+    button.addEventListener('click', () => {
+      const status = STATUSES.find((value) => value === button.dataset.status) ?? null;
+      if (status === query.status) return;
+      query = { ...query, status, page: 1 };
+      syncStats();
+      void load();
+    });
+  }
   sortSelect.addEventListener('change', () => {
     const sort = SORT_ORDERS.find((value) => value === sortSelect.value) ?? 'newest';
     query = { ...query, sort, page: 1 };
@@ -161,15 +170,40 @@ if (context) {
   qs('[data-controls]').addEventListener('submit', (event) => event.preventDefault());
   onLangChange(() => localizeFormats(results));
 
+  void countByStatus(stats);
   await load();
 }
 
-/** @param {Demo} demo */
+/**
+ * One small request per status, all at once: only the totals are needed, so each asks for a
+ * single item. A count that cannot be fetched stays a dash; the list itself is unaffected.
+ * @param {HTMLButtonElement[]} stats
+ */
+async function countByStatus(stats) {
+  await Promise.all(
+    stats.map(async (button) => {
+      const status = STATUSES.find((value) => value === button.dataset.status) ?? null;
+      try {
+        const page = await listDemos({ status, sort: 'newest', page: 1, pageSize: 1 });
+        qs('[data-count]', button).textContent = formatNumber(page.total);
+      } catch {
+        // The dash stays.
+      }
+    }),
+  );
+}
+
+/**
+ * A demo as a row: its fingerprint as the cover, the title and the facts, how far along it is,
+ * and its status. A note from the team is only flagged here; it is read on the demo's page.
+ * @param {Demo} demo
+ */
 function demoCard(demo) {
   const genre = GENRES.includes(demo.genre) ? demo.genre : 'other';
   return h(
     'li',
-    { class: 'demo-card' },
+    { class: 'demo-card', dataset: { status: demo.status } },
+    h('div', { class: 'demo-card__cover', 'aria-hidden': 'true' }, fingerprint(demo.file.sha256, { className: 'demo-card__print' })),
     h(
       'div',
       { class: 'demo-card__body' },
@@ -182,16 +216,44 @@ function demoCard(demo) {
         'p',
         { class: 'demo-card__meta' },
         h('span', { i18n: `genre.${genre}` }),
-        h('time', {
-          datetime: demo.createdAt,
-          'data-datetime': demo.createdAt,
-          'data-datetime-style': 'date',
-          text: formatDateTime(demo.createdAt, { dateStyle: 'medium' }),
-        }),
+        dateText(demo.createdAt),
         h('span', { 'data-bytes': demo.file.sizeBytes, text: formatBytes(demo.file.sizeBytes) }),
       ),
+      journey(demo.status),
     ),
-    statusBadge(demo.status),
-    fingerprint(demo.file.sha256, { className: 'demo-card__print' }),
+    h(
+      'div',
+      { class: 'demo-card__side' },
+      statusBadge(demo.status),
+      demo.statusNote ? h('p', { class: 'demo-card__note' }, icon('status-in_review'), h('span', { i18n: 'demos.hasNote' })) : null,
+      h('p', { class: 'demo-card__updated' }, h('span', { i18n: 'demos.updated' }), ' ', dateText(demo.updatedAt)),
+    ),
+    h('span', { class: 'demo-card__go', 'aria-hidden': 'true' }, icon('arrow-right')),
+  );
+}
+
+/** @param {string} iso */
+function dateText(iso) {
+  return h('time', {
+    datetime: iso,
+    'data-datetime': iso,
+    'data-datetime-style': 'date',
+    text: formatDateTime(iso, { dateStyle: 'medium' }),
+  });
+}
+
+/**
+ * The three stages a demo passes through, the reached ones filled in. The badge beside it says
+ * the same in words, so screen readers skip this.
+ * @param {Status} status
+ */
+function journey(status) {
+  const reached = status === 'pending' ? 1 : status === 'in_review' ? 2 : 3;
+  return h(
+    'ol',
+    { class: 'demo-journey', 'aria-hidden': 'true' },
+    STAGES.map((stage, i) =>
+      h('li', { class: 'demo-journey__step', dataset: { state: i < reached ? 'done' : 'todo' } }, h('span', { i18n: `demos.journey.${stage}` })),
+    ),
   );
 }
