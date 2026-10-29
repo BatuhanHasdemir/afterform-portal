@@ -58,3 +58,7 @@ Hedef ASP.NET Core 10, Identity, EF Core ve MySQL. Ayrıntılı eşleme ARCHITEC
 ## Lisanslar
 
 Yazı tipleri (Archivo, IBM Plex Mono) kendi sunucumuzdan verilir ve SIL Open Font License 1.1 ile dağıtılır; lisans metinleri `web/assets/fonts/*/OFL.txt` dosyalarındadır.
+
+İkonlar Phosphor Icons setinden (regular ağırlık) bir kez kopyalanmıştır ve MIT lisanslıdır; lisans metni `web/assets/icons-LICENSE.txt` dosyasındadır.
+
+Ana sayfadaki sahne fotoğrafı Gene Brutty'nin Unsplash'te yayımladığı bir fotoğraftır ve Unsplash License ile ücretsiz kullanılır. Kırpılıp birkaç genişlikte yeniden kodlanmış hâlleri `web/assets/photos/` klasöründedir ve kendi sunucumuzdan verilir. Kaynağı ve lisans bağlantısı `web/assets/photos/LICENSE.txt` dosyasındadır.

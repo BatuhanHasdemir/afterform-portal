@@ -14,7 +14,7 @@ AFTER/FORM kurgusal bir müzik şirketidir. Portal iki iş yapar:
 
 Bu aşamada yalnızca frontend yazılır. Backend (ASP.NET Core, Identity, EF Core, MySQL, Docker) sonradan gelir; bu doküman onun uyacağı sözleşmeyi tanımlar (§7). Geliştirme sırasında sözleşmeyi uygulayan bir Node mock sunucusu (`dev-mock/`) backend yerine geçer.
 
-Kapsam dışı: yeni kriptografik algoritma tasarlamak, e-posta gönderimi ve doğrulaması, ödeme, mobil uygulama, açık tema.
+Kapsam dışı: yeni kriptografik algoritma tasarlamak, e-posta gönderimi ve doğrulaması, ödeme, mobil uygulama.
 
 ---
 
@@ -68,16 +68,18 @@ afterform-portal/
 │  ├─ admin/    index.html
 │  ├─ lab/      index.html  sha256.html  avalanche.html  pbkdf2.html  compare.html
 │  ├─ css/      tokens.css  base.css  components.css  pages/<sayfa>.css
-│  ├─ assets/   fonts/  icons.svg  favicon.svg
+│  ├─ assets/   fonts/  photos/  icons.svg  icons-LICENSE.txt  favicon.svg
 │  └─ js/
 │     ├─ core/        config.js  api.js  csrf.js  session.js  errors.js  guard.js
-│     │               i18n.js  dom.js  format.js  validators.js  types.js  file-hash.js
+│     │               i18n.js  dom.js  format.js  validators.js  types.js  file-hash.js  theme.js
 │     ├─ services/    auth.js  demos.js  admin.js
 │     ├─ components/  header.js  footer.js  toast.js  dialog.js  form.js  status-badge.js  status-control.js
 │     │               digest.js  fingerprint.js  file-drop.js  verify-file.js  countdown.js  pager.js  info-card.js
+│     │               in-view.js  iteration-bars.js  signal.js  studio.js
 │     ├─ pages/       home.js  login.js  register.js  forgot-password.js  reset-password.js
 │     │               security.js  not-found.js  portal-demos.js  portal-demo.js  portal-upload.js
 │     │               admin.js  lab-index.js  lab-sha256.js  lab-avalanche.js  lab-pbkdf2.js  lab-compare.js
+│     ├─ theme-boot.js  # <head> içinde, ilk boyamadan önce: kayıtlı temayı uygular
 │     ├─ lab/         hex.js  bits.js  sha256.js  sha1.js  md5.js  sha3.js  pbkdf2.js  algorithms.js
 │     └─ i18n/        tr.js  en.js
 ├─ dev-mock/         server.mjs  routes/  store.mjs  seed.json  make-fixtures.mjs  openapi.mjs  README.md
@@ -88,7 +90,7 @@ afterform-portal/
 
 - `web/` dışındaki hiçbir şey yayına girmez.
 - Sayfa girişi adlandırması: `portal/demos.html` → `pages/portal-demos.js`, `index.html` → `pages/home.js`; diğerleri dosya adıyla aynı.
-- Tüm yollar köke göre mutlaktır (`/css/tokens.css`, `/js/pages/login.js`). Betikler `<script type="module">` ile yüklenir; satır içi betik yoktur.
+- Tüm yollar köke göre mutlaktır (`/css/tokens.css`, `/js/pages/login.js`). Betikler `<script type="module">` ile yüklenir; tek istisna, temayı ilk boyamadan önce uygulamak için eşzamanlı yüklenen küçük `/js/theme-boot.js` dosyasıdır. Satır içi betik yoktur.
 - CSS dosyaları `<link>` ile yüklenir (`@import` yok): `tokens.css`, `base.css`, `components.css`, ilgili `pages/<sayfa>.css`.
 - Tek yapılandırma kaynağı `core/config.js`: `API_BASE`, `PASSWORD_RULES`, `UPLOAD_RULES`, `FIELD_LIMITS`, `STATUSES`, `GENRES`, `PBKDF2_PROJECT_ITERATIONS` (220000), `VERIFY_MAX_BYTES`.
 
@@ -261,7 +263,7 @@ Backend bu sözleşmeye uyar; mock da aynısını uygular. Sözleşme değişirs
    X-Content-Type-Options: nosniff
    ```
    `style-src` satır içi stile izin vermez: işaretlemede `style="..."` kullanılmaz. Dinamik stil yalnızca CSSOM (`el.style.setProperty`) veya SVG öznitelikleriyle yapılır.
-3. **Depolama.** Oturum çerezi dışında kimlik bilgisi tutulmaz. `localStorage` yalnızca `lang` içindir. Parola ve belirteçler asla storage'a, URL'ye veya `console.*` çıktısına yazılmaz.
+3. **Depolama.** Oturum çerezi dışında kimlik bilgisi tutulmaz. `localStorage` yalnızca `lang` (dil) ve `theme` (`light` / `dark`; yoksa sistem teması) içindir; ikisi de hassas veri değildir. Parola ve belirteçler asla storage'a, URL'ye veya `console.*` çıktısına yazılmaz.
 4. **Parola istemcide özetlenmez.** İstemci tarafı özet parolanın yerine geçen yeni bir sırra dönüşür ve sunucudaki PBKDF2'nin anlamını bozar. Koruma TLS ile sağlanır; özetleme yalnızca sunucuda yapılır.
 5. **CSRF.** Durum değiştiren her istek `core/api.js` üzerinden gider. Sayfa kodu doğrudan `fetch`/XHR çağırmaz.
 6. **Güvenli yönlendirme.** `next` parametresi yalnızca `/` ile başlayan, `//`, `\` veya kontrol karakteri içermeyen göreli yollar için kabul edilir; aynı kural değerin bir kez çözülmüş (`decodeURIComponent`) hâline de uygulanır. Aksi halde varsayılan sayfa kullanılır.
@@ -355,38 +357,46 @@ Bunlara ek olarak Node `crypto` (`sha256`, `sha1`, `md5`, `sha3-256`, `pbkdf2Syn
 
 ## 11. Arayüz ve tasarım yönü
 
-**Marka (kurgusal).** AFTER/FORM bağımsız bir müzik şirketidir. Logo yazı işaretidir: `AFTER/FORM`, eğik çizgi vurgu renginde. Eğik çizgi arayüzün yapı motifidir (bölüm etiketleri `01 / Gönderilerim`, ayırıcılar). Ton sakin, teknik, abartısız. Slogan (yer tutucu): TR "Biçimden sonra gelen ses." / EN "Sound that comes after form." Favicon: koyu zeminde vurgu renginde eğik çizgi (`favicon.svg`).
+**Marka (kurgusal).** AFTER/FORM bağımsız bir müzik şirketidir. Logo yazı işaretidir: `AFTER/FORM`, eğik çizgi vurgu renginde. Eğik çizgi arayüzün yapı motifidir: yazı işaretinde, ayırıcılarda ve uygulama ekranlarının bölüm etiketlerinde (`01 / Gönderilerim`). Vitrin sayfaları (tanıtım, Güvenlik, Lab girişi) numaralı bölüm etiketi kullanmaz; sayfada en fazla birkaç sade etiket bulunur. Ton sakin, teknik, abartısız. Slogan (yer tutucu): TR "Biçimden sonra gelen ses." / EN "Sound that comes after form." Favicon: koyu zeminde vurgu renginde eğik çizgi (`favicon.svg`).
 
-**Tema.** Yalnızca koyu (`color-scheme: dark`). Tek vurgu rengi.
+**Tema.** Açık ve koyu. Bir seçim yapılana kadar sistem tercihi geçerlidir (`prefers-color-scheme`). Üst çubuktaki iki düğmeli Açık / Koyu seçicide basılı düğme kullanılan temadır; tıklanan tema `localStorage.theme` içinde tutulur ve o andan sonra sistem değişse de korunur. Seçim, ilk boyamadan önce `<head>` içindeki `/js/theme-boot.js` tarafından `<html data-theme>` olarak uygulanır, böylece öteki tema bir an bile görünmez. Renkler tek bir belirteç kümesidir: her belirteç `light-dark(açık, koyu)` ile yazılır ve kullanılan renk şeması (`color-scheme`) hangisinin geçerli olduğunu seçer. Tek vurgu rengi.
 
 ```css
 :root {
-  color-scheme: dark;
-  --bg: #0c0c0d;          --surface-1: #141416;   --surface-2: #1c1c1f;
-  --text: #ece9e2;        --text-muted: #9a978f;
-  --line: #2a2a2e;        /* dekoratif ayırıcı */
-  --line-strong: #70707a; /* girdi ve düğme sınırı: tüm yüzeylerde ≥ 3:1 */
-  --accent: #ff4b1f;      --accent-hover: #ff6a40;   --accent-ink: #0c0c0d;
-  --ok: #5fd38d;  --warn: #f2b84b;  --info: #6ea8ff;  --danger: #ff6b6b;
+  color-scheme: dark light;                    /* [data-theme] ile tek şemaya sabitlenir */
+  --bg: light-dark(#f3f3f1, #0c0c0d);          --surface-1: light-dark(#fbfbfa, #141416);
+  --surface-2: light-dark(#eaeae7, #1c1c1f);
+  --text: light-dark(#141416, #ece9e2);        --text-muted: light-dark(#55555b, #9a978f);
+  --line: light-dark(#dcdcd8, #2a2a2e);        /* dekoratif ayırıcı */
+  --line-strong: light-dark(#7c7c83, #70707a); /* girdi ve düğme sınırı: tüm yüzeylerde ≥ 3:1 */
+  --accent: #ff4b1f;  --accent-hover: #ff6a40;  --accent-ink: #0c0c0d;  /* dolgular */
+  --accent-text: light-dark(#b3300b, #ff4b1f); /* turuncu metin ve bağlantılar */
+  --focus: light-dark(#b3300b, #ff4b1f);
+  --ok: light-dark(#136f3f, #5fd38d);   --warn: light-dark(#875700, #f2b84b);
+  --info: light-dark(#2457b8, #6ea8ff); --danger: light-dark(#b52a2a, #ff6b6b);
   --radius: 2px;
-  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
-  --space-5: 24px; --space-6: 32px; --space-7: 48px; --space-8: 72px;
-  --font-body: "Archivo", system-ui, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 }
 ```
 
-Ölçülen kontrast oranları: metin/arka plan 16,1:1; soluk metin 6,7:1 (yüzey-2 üzerinde 5,8:1); vurgu/arka plan ve koyu yazı/vurgu 5,9:1; `--line-strong` en az 3,4:1 (yüzey-2 üzerinde); durum renkleri yüzey-2 üzerinde en az 6,1:1.
+Ölçülen kontrast oranları (WCAG): koyu temada metin/arka plan 16,1:1, soluk metin en az 5,8:1, vurgu/arka plan ve koyu yazı/vurgu 5,9:1, `--line-strong` en az 3,4:1, durum renkleri en az 6,1:1. Açık temada metin en az 15,3:1, soluk metin en az 6,1:1, `--accent-text` ve durum renkleri en az 5,1:1, `--line-strong` en az 3,4:1. Turuncu dolgu açık zeminde 3,0:1 verir: metin dışı öğe (düğme yüzeyi, çubuk) için yeterlidir, metin için değil; bu yüzden turuncu metin `--accent-text` kullanır. Yazı işaretindeki eğik çizgi logodur ve iki temada da marka turuncusudur.
 
 **Yazı tipi.** Tek grotesk ailesi (öneri: Archivo, değişken) + tek mono (öneri: IBM Plex Mono). Mono; özetler, boyutlar, tarihler, iterasyon sayıları ve yönetim tablosu hücreleri içindir. `woff2` dosyaları kendi sunucumuzdan verilir, `font-display: swap`, en fazla 3 dosya ön yüklenir, lisans dosyaları yanında durur. Ölçek `clamp()` ile akışkan; gövde 16–18 px, satır yüksekliği 1,5, satır uzunluğu en fazla 68ch.
 
-**Yerleşim.** 12 sütun; kenar boşluğu mobilde 16 px, masaüstünde 48 px. Yapı ince çizgilerle (`--line`) kurulur, gölge yok, köşe yarıçapı 2 px. Mobil öncelikli; kırılma noktaları 480 / 768 / 1100 px; tablolar dar ekranda yığılmış satırlara dönüşür.
+**Yerleşim.** 12 sütun; kenar boşluğu mobilde 16 px, masaüstünde 48 px. Yapı ince çizgilerle (`--line`) kurulur, köşe yarıçapı 2 px. Gölge yalnızca sayfanın üstünde yüzen öğelerdedir (iletişim kutusu, bildirim). Vitrin sayfaları asimetrik yerleşim (bölünmüş hero, bento) kullanır; aynı yerleşim ailesi bir sayfada iki kez tekrarlanmaz. Mobil öncelikli; kırılma noktaları 480 / 768 / 1100 px; tablolar dar ekranda yığılmış satırlara dönüşür.
 
 **İmza öğe: özet parmak izi.** SHA-256 özetinin 32 baytı 32 dikey çubuk olarak çizilir (SVG, çubuk yüksekliği = bayt değeri / 255). Dekoratiftir (`aria-hidden="true"`); gerçek bilgi hex metnidir. Demo kartlarında, detay sayfasında ve çığ etkisi ekranında (iki özet yan yana) kullanılır. Aynı dosya hep aynı deseni verir; tek bit fark bambaşka bir desen üretir.
 
-**Hareket.** Durum geçişleri 150–220 ms, ease-out. Dekoratif hareket yok. `prefers-reduced-motion` altında geçişler kapalıdır.
+**Hareket.** Sakin ve amaçlı: her animasyonun bir görevi vardır (dikkati doğru yere çekmek, bir sırayı anlatmak, kullanıcıya geri bildirim vermek, bir durum değişimini göstermek). Kütüphane yoktur; CSS geçişleri, `@starting-style`, kaydırmaya bağlı CSS animasyonları (`animation-timeline: view()`) ve Web Animations API kullanılır, yalnızca `transform` (`scale` ve `translate` dahil) ile `opacity` hareket eder. Tek istisna, hero fotoğrafının açılışta bir kez `clip-path` ile açılmasıdır.
 
-**Bileşenler** (`components/`): düğme (birincil/ikincil/hayalet/tehlike, yükleniyor hâli), girdi/seçim/metin alanı (etiket, ipucu, hata), dosya bırakma alanı, ilerleme çubuğu, durum rozeti, özet gösterimi (8'erli gruplanmış hex + kopyala), parmak izi, bildirim (`role="status"`), iletişim kutusu (yerel `<dialog>`), sayfalayıcı, boş durum, iskelet, açılır bilgi kartı (`<details>`), dil değiştirici, geri sayım.
+- Eğriler: giren ve kullanıcıya cevap veren her şey için `--ease-out` (`cubic-bezier(0.23, 1, 0.32, 1)`), ekranda yer değiştiren şey için `--ease-in-out` (`cubic-bezier(0.77, 0, 0.175, 1)`). `ease-in` kullanılmaz.
+- Süreler: arayüz geçişleri 300 ms'nin altında (basış 160 ms, çıkış 140 ms; çıkış girişten hızlıdır); vitrin girişleri ve kaydırmayla belirmeler en fazla 700 ms.
+- Düğmeler basılınca `scale(0.97)` ile küçülür; hover efektleri yalnızca `(hover: hover) and (pointer: fine)` olan cihazlarda çalışır.
+- İletişim kutusu merkezinden `scale(0.96)` ve saydamlıkla açılır, daha hızlı kapanır; bildirim aşağıdan yükselir. Tema değişimi View Transitions ile kısa bir geçişle olur.
+- Vitrinde: açılışta kademeli giriş, kaydırmayla beliren bölümler; hero'da sahne fotoğrafının markanın eğik çizgisi biçiminde ince bir kesitten tüm çerçeveye açılması ve yakın bir kadrajdan yerine oturması, ince işaretçili cihazlarda işaretçiye karşı hafifçe eğilmesi, sayfa kaydırıldıkça çerçevesinden biraz yavaş kayması; fotoğrafın kenarındaki kartta ses dalgasının başlığın SHA-256 parmak izine dönüşmesi (dil değişince yeni cümlenin izine geçer); bentoda bir kez oynayan gerçek bileşen önizlemeleri; gerçek değerlerin bir kez sayarak gelmesi; kapanış bandında pikap kolunun görünüme girince plağa bir kez inmesi ve plağın sayfa kaydırıldıkça dönmesi (sayfa durunca o da durur). Sürekli tekrarlayan döngü yoktur.
+- Sık görülen yerler hareketsiz kalır: listeler, formlar, klavyeyle tetiklenen işlemler.
+- `prefers-reduced-motion: reduce` altında hareketin tamamı kapanır; sayfa son hâliyle durağan gösterilir. Kaydırma zaman çizelgesini desteklemeyen tarayıcı içeriği doğrudan gösterir.
+
+**Bileşenler** (`components/`): düğme (birincil/ikincil/hayalet/tehlike, yükleniyor hâli), girdi/seçim/metin alanı (etiket, ipucu, hata), dosya bırakma alanı, ilerleme çubuğu, durum rozeti, özet gösterimi (8'erli gruplanmış hex + kopyala), parmak izi, bildirim (`role="status"`), iletişim kutusu (yerel `<dialog>`), sayfalayıcı, boş durum, iskelet, açılır bilgi kartı (`<details>`), dil ve tema değiştirici, geri sayım, görünüme girince bir kez oynatma (`in-view.js`), iterasyon çubukları, hero sinyali, kapanış bandındaki pikap çizimi (`studio.js`). İkonlar Phosphor Icons setinin "regular" ağırlığından (MIT) bir kez kopyalanmış `assets/icons.svg` sprite'ıdır; lisansı `assets/icons-LICENSE.txt`. Elle çizilmiş ikon yoktur. Pikap ikon değil, temel şekillerden (daire, yol, degrade) kurulan dekoratif bir SVG'dir (`aria-hidden="true"`): renklerini tema belirteçlerinden alır, hareketleri CSS'tedir; plak etiketi marka turuncusudur. Hero'daki sahne fotoğrafı da dekoratiftir (`alt=""`). Unsplash'ten alınmış tek bir konser fotoğrafının telefon (4:5) ve geniş ekran (9:4) için kırpılmış AVIF sürümleri (yedeği WebP) `assets/photos/` klasöründen verilir; kaynağı ve lisansı `assets/photos/LICENSE.txt`. Alt bilgi, sloganı, iki bağlantı grubunu (Keşfet; ziyaretçiye göre Portal) ve sayfa genişliğinde dekoratif bir yazı işaretini taşır.
 
 **Durum rozetleri.** Renk + ikon + metin birlikte: Beklemede (kehribar), İnceleniyor (mavi), Kabul edildi (yeşil), Reddedildi (kırmızı). Renk tek başına anlam taşımaz.
 
