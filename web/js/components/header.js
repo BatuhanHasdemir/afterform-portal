@@ -1,8 +1,9 @@
 // @ts-check
 import { HOME_BY_ROLE, LOGIN_PATH, SUPPORTED_LANGS } from '../core/config.js';
-import { h, replaceContent } from '../core/dom.js';
+import { h, icon, replaceContent } from '../core/dom.js';
 import { errorKey, toApiError } from '../core/errors.js';
 import { getLang, onLangChange, setLang, t } from '../core/i18n.js';
+import { THEMES, getTheme, onThemeChange, setTheme } from '../core/theme.js';
 import { logout } from '../services/auth.js';
 import { setBusy } from './form.js';
 import { showToast } from './toast.js';
@@ -29,6 +30,8 @@ const ROLE_LINKS = Object.freeze({
 
 /** @type {(() => void) | null} */
 let stopLangSync = null;
+/** @type {(() => void) | null} */
+let stopThemeSync = null;
 
 /**
  * @param {User | null} user
@@ -36,6 +39,19 @@ let stopLangSync = null;
  */
 export function navLinks(user) {
   return [...(user ? ROLE_LINKS[user.role] ?? [] : []), ...PUBLIC_LINKS];
+}
+
+/**
+ * The portal's own pages for this visitor: their area when signed in, otherwise the way in.
+ * @param {User | null} user
+ * @returns {readonly NavLink[]}
+ */
+export function portalLinks(user) {
+  if (user) return ROLE_LINKS[user.role] ?? [];
+  return [
+    { href: LOGIN_PATH, key: 'nav.login' },
+    { href: REGISTER_PATH, key: 'nav.register' },
+  ];
 }
 
 /**
@@ -94,7 +110,7 @@ export function renderHeader(user) {
       ),
     ),
     account(user),
-    languageSwitch(),
+    h('div', { class: 'site-menu__prefs' }, themeSwitch(), languageSwitch()),
   );
 
   replaceContent(
@@ -175,6 +191,29 @@ async function signOut(button) {
     setBusy(button, false);
     showToast(t(errorKey(toApiError(error).code)), { tone: 'danger' });
   }
+}
+
+// The pressed button is the theme in use, so on a first visit it shows what the system chose.
+function themeSwitch() {
+  const buttons = THEMES.map((theme) =>
+    h(
+      'button',
+      {
+        type: 'button',
+        class: 'theme-switch__option',
+        dataset: { theme },
+        'aria-pressed': String(theme === getTheme()),
+        i18nAttr: { 'aria-label': `nav.themes.${theme}`, title: `nav.themes.${theme}` },
+        on: { click: () => setTheme(theme) },
+      },
+      icon(`theme-${theme}`),
+    ),
+  );
+  stopThemeSync?.();
+  stopThemeSync = onThemeChange((current) => {
+    for (const button of buttons) button.setAttribute('aria-pressed', String(button.dataset.theme === current));
+  });
+  return h('div', { class: 'theme-switch', role: 'group', i18nAttr: { 'aria-label': 'nav.theme' } }, buttons);
 }
 
 function languageSwitch() {

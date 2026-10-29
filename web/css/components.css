@@ -15,6 +15,7 @@
   color: var(--text);
 }
 
+/* The slash is part of the logo and keeps the brand orange in both themes. */
 .wordmark__slash {
   color: var(--accent);
   padding-inline: 0.08em;
@@ -42,7 +43,7 @@
   content: "/";
   content: "/" / "";
   margin-left: var(--space-2);
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .actions {
@@ -116,8 +117,8 @@
 }
 
 .site-nav__link[aria-current] {
-  color: var(--accent);
-  text-decoration: underline 2px var(--accent);
+  color: var(--accent-text);
+  text-decoration: underline 2px var(--accent-text);
   text-underline-offset: 0.35em;
 }
 
@@ -137,14 +138,27 @@
   white-space: nowrap;
 }
 
-.lang-switch {
+/* Theme and language: two small segmented controls side by side. */
+.site-menu__prefs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.lang-switch,
+.theme-switch {
   display: inline-flex;
   justify-self: start;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius);
 }
 
-.lang-switch__option {
+.lang-switch__option,
+.theme-switch__option {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-width: var(--touch-min);
   min-height: var(--touch-min);
   padding: 0 var(--space-3);
@@ -154,22 +168,59 @@
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   cursor: pointer;
-  transition: color var(--duration) var(--ease-out);
+  transition:
+    color var(--duration) var(--ease-out),
+    background-color var(--duration) var(--ease-out);
 }
 
-.lang-switch__option + .lang-switch__option {
+.theme-switch__option .icon {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.lang-switch__option + .lang-switch__option,
+.theme-switch__option + .theme-switch__option {
   border-left: 1px solid var(--line-strong);
 }
 
-.lang-switch__option:hover {
-  color: var(--text);
+@media (hover: hover) and (pointer: fine) {
+  .lang-switch__option:hover,
+  .theme-switch__option:hover {
+    color: var(--text);
+  }
 }
 
 .lang-switch__option[aria-pressed="true"] {
   background: var(--surface-2);
   color: var(--text);
-  text-decoration: underline 2px var(--accent);
+  text-decoration: underline 2px var(--accent-text);
   text-underline-offset: 0.35em;
+}
+
+.theme-switch__option[aria-pressed="true"] {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+/* An icon cannot be underlined; one accent bar sits under the pressed half and slides across. */
+.theme-switch {
+  position: relative;
+}
+
+.theme-switch::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  height: 2px;
+  background: var(--accent-text);
+  pointer-events: none;
+  transition: transform 240ms var(--ease-out);
+}
+
+.theme-switch:has([data-theme="dark"][aria-pressed="true"])::after {
+  transform: translateX(100%);
 }
 
 @media (max-width: 1099.98px) {
@@ -195,8 +246,24 @@
     min-width: 0;
     align-items: center;
     justify-content: flex-end;
-    gap: var(--space-5);
+    gap: var(--space-4);
     padding: 0;
+  }
+
+  /* The preferences keep their size; when space runs short the user's name gives way. */
+  .site-menu__prefs {
+    flex: none;
+    flex-wrap: nowrap;
+    gap: var(--space-2);
+  }
+
+  .theme-switch__option {
+    min-width: 36px;
+    padding: 0 var(--space-2);
+  }
+
+  .account .btn {
+    white-space: nowrap;
   }
 
   .site-nav__list {
@@ -215,7 +282,20 @@
   }
 }
 
-/* Site footer */
+/* Up to 1280px a signed-in menu fits on one line only without the name, which a squeezed
+   ellipsis would make unreadable anyway; screen readers still hear it. */
+@media (min-width: 1100px) and (max-width: 1279.98px) {
+  .account__user {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}
+
+/* Site footer: the brand line and the links, then the name as wide as the page. */
 
 .site-footer {
   margin-top: var(--space-8);
@@ -224,21 +304,40 @@
 
 .site-footer__inner {
   display: grid;
-  gap: var(--space-5);
-  padding-block: var(--space-6);
+  gap: var(--space-6);
+  padding-block: var(--space-7) var(--space-6);
 }
 
-.site-footer__note {
-  max-width: 60ch;
-  margin-top: var(--space-1);
+.site-footer__top {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.site-footer__tagline {
+  max-width: 14ch;
+  font-size: var(--text-xl);
+  font-weight: 650;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.site-footer__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5) var(--space-8);
+}
+
+.site-footer__group-title {
   color: var(--text-muted);
+  font-family: var(--font-mono);
   font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .site-footer__links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 var(--space-5);
+  display: grid;
+  margin-top: var(--space-2);
   padding: 0;
   list-style: none;
 }
@@ -249,8 +348,35 @@
   min-height: var(--touch-min);
 }
 
+.site-footer__mark {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  fill: var(--surface-2);
+  font-family: var(--font-body);
+  font-size: 149px;
+  font-weight: 700;
+}
+
+.site-footer__slash {
+  fill: var(--accent);
+}
+
+.site-footer__note {
+  max-width: none;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
 @media (min-width: 768px) {
   .site-footer__inner {
+    padding-block-start: var(--space-8);
+  }
+
+  .site-footer__top {
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: start;
   }
@@ -274,25 +400,20 @@
   text-decoration: none;
   cursor: pointer;
   transition:
+    transform var(--duration-press) var(--ease-out),
     background-color var(--duration) var(--ease-out),
     border-color var(--duration) var(--ease-out),
     color var(--duration) var(--ease-out);
 }
 
-.btn:hover {
-  border-color: var(--text);
-  color: var(--text);
+/* A press answers at once; the scale is small enough to read as touch, not as motion. */
+.btn:active:not([aria-disabled="true"]):not(:disabled) {
+  transform: scale(0.97);
 }
 
 .btn--primary {
   background: var(--accent);
   border-color: var(--accent);
-  color: var(--accent-ink);
-}
-
-.btn--primary:hover {
-  background: var(--accent-hover);
-  border-color: var(--accent-hover);
   color: var(--accent-ink);
 }
 
@@ -304,19 +425,23 @@
   border-color: transparent;
 }
 
-.btn--ghost:hover {
-  border-color: var(--line-strong);
-}
+/* Touch screens fire hover on tap and leave it stuck; hover belongs to pointers that hover. */
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover {
+    border-color: var(--text);
+    color: var(--text);
+  }
 
-.btn--danger {
-  border-color: var(--danger);
-  color: var(--danger);
-}
+  .btn--primary:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+    color: var(--accent-ink);
+  }
 
-.btn--danger:hover {
-  background: var(--danger);
-  border-color: var(--danger);
-  color: var(--accent-ink);
+  .btn--ghost:hover {
+    border-color: var(--line-strong);
+  }
+
 }
 
 .btn:disabled,
@@ -445,7 +570,7 @@
 
 .input-group__button[aria-pressed="true"] {
   color: var(--text);
-  text-decoration: underline 2px var(--accent);
+  text-decoration: underline 2px var(--accent-text);
   text-underline-offset: 0.35em;
 }
 
@@ -564,7 +689,7 @@
 .info-card__summary::after {
   content: "+";
   content: "+" / "";
-  color: var(--accent);
+  color: var(--accent-text);
   font-family: var(--font-mono);
 }
 
@@ -644,6 +769,148 @@
   margin-top: var(--space-3);
 }
 
+/* Where to read more: wide rows, the whole row is the link. */
+
+.paths {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  padding: 0;
+  list-style: none;
+}
+
+.path {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: var(--space-5);
+  padding: var(--space-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  transition:
+    border-color var(--duration) var(--ease-out),
+    background-color var(--duration) var(--ease-out);
+}
+
+.path__title {
+  font-size: var(--text-lg);
+}
+
+.path__link {
+  text-decoration: none;
+}
+
+/* The whole row is the hit area; the title alone stays the link's accessible name. */
+.path__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.path__body {
+  grid-column: 1;
+  margin-top: var(--space-1);
+  color: var(--text-muted);
+}
+
+.path__arrow {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--accent-text);
+  transition: transform 200ms var(--ease-out);
+}
+
+.path:focus-within {
+  border-color: var(--accent-text);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .path:hover {
+    border-color: var(--accent-text);
+    background: var(--surface-1);
+  }
+
+  .path:hover .path__arrow {
+    transform: translateX(4px);
+  }
+}
+
+/* Iteration counts as bars; the project's setting is the one in the accent. */
+
+.iter-bars {
+  display: grid;
+  gap: var(--space-2);
+  padding: 0;
+  list-style: none;
+}
+
+.iter-bars__row {
+  display: grid;
+  grid-template-columns: 9ch minmax(0, 1fr);
+  align-items: center;
+  column-gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.iter-bars__value {
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.iter-bars__bar {
+  height: 10px;
+  border-radius: var(--radius);
+  background: var(--line-strong);
+  transform: scaleX(var(--share, 1));
+  transform-origin: left;
+}
+
+.iter-bars__row.is-project .iter-bars__value {
+  color: var(--text);
+}
+
+.iter-bars__row.is-project .iter-bars__bar {
+  background: var(--accent);
+}
+
+.iter-bars__tag {
+  grid-column: 2;
+  color: var(--accent-text);
+  font-family: var(--font-body);
+}
+
+.iter-bars--compact .iter-bars__bar {
+  height: 6px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .iter-bars__bar {
+    transform: scaleX(0.02);
+    transition: transform 900ms var(--ease-out);
+  }
+
+  [data-inview] .iter-bars__bar {
+    transform: scaleX(var(--share, 1));
+  }
+
+  [data-inview] .iter-bars__row:nth-child(2) .iter-bars__bar {
+    transition-delay: 80ms;
+  }
+
+  [data-inview] .iter-bars__row:nth-child(3) .iter-bars__bar {
+    transition-delay: 160ms;
+  }
+
+  [data-inview] .iter-bars__row:nth-child(4) .iter-bars__bar {
+    transition-delay: 240ms;
+  }
+}
+
 /* Modal dialog on the native <dialog> */
 
 .dialog {
@@ -655,10 +922,46 @@
   border-radius: var(--radius);
   background: var(--surface-1);
   color: var(--text);
+  box-shadow: var(--shadow-float);
+  transition:
+    opacity 200ms var(--ease-out),
+    transform 200ms var(--ease-out),
+    overlay 200ms allow-discrete,
+    display 200ms allow-discrete;
+}
+
+/* A modal is not anchored to its trigger, so it grows from its centre. Closing is quicker than
+   opening: the decision is made and the page should answer at once. */
+.dialog:not([open]) {
+  opacity: 0;
+  transform: scale(0.98);
+  transition-duration: var(--duration-exit);
+}
+
+@starting-style {
+  .dialog[open] {
+    opacity: 0;
+    transform: scale(0.96);
+  }
 }
 
 .dialog::backdrop {
-  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  background: var(--scrim);
+  transition:
+    opacity 200ms var(--ease-out),
+    overlay 200ms allow-discrete,
+    display 200ms allow-discrete;
+}
+
+.dialog:not([open])::backdrop {
+  opacity: 0;
+  transition-duration: var(--duration-exit);
+}
+
+@starting-style {
+  .dialog[open]::backdrop {
+    opacity: 0;
+  }
 }
 
 .dialog__title {
@@ -730,7 +1033,19 @@
   border: 1px solid var(--line-strong);
   border-left: 4px solid var(--info);
   border-radius: var(--radius);
+  box-shadow: var(--shadow-float);
   pointer-events: auto;
+  transition:
+    opacity 220ms var(--ease-out),
+    transform 220ms var(--ease-out);
+}
+
+/* Toasts rise from where they rest, so arriving and leaving read as one movement. */
+@starting-style {
+  .toast {
+    opacity: 0;
+    transform: translateY(12px);
+  }
 }
 
 .toast--ok {
@@ -854,6 +1169,22 @@
   fill: var(--accent);
 }
 
+/* Where a digest is the subject of the page, its bars grow in once, left to right. */
+@media (prefers-reduced-motion: no-preference) {
+  .fingerprint--draw .fingerprint__bar {
+    transform-box: fill-box;
+    transform-origin: bottom;
+    animation: bar-grow 520ms var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 12ms);
+  }
+}
+
+@keyframes bar-grow {
+  from {
+    transform: scaleY(0.08);
+  }
+}
+
 /* Pager */
 
 .pager {
@@ -909,12 +1240,12 @@
 
 .file-drop__zone:hover,
 .file-drop[data-dragging] .file-drop__zone {
-  border-color: var(--accent);
+  border-color: var(--accent-text);
   background: var(--surface-2);
 }
 
 .file-drop__input:focus-visible + .file-drop__zone {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--focus);
   outline-offset: 2px;
 }
 
@@ -930,7 +1261,7 @@
 .file-drop__icon {
   width: 28px;
   height: 28px;
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .file-drop__title {

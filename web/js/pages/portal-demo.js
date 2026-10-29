@@ -128,7 +128,7 @@ function demoView(demo, user) {
         section('digest', 'demos.detail.digest', [
           h('p', { class: 'muted', i18n: 'demos.detail.digestLead' }),
           digestView(demo.file.sha256, { copyLabelKey: 'demos.detail.copyDigest' }),
-          fingerprint(demo.file.sha256, { className: 'demo-detail__print' }),
+          fingerprint(demo.file.sha256, { className: 'demo-detail__print', draw: true }),
           infoCard({ titleKey: 'demos.detail.whatIsThis', cards: ['sha256'] }),
         ]),
         section('verify', 'demos.detail.verify.title', [

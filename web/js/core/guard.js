@@ -82,7 +82,7 @@ function allowedRoles(access) {
 /** @param {User | null} user */
 function renderChrome(user) {
   renderHeader(user);
-  renderFooter();
+  renderFooter(user);
   mountToastRegion();
 }
 

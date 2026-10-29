@@ -47,7 +47,14 @@ export function showToast(message, { tone = 'info', timeoutMs } = {}) {
 
   function dismiss() {
     clearTimeout(timer);
-    item.remove();
+    if (!item.isConnected) return;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return item.remove();
+    // Leaving is faster than arriving: the message has been read.
+    const leave = item.animate(
+      [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(8px)' }],
+      { duration: 140, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' },
+    );
+    void leave.finished.then(() => item.remove(), () => item.remove());
   }
 
   host.append(item);

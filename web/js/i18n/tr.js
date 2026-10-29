@@ -42,6 +42,8 @@ export default {
   nav: {
     main: 'Ana menü',
     footer: 'Alt bilgi bağlantıları',
+    footerExplore: 'Keşfet',
+    footerPortal: 'Portal',
     menu: 'Menü',
     demos: 'Gönderilerim',
     upload: 'Demo yükle',
@@ -53,6 +55,11 @@ export default {
     logout: 'Çıkış yap',
     signedInAs: 'Giriş yapan:',
     language: 'Dil',
+    theme: 'Tema',
+    themes: {
+      light: 'Açık tema',
+      dark: 'Koyu tema',
+    },
     languages: {
       tr: 'Türkçe',
       en: 'English',
@@ -66,12 +73,19 @@ export default {
     hero: {
       eyebrow: 'Bağımsız müzik şirketi',
       lead: 'AFTER/FORM, sesini arayan sanatçıların demolarını dinler. Parçanı yükle, değerlendirmenin her adımını buradan izle.',
-      primary: 'Demonu gönder',
+      primary: 'Kayıt ol',
       secondary: 'Giriş yap',
     },
     continue: 'Kaldığın yerden devam et',
+    signal: {
+      caption: 'Başlıktaki cümlenin SHA-256 parmak izi',
+    },
+    figures: {
+      iterations: 'PBKDF2 iterasyonu',
+      salt: 'her parolaya ayrı rastgele tuz',
+      digest: 'her dosyanın SHA-256 özeti',
+    },
     artists: {
-      eyebrow: 'Sanatçılar için',
       title: 'Demodan karara üç adım',
       step1: {
         title: 'Hesap aç',
@@ -87,7 +101,6 @@ export default {
       },
     },
     behind: {
-      eyebrow: 'Güvenlik ve Lab',
       title: 'Arka planda ne oluyor?',
       body: 'Parolan düz metin olarak saklanmaz: her özetlemede yeni üretilen rastgele bir tuz (salt) ile, PBKDF2-HMAC-SHA512 ve 220.000 iterasyonla özetlenir. Yüklediğin her dosyanın SHA-256 özeti hesaplanıp saklanır.',
       security: {
@@ -100,11 +113,12 @@ export default {
       },
     },
     cta: {
-      eyebrow: 'Başla',
       title: 'Sıradaki demo seninki olabilir.',
       body: 'Hesabın varsa giriş yap; yoksa birkaç dakikada oluştur.',
-      register: 'Hesap oluştur',
+      register: 'Kayıt ol',
       login: 'Giriş yap',
+      userTitle: 'Stüdyo seni bekliyor.',
+      userBody: 'Her şey bıraktığın gibi duruyor.',
     },
   },
   auth: {
@@ -115,7 +129,7 @@ export default {
       newPassword: 'Yeni parola',
     },
     hints: {
-      displayName: 'Sanatçı ya da proje adın; 2–60 karakter.',
+      displayName: 'Sanatçı ya da proje adın; 2-60 karakter.',
       password: 'En az 12 karakter. Kolay hatırladığın uzun bir cümle iyi bir parola olur.',
     },
     password: {
@@ -182,6 +196,12 @@ export default {
       iterations: 'İterasyon ve süre grafiği',
     },
     more: 'Tüm algoritmaları karşılaştır',
+    moreBody: 'MD5, SHA-1, SHA-2 ve SHA3-256 yan yana: aynı girdinin özetleri, yapıları ve bugünkü durumları.',
+    visual: {
+      samePassword: 'Aynı parola, iki yeni tuz',
+      salt: 'tuz',
+      output: 'çıktı',
+    },
     passwordCard: 'Parolan nasıl korunuyor?',
     cards: {
       sha256: {
@@ -217,13 +237,13 @@ export default {
       newest: 'En yeni',
       oldest: 'En eski',
       updated: 'Son güncellenen',
-      title: 'Ada göre (A–Z)',
+      title: 'Ada göre (A-Z)',
     },
     count: {
       one: '{count} demo',
       other: '{count} demo',
     },
-    range: '{total} demodan {from}–{to} arası',
+    range: '{total} demodan {from}-{to} arası',
     loading: 'Demolar yükleniyor…',
     loadFailed: 'Demolar yüklenemedi',
     empty: {
@@ -379,6 +399,7 @@ export default {
         body: 'Verilen bir özetten, onu üreten girdiyi bulmak hesaplama açısından mümkün olmamalıdır (FIPS 180-4). SHA-256’da bir bloğun 64 turu tek başına geri alınabilir. Bunu engelleyen, tur sonucunun bloğa giren ara özete eklenmesidir: sonuçtan geriye gitmek için o ara özetin zaten bilinmesi gerekir.',
       },
       collision: {
+        figure: 'SHA-256 için doğum günü sınırı: rastgele denemelerle bir çakışma bulmak için gereken yaklaşık deneme sayısı',
         title: 'Çakışma dayanıklılığı',
         body: 'Aynı özeti veren iki farklı girdi bulmak hesaplama açısından mümkün olmamalıdır (FIPS 180-4). Girdi sayısı sınırsız olduğundan çakışmalar elbette vardır; güvenlik, onları bulmanın pratikte imkânsız olmasına dayanır. n bitlik bir özette rastgele denemelerle çakışma bulmak, doğum günü paradoksu nedeniyle yaklaşık 2^(n/2) deneme ister; SHA-256 için bu 2^128 eder.',
       },
@@ -464,7 +485,7 @@ export default {
       },
       rounds: {
         title: '64 tur',
-        body: 'Her turda a–h yazmaçları güncellenir. Yeni değeri yalnızca a ve e alır; diğerleri bir sıra kayar.',
+        body: 'Her turda a-h yazmaçları güncellenir. Yeni değeri yalnızca a ve e alır; diğerleri bir sıra kayar.',
         slider: 'Tur (t)',
         valueText: '{round}. tur (t = {t})',
         previous: 'Önceki tur',
@@ -486,7 +507,7 @@ export default {
       },
       feedForward: {
         title: 'Ara özetin eklenmesi',
-        body: '64 tur bitince a–h, bloğa giren ara özete kelime kelime eklenir (mod 2^32). Turlar tek başına geri alınabilir; bu ekleme yüzünden sonuçtan geriye gitmek için ara özetin zaten bilinmesi gerekir.',
+        body: '64 tur bitince a-h, bloğa giren ara özete kelime kelime eklenir (mod 2^32). Turlar tek başına geri alınabilir; bu ekleme yüzünden sonuçtan geriye gitmek için ara özetin zaten bilinmesi gerekir.',
         input: 'Giren ara özet',
         rounds: '64 tur sonrası',
         output: 'Yeni ara özet',

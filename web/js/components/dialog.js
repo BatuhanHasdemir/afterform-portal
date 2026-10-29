@@ -30,9 +30,12 @@ export function openDialog({ titleKey, content, opener = focusedElement() }) {
     if (event.target instanceof Element && event.target.closest('[data-dialog-close]')) close();
   });
   dialog.addEventListener('close', () => {
-    dialog.remove();
     // Not every browser hands focus back to the opener by itself.
     if (opener?.isConnected) opener.focus();
+    // Removed once the closing transition, which starts on the next frame, has finished.
+    requestAnimationFrame(() => {
+      void Promise.allSettled(dialog.getAnimations().map((animation) => animation.finished)).then(() => dialog.remove());
+    });
   });
 
   document.body.append(dialog);

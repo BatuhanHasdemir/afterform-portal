@@ -167,7 +167,7 @@ ol:not([class]) > li {
 
 a {
   color: var(--text);
-  text-decoration-color: var(--accent);
+  text-decoration-color: var(--accent-text);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
   transition: color var(--duration) var(--ease-out);
@@ -192,7 +192,7 @@ pre,
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--focus);
   outline-offset: 2px;
 }
 
@@ -238,6 +238,50 @@ pre,
 .skip-link:focus-visible {
   transform: none;
   outline-color: var(--text);
+}
+
+/* Page motion. All of it is gated on no-preference, so reduced motion gets a still page rather
+   than a quicker version of the same movement. */
+@media (prefers-reduced-motion: no-preference) {
+  /* The opening moment of a showcase page: its parts arrive in reading order, once. */
+  .enter {
+    animation: enter var(--duration-reveal) var(--ease-out) both;
+  }
+
+  .enter-2 {
+    animation-delay: 80ms;
+  }
+
+  .enter-3 {
+    animation-delay: 160ms;
+  }
+
+  .enter-4 {
+    animation-delay: 240ms;
+  }
+
+  /* Sections rise into place as they come into view. Scroll position drives the animation on
+     the compositor; a browser without scroll timelines just shows the section. */
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: enter linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 25%;
+    }
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 240ms;
+    animation-timing-function: var(--ease-out);
+  }
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

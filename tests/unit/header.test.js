@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, test } from 'node:test';
-import { currentState, navLinks } from '../../web/js/components/header.js';
+import { currentState, navLinks, portalLinks } from '../../web/js/components/header.js';
 
 const artist = { id: '1', email: 'a@afterform.test', displayName: 'A', role: 'artist' };
 const admin = { id: '2', email: 'b@afterform.test', displayName: 'B', role: 'admin' };
@@ -15,6 +15,16 @@ describe('navLinks', () => {
   test('signed-in users get their own area first', () => {
     assert.deepEqual(hrefs(artist), ['/portal/demos.html', '/portal/upload.html', '/lab/', '/security.html']);
     assert.deepEqual(hrefs(admin), ['/admin/', '/lab/', '/security.html']);
+  });
+});
+
+describe('portalLinks', () => {
+  const hrefs = (user) => portalLinks(user).map((link) => link.href);
+
+  test('guests get the way in; signed-in users their own area', () => {
+    assert.deepEqual(hrefs(null), ['/login.html', '/register.html']);
+    assert.deepEqual(hrefs(artist), ['/portal/demos.html', '/portal/upload.html']);
+    assert.deepEqual(hrefs(admin), ['/admin/']);
   });
 });
 

@@ -42,6 +42,8 @@ export default {
   nav: {
     main: 'Main menu',
     footer: 'Footer links',
+    footerExplore: 'Explore',
+    footerPortal: 'Portal',
     menu: 'Menu',
     demos: 'My submissions',
     upload: 'Upload a demo',
@@ -53,6 +55,11 @@ export default {
     logout: 'Sign out',
     signedInAs: 'Signed in as:',
     language: 'Language',
+    theme: 'Theme',
+    themes: {
+      light: 'Light theme',
+      dark: 'Dark theme',
+    },
     languages: {
       tr: 'Türkçe',
       en: 'English',
@@ -66,12 +73,19 @@ export default {
     hero: {
       eyebrow: 'Independent music label',
       lead: 'AFTER/FORM listens to demos from artists who are still finding their sound. Upload your track and follow every step of the review here.',
-      primary: 'Send your demo',
+      primary: 'Create account',
       secondary: 'Sign in',
     },
     continue: 'Pick up where you left off',
+    signal: {
+      caption: 'The SHA-256 fingerprint of the headline',
+    },
+    figures: {
+      iterations: 'PBKDF2 iterations',
+      salt: 'of random salt for every password',
+      digest: 'SHA-256 digest of every file',
+    },
     artists: {
-      eyebrow: 'For artists',
       title: 'Three steps from demo to decision',
       step1: {
         title: 'Create an account',
@@ -87,7 +101,6 @@ export default {
       },
     },
     behind: {
-      eyebrow: 'Security and Lab',
       title: 'What happens behind the scenes?',
       body: 'Your password is never stored as plain text: it is hashed with PBKDF2-HMAC-SHA512 and 220,000 iterations, using a fresh random salt every time. The SHA-256 digest of every file you upload is computed and stored.',
       security: {
@@ -100,11 +113,12 @@ export default {
       },
     },
     cta: {
-      eyebrow: 'Get started',
       title: 'The next demo could be yours.',
       body: 'Sign in if you already have an account, or create one in a few minutes.',
       register: 'Create account',
       login: 'Sign in',
+      userTitle: 'The studio is waiting for you.',
+      userBody: 'Everything is just where you left it.',
     },
   },
   auth: {
@@ -115,7 +129,7 @@ export default {
       newPassword: 'New password',
     },
     hints: {
-      displayName: 'Your artist or project name; 2–60 characters.',
+      displayName: 'Your artist or project name; 2-60 characters.',
       password: 'At least 12 characters. A long sentence you can easily remember makes a good password.',
     },
     password: {
@@ -182,6 +196,12 @@ export default {
       iterations: 'Iterations and time chart',
     },
     more: 'Compare all algorithms',
+    moreBody: 'MD5, SHA-1, SHA-2 and SHA3-256 side by side: the digests of the same input, their structure and where they stand today.',
+    visual: {
+      samePassword: 'The same password, two fresh salts',
+      salt: 'salt',
+      output: 'output',
+    },
     passwordCard: 'How is your password protected?',
     cards: {
       sha256: {
@@ -217,13 +237,13 @@ export default {
       newest: 'Newest first',
       oldest: 'Oldest first',
       updated: 'Recently updated',
-      title: 'Title (A–Z)',
+      title: 'Title (A-Z)',
     },
     count: {
       one: '{count} demo',
       other: '{count} demos',
     },
-    range: '{from}–{to} of {total} demos',
+    range: '{from}-{to} of {total} demos',
     loading: 'Loading demos…',
     loadFailed: 'The demos could not be loaded',
     empty: {
@@ -379,6 +399,7 @@ export default {
         body: 'Given a digest, finding an input that produces it should be computationally infeasible (FIPS 180-4). In SHA-256 the 64 rounds of a block can be undone on their own. What prevents this is adding the round result to the intermediate hash that entered the block: to go back from the result, that intermediate hash would already have to be known.',
       },
       collision: {
+        figure: 'The birthday bound for SHA-256: roughly how many random tries it takes to find a collision',
         title: 'Collision resistance',
         body: 'Finding two different inputs with the same digest should be computationally infeasible (FIPS 180-4). Collisions certainly exist, since there are endlessly many inputs; security rests on finding one being impossible in practice. For an n-bit digest, random trials need about 2^(n/2) attempts to find a collision because of the birthday paradox; for SHA-256 that is 2^128.',
       },
@@ -464,7 +485,7 @@ export default {
       },
       rounds: {
         title: '64 rounds',
-        body: 'Each round updates the registers a–h. Only a and e receive new values; the others move along by one.',
+        body: 'Each round updates the registers a-h. Only a and e receive new values; the others move along by one.',
         slider: 'Round (t)',
         valueText: 'Round {round} of 64 (t = {t})',
         previous: 'Previous round',
@@ -486,7 +507,7 @@ export default {
       },
       feedForward: {
         title: 'Feed-forward',
-        body: 'After the 64 rounds, a–h are added word by word to the intermediate hash that entered the block (mod 2^32). The rounds alone can be undone; because of this addition, going back from the result requires already knowing that intermediate hash.',
+        body: 'After the 64 rounds, a-h are added word by word to the intermediate hash that entered the block (mod 2^32). The rounds alone can be undone; because of this addition, going back from the result requires already knowing that intermediate hash.',
         input: 'Incoming hash',
         rounds: 'After 64 rounds',
         output: 'New intermediate hash',
