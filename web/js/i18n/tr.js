@@ -11,6 +11,24 @@ export default {
     loading: 'Yükleniyor…',
     footerNote:
       'AFTER/FORM kurgusal bir müzik şirketidir. Bu site, Trakya Üniversitesi Bilgisayar Mühendisliği bitirme projesidir.',
+    footer: {
+      about:
+        'Sesini arayan sanatçıların demolarını dinleyen bağımsız bir müzik şirketi. Parolan ve dosyaların, Hash Lab’de adım adım açılan yöntemlerle korunur.',
+      cta: 'Demonu gönder',
+      specs: {
+        title: 'Rakamlarla güvenlik',
+        iterations: '{count} iterasyon',
+        salt: '{count} bayt rastgele tuz',
+        digest: 'Her dosyaya SHA-256 özeti',
+      },
+      backToTop: 'Başa dön',
+      desk: {
+        about: 'Sanatçıların gönderdiği demoları dinlediğin ve kararını verdiğin yer.',
+        all: 'Gelen demolar',
+        pending: 'Bekleyen demolar',
+        inReview: 'İncelenen demolar',
+      },
+    },
     loadFailed: 'Sayfa yüklenemedi',
     forbidden: {
       title: 'Bu sayfaya erişimin yok',
@@ -41,6 +59,7 @@ export default {
   },
   nav: {
     main: 'Ana menü',
+    home: 'Ana sayfa',
     footer: 'Alt bilgi bağlantıları',
     footerExplore: 'Keşfet',
     footerPortal: 'Portal',
@@ -70,11 +89,14 @@ export default {
     metaDescription:
       'AFTER/FORM sanatçı portalı: demonu yükle, değerlendirmeyi izle; parolaların ve dosyaların nasıl korunduğunu gör.',
     tagline: 'Biçimden sonra gelen ses.',
+    taglineStart: 'Biçimden sonra',
+    taglineEnd: 'gelen ses.',
     hero: {
       eyebrow: 'Bağımsız müzik şirketi',
       lead: 'AFTER/FORM, sesini arayan sanatçıların demolarını dinler. Parçanı yükle, değerlendirmenin her adımını buradan izle.',
       primary: 'Kayıt ol',
       secondary: 'Giriş yap',
+      pause: 'Fotoğrafları durdur',
     },
     continue: 'Kaldığın yerden devam et',
     signal: {
@@ -105,7 +127,7 @@ export default {
       body: 'Parolan düz metin olarak saklanmaz: her özetlemede yeni üretilen rastgele bir tuz (salt) ile, PBKDF2-HMAC-SHA512 ve 220.000 iterasyonla özetlenir. Yüklediğin her dosyanın SHA-256 özeti hesaplanıp saklanır.',
       security: {
         title: 'Güvenlik',
-        body: 'Parolaların ve dosyaların nasıl korunduğu, dört kısa kartta.',
+        body: 'Hesabının ve demolarının nasıl korunduğu, sade bir dille.',
       },
       lab: {
         title: 'Hash Lab',
@@ -186,9 +208,91 @@ export default {
     },
   },
   security: {
-    pageTitle: 'Arka planda ne oluyor? · AFTER/FORM',
-    title: 'Arka planda ne oluyor?',
-    lead: 'Parolanı ve yüklediğin dosyaları korumak için kullandığımız yöntemler, dört kısa kartta. Her kartın altında aynı fikri kendin deneyebileceğin bir Hash Lab deneyi var.',
+    pageTitle: 'Güvenlik · AFTER/FORM',
+    title: 'Hesabın ve demoların nasıl korunuyor?',
+    lead: 'Portalın senin hesabına ve yüklediğin dosyalara ne yaptığı, sade bir dille: neyi saklar, neyi hiç saklamaz, girişte ve yüklemede seni nasıl korur. Algoritmaların içini merak edersen Hash Lab’de adım adım açabilirsin.',
+    jump: 'Bu sayfada',
+    store: {
+      title: 'Neyi saklıyoruz, neyi saklamıyoruz',
+      lead: 'Hesabın için gerekenden fazlasını tutmuyoruz.',
+      kept: 'Sakladıklarımız',
+      never: 'Hiç saklamadıklarımız',
+      keptItems: {
+        account: 'E-posta adresin ve görünen adın',
+        password: 'Parolanın tuzlu özeti; parolanın kendisi değil',
+        file: 'Yüklediğin ses dosyası ve onun SHA-256 özeti',
+        demo: 'Demonun adı, türü, notun, durumu ve ekibin notu',
+      },
+      neverItems: {
+        password: 'Parolanın kendisi: ne sunucuda ne tarayıcında',
+        reset: 'Sıfırlama bağlantısının kendisi: yalnızca özeti tutulur',
+        browser: 'Tarayıcında kişisel bilgi: orada yalnızca dil ve tema tercihin durur',
+      },
+    },
+    signin: {
+      title: 'Giriş yaparken',
+      lead: 'Parolan her girişte yeniden özetlenir; deneme sayısı da sınırlıdır.',
+      check: {
+        title: 'Parolan geri çözülmez',
+        body: 'Girdiğin parola, kayıtlı tuz ve ayarlarla yeniden özetlenir. İki özet aynıysa içeri girersin; parolanın kendisine hiçbir zaman bakılmaz.',
+      },
+      lockout: {
+        title: '5 hatalı denemede 15 dakika bekleme',
+        body: 'Aynı e-posta için beş başarısız denemeden sonra 15 dakika beklemen istenir. E-posta kayıtlı olmasa da aynısı olur; böylece kimse bir adresin kayıtlı olup olmadığını öğrenemez.',
+      },
+      rate: {
+        title: 'Dakikada en fazla 10 istek',
+        body: 'Aynı IP adresinden dakikada en fazla 10 giriş isteği kabul edilir. Parola tahmin eden bir program böylece yavaşlar.',
+      },
+      reset: {
+        title: 'Parolanı unutursan',
+        body: 'Yanıt her zaman aynıdır: “Bu e-posta kayıtlıysa sıfırlama bağlantısı gönderildi.” Bağlantı bir saat geçerlidir, bir kez kullanılır ve açıldığında adres çubuğundan silinir.',
+      },
+    },
+    session: {
+      title: 'Oturumun',
+      lead: 'Giriş yaptığını tarayıcın bir çerezle hatırlar; o çerez sayfadaki betiklere kapalıdır.',
+      cookie: {
+        title: 'Betiklerin okuyamadığı çerez',
+        body: 'Oturum HttpOnly bir çerezde durur: sayfadaki hiçbir betik onu okuyamaz. SameSite=Lax sayesinde başka sitelerden gelen isteklere eklenmez; HTTPS’te yalnızca şifreli bağlantıda gönderilir.',
+      },
+      csrf: {
+        title: 'Her değişiklikte ayrı bir belirteç',
+        body: 'Bir şeyi değiştiren her istek (yükleme, durum değişikliği, çıkış) ayrıca bir CSRF belirteci taşır. Başka bir site senin adına istek gönderemez; belirteç girişte ve çıkışta yenilenir.',
+      },
+      signout: {
+        title: 'Çıkış yapınca',
+        body: 'Sunucu oturum çerezini siler; sayfa seni giriş ekranına götürür.',
+      },
+    },
+    files: {
+      title: 'Demoların',
+      lead: 'Gönderdiğin dosya seninle ekip arasında kalır.',
+      owner: {
+        title: 'Yalnızca sen ve ekip',
+        body: 'Bir demoyu yalnızca yükleyen sanatçı ve yönetim ekibi görür. Başka bir sanatçı adresini bilse bile “bulunamadı” yanıtı alır; demonun var olduğu bile anlaşılmaz.',
+      },
+      storage: {
+        title: 'Herkese açık klasörde değil',
+        body: 'Ses dosyaları sitenin kendi dosyalarından ayrı, özel bir yerde saklanır. Yalnızca yetkisi olan kişiye oynatılır ve tarayıcı önbelleğine yazılmaz.',
+      },
+      verify: {
+        title: 'Dosyanı kendin doğrula',
+        body: 'Yüklerken dosyanın SHA-256 özeti tarayıcında da hesaplanır ve sunucununkiyle karşılaştırılır. Sonradan elindeki kopyayı demo sayfasında “Dosyayı doğrula” ile yeniden karşılaştırabilirsin; dosya bu sırada hiçbir yere gönderilmez.',
+      },
+      link: 'Gönderilerime git',
+    },
+    methods: {
+      title: 'Kullandığımız yöntemler',
+      lead: 'Yukarıdakilerin arkasındaki dört yöntem. İçlerini Hash Lab’de adım adım açabilirsin.',
+    },
+    tips: {
+      title: 'Hesabını korumak için',
+      long: 'En az 12 karakterli, sana özel bir parola seç: uzun bir cümlenin hatırlaması kolay, tahmini zordur.',
+      unique: 'Başka bir sitede kullandığın parolayı burada kullanma.',
+      shared: 'Ortak bir bilgisayardaysan işin bitince Çıkış yap’a bas.',
+      reset: 'Sıfırlama bağlantısını kimseyle paylaşma: bağlantıyı açan, parolanı değiştirebilir.',
+    },
     links: {
       sha256: 'SHA-256’yı adım adım izle',
       pbkdf2: 'Parola özetleme maliyetini dene',
@@ -246,6 +350,13 @@ export default {
     range: '{total} demodan {from}-{to} arası',
     loading: 'Demolar yükleniyor…',
     loadFailed: 'Demolar yüklenemedi',
+    hasNote: 'Ekibin notu var',
+    updated: 'Güncellendi',
+    journey: {
+      sent: 'Gönderildi',
+      review: 'İnceleme',
+      decision: 'Karar',
+    },
     empty: {
       title: 'Henüz demo yüklemedin',
       body: 'İlk demonu yüklediğinde değerlendirme durumu burada görünür.',
@@ -318,6 +429,7 @@ export default {
     },
     hints: {
       title: 'En fazla 120 karakter.',
+      genre: 'Parçana en yakın olanı seç.',
       note: 'İsteğe bağlı; ekibe iletmek istediğin kısa bir not. En fazla 1000 karakter.',
     },
     genrePlaceholder: 'Bir tür seç',
@@ -328,8 +440,33 @@ export default {
       types: 'Desteklenen türler: {types}.',
       selected: 'Seçilen dosya: {name} ({size})',
     },
-    submit: 'Yükle',
+    submit: 'Demonu yükle',
     cancel: 'Yüklemeyi iptal et',
+    steps: {
+      label: 'Adımlar',
+      details: 'Parçanı anlat',
+      file: 'Kaydını ekle',
+      send: 'Gönder',
+    },
+    assure: 'Dosyan değiştirilmeden saklanır; özeti hem tarayıcında hem sunucuda ayrı ayrı hesaplanır.',
+    summary: {
+      title: 'Gönderim özeti',
+      track: 'Parça',
+      genre: 'Müzik türü',
+      file: 'Kayıt',
+      empty: 'Henüz yok',
+      print: 'Parmak izi (SHA-256)',
+      waiting: 'Bir dosya seçtiğinde parmak izi burada, tarayıcında hesaplanır.',
+      hashing: 'Parmak izi hesaplanıyor…',
+      ready: 'Tarayıcında hesaplandı. Yüklemeden sonra sunucunun hesapladığıyla karşılaştırılır.',
+      skipped: 'Bu dosya tarayıcıda özetlenemeyecek kadar büyük; özetini sunucu hesaplar.',
+    },
+    next: {
+      title: 'Sonra ne olacak?',
+      pending: 'Demon sıraya girer.',
+      in_review: 'Ekip dinler ve notunu yazar.',
+      decided: 'Karar ve ekibin notu Gönderilerim sayfanda görünür.',
+    },
     progressLabel: 'Yükleme ilerlemesi',
     progress: '{percent} · {loaded} / {total}',
     milestone: '{percent} yüklendi',
@@ -339,20 +476,13 @@ export default {
   admin: {
     pageTitle: 'Yönetim paneli · AFTER/FORM',
     title: 'Gelen demolar',
-    lead: 'Tüm sanatçıların gönderdiği demolar. Bir demonun durumunu değiştirdiğinde sanatçı yeni durumu ve notunu kendi sayfasında görür.',
+    lead: 'Sanatçıların gönderdiği demoları burada dinler, kararını verir ve sanatçıya not bırakırsın. Kaydettiğin karar sanatçının sayfasında hemen görünür.',
     results: 'Demolar',
     search: {
       label: 'Ara',
       hint: 'Parça adı ya da sanatçı adı.',
+      placeholder: 'Parça ya da sanatçı ara',
       submit: 'Ara',
-    },
-    columns: {
-      title: 'Parça',
-      artist: 'Sanatçı',
-      genre: 'Tür',
-      created: 'Gönderilme',
-      status: 'Durum',
-      actions: 'İşlem',
     },
     loading: 'Demolar yükleniyor…',
     loadFailed: 'Demolar yüklenemedi',
@@ -378,6 +508,28 @@ export default {
       cancel: 'Vazgeç',
     },
     statusSaved: '{title}: durum “{status}” olarak kaydedildi.',
+    review: {
+      empty: {
+        title: 'Bir demo seç',
+        body: 'Listeden bir demo seçince burada dinleyip kararını verebilirsin.',
+      },
+      back: 'Listeye dön',
+      position: '{index} / {count}',
+      previous: 'Önceki demo',
+      next: 'Sonraki demo',
+      listen: 'Dinle',
+      artistNote: 'Sanatçının notu',
+      noArtistNote: 'Sanatçı not bırakmadı.',
+      decision: 'Karar',
+      now: 'şu an',
+      submit: 'Kararı kaydet',
+      file: 'Dosya',
+      fileName: 'Dosya adı',
+      size: 'Boyut',
+      sent: 'Gönderildi',
+      digest: 'SHA-256 özeti',
+      openPage: 'Demo sayfasını aç',
+    },
   },
   lab: {
     pageTitle: 'Hash Lab · AFTER/FORM',

@@ -11,6 +11,24 @@ export default {
     loading: 'Loading…',
     footerNote:
       'AFTER/FORM is a fictional music label. This site is a Trakya University Computer Engineering graduation project.',
+    footer: {
+      about:
+        'An independent music company that listens to demos from artists finding their sound. Your password and files are protected with the methods the Hash Lab opens up step by step.',
+      cta: 'Send your demo',
+      specs: {
+        title: 'Security in numbers',
+        iterations: '{count} iterations',
+        salt: '{count}-byte random salt',
+        digest: 'A SHA-256 digest for every file',
+      },
+      backToTop: 'Back to top',
+      desk: {
+        about: 'Where you listen to the demos artists send and make your decision.',
+        all: 'Incoming demos',
+        pending: 'Waiting demos',
+        inReview: 'Demos in review',
+      },
+    },
     loadFailed: 'The page could not be loaded',
     forbidden: {
       title: 'You do not have access to this page',
@@ -41,6 +59,7 @@ export default {
   },
   nav: {
     main: 'Main menu',
+    home: 'Home',
     footer: 'Footer links',
     footerExplore: 'Explore',
     footerPortal: 'Portal',
@@ -70,11 +89,14 @@ export default {
     metaDescription:
       'The AFTER/FORM artist portal: upload your demo, follow the review and see how passwords and files are protected.',
     tagline: 'Sound that comes after form.',
+    taglineStart: 'Sound that comes',
+    taglineEnd: 'after form.',
     hero: {
       eyebrow: 'Independent music label',
       lead: 'AFTER/FORM listens to demos from artists who are still finding their sound. Upload your track and follow every step of the review here.',
       primary: 'Create account',
       secondary: 'Sign in',
+      pause: 'Pause the photos',
     },
     continue: 'Pick up where you left off',
     signal: {
@@ -105,7 +127,7 @@ export default {
       body: 'Your password is never stored as plain text: it is hashed with PBKDF2-HMAC-SHA512 and 220,000 iterations, using a fresh random salt every time. The SHA-256 digest of every file you upload is computed and stored.',
       security: {
         title: 'Security',
-        body: 'How passwords and files are protected, in four short cards.',
+        body: 'How your account and demos are protected, in plain words.',
       },
       lab: {
         title: 'Hash Lab',
@@ -186,9 +208,91 @@ export default {
     },
   },
   security: {
-    pageTitle: 'What happens behind the scenes? · AFTER/FORM',
-    title: 'What happens behind the scenes?',
-    lead: 'The methods we use to protect your password and the files you upload, in four short cards. Below each card is a Hash Lab experiment where you can try the same idea yourself.',
+    pageTitle: 'Security · AFTER/FORM',
+    title: 'How are your account and demos protected?',
+    lead: 'What the portal does with your account and the files you upload, in plain words: what it keeps, what it never keeps, and how it protects you when you sign in and upload. If you are curious about the algorithms themselves, the Hash Lab opens them up step by step.',
+    jump: 'On this page',
+    store: {
+      title: 'What we keep and what we don’t',
+      lead: 'We keep no more than your account needs.',
+      kept: 'What we keep',
+      never: 'What we never keep',
+      keptItems: {
+        account: 'Your email address and display name',
+        password: 'A salted digest of your password, not the password itself',
+        file: 'The audio file you upload and its SHA-256 digest',
+        demo: 'Your demo’s title, genre, your note, its status and the team’s note',
+      },
+      neverItems: {
+        password: 'Your password itself: neither on the server nor in your browser',
+        reset: 'The reset link itself: only its digest is kept',
+        browser: 'Personal details in your browser: only your language and theme choice live there',
+      },
+    },
+    signin: {
+      title: 'When you sign in',
+      lead: 'Your password is hashed again at every sign-in, and the number of attempts is limited.',
+      check: {
+        title: 'Your password is never decrypted',
+        body: 'The password you type is hashed again with the stored salt and settings. If the two digests match, you are in; the password itself is never looked at.',
+      },
+      lockout: {
+        title: 'A 15-minute wait after 5 failed attempts',
+        body: 'After five failed attempts for the same email you are asked to wait 15 minutes. The same happens when the email is not registered, so no one can find out whether an address has an account.',
+      },
+      rate: {
+        title: 'At most 10 requests a minute',
+        body: 'At most 10 sign-in requests a minute are accepted from the same IP address, which slows down a program guessing passwords.',
+      },
+      reset: {
+        title: 'If you forget your password',
+        body: 'The answer is always the same: “If this email is registered, a reset link has been sent.” The link is valid for an hour, works once and is removed from the address bar when it is opened.',
+      },
+    },
+    session: {
+      title: 'Your session',
+      lead: 'Your browser remembers that you are signed in with a cookie, and that cookie is closed to the scripts on the page.',
+      cookie: {
+        title: 'A cookie scripts cannot read',
+        body: 'Your session lives in an HttpOnly cookie: no script on the page can read it. SameSite=Lax keeps it off requests coming from other sites, and over HTTPS it is only sent on an encrypted connection.',
+      },
+      csrf: {
+        title: 'A separate token for every change',
+        body: 'Every request that changes something (an upload, a status change, signing out) also carries a CSRF token. Another site cannot send requests on your behalf; the token is renewed when you sign in and out.',
+      },
+      signout: {
+        title: 'When you sign out',
+        body: 'The server deletes the session cookie, and the page takes you to the sign-in screen.',
+      },
+    },
+    files: {
+      title: 'Your demos',
+      lead: 'The file you send stays between you and the team.',
+      owner: {
+        title: 'Only you and the team',
+        body: 'A demo is seen only by the artist who uploaded it and by the team. Another artist who knows its address gets “not found”, so not even its existence shows.',
+      },
+      storage: {
+        title: 'Not in a public folder',
+        body: 'Audio files are kept in a private place, apart from the site’s own files. They are played only to someone allowed to hear them and are not written to the browser’s cache.',
+      },
+      verify: {
+        title: 'Check your file yourself',
+        body: 'While you upload, the file’s SHA-256 digest is also worked out in your browser and compared with the server’s. Later you can compare the copy you have again with “Verify file” on the demo page; the file is not sent anywhere for that.',
+      },
+      link: 'Go to my submissions',
+    },
+    methods: {
+      title: 'The methods we use',
+      lead: 'The four methods behind all of the above. You can open each of them up step by step in the Hash Lab.',
+    },
+    tips: {
+      title: 'To keep your account safe',
+      long: 'Choose a password of your own with at least 12 characters: a long sentence is easy to remember and hard to guess.',
+      unique: 'Do not reuse a password you use on another site.',
+      shared: 'On a shared computer, press Sign out when you are done.',
+      reset: 'Do not share a reset link with anyone: whoever opens it can change your password.',
+    },
     links: {
       sha256: 'Follow SHA-256 step by step',
       pbkdf2: 'Try the cost of password hashing',
@@ -246,6 +350,13 @@ export default {
     range: '{from}-{to} of {total} demos',
     loading: 'Loading demos…',
     loadFailed: 'The demos could not be loaded',
+    hasNote: 'The team left a note',
+    updated: 'Updated',
+    journey: {
+      sent: 'Sent',
+      review: 'Review',
+      decision: 'Decision',
+    },
     empty: {
       title: 'You have not uploaded a demo yet',
       body: 'Once you upload your first demo, its review status shows up here.',
@@ -318,6 +429,7 @@ export default {
     },
     hints: {
       title: 'Up to 120 characters.',
+      genre: 'Pick the one closest to your track.',
       note: 'Optional; a short note for the team. Up to 1000 characters.',
     },
     genrePlaceholder: 'Choose a genre',
@@ -328,8 +440,33 @@ export default {
       types: 'Supported types: {types}.',
       selected: 'Selected file: {name} ({size})',
     },
-    submit: 'Upload',
+    submit: 'Upload your demo',
     cancel: 'Cancel upload',
+    steps: {
+      label: 'Steps',
+      details: 'About the track',
+      file: 'Add the recording',
+      send: 'Send',
+    },
+    assure: 'Your file is stored unchanged; its digest is worked out separately in your browser and on the server.',
+    summary: {
+      title: 'Your submission',
+      track: 'Track',
+      genre: 'Music genre',
+      file: 'Recording',
+      empty: 'Not yet',
+      print: 'Fingerprint (SHA-256)',
+      waiting: 'Once you choose a file, its fingerprint is worked out here, in your browser.',
+      hashing: 'Working out the fingerprint…',
+      ready: 'Worked out in your browser. After the upload it is compared with the one the server computes.',
+      skipped: 'This file is too large to digest in the browser; the server computes its digest.',
+    },
+    next: {
+      title: 'What happens next?',
+      pending: 'Your demo joins the queue.',
+      in_review: 'The team listens and writes a note.',
+      decided: 'The decision and the team’s note appear on My submissions.',
+    },
     progressLabel: 'Upload progress',
     progress: '{percent} · {loaded} / {total}',
     milestone: '{percent} uploaded',
@@ -339,20 +476,13 @@ export default {
   admin: {
     pageTitle: 'Admin panel · AFTER/FORM',
     title: 'Incoming demos',
-    lead: 'Demos sent in by every artist. When you change a demo’s status, the artist sees the new status and your note on their own page.',
+    lead: 'Listen to the demos artists send, decide on each one and leave the artist a note. A decision you save shows on the artist’s page right away.',
     results: 'Demos',
     search: {
       label: 'Search',
       hint: 'Track title or artist name.',
+      placeholder: 'Search tracks or artists',
       submit: 'Search',
-    },
-    columns: {
-      title: 'Track',
-      artist: 'Artist',
-      genre: 'Genre',
-      created: 'Submitted',
-      status: 'Status',
-      actions: 'Action',
     },
     loading: 'Loading demos…',
     loadFailed: 'The demos could not be loaded',
@@ -378,6 +508,28 @@ export default {
       cancel: 'Cancel',
     },
     statusSaved: '{title}: status saved as “{status}”.',
+    review: {
+      empty: {
+        title: 'Choose a demo',
+        body: 'Choose a demo from the list to listen to it and decide here.',
+      },
+      back: 'Back to the list',
+      position: '{index} of {count}',
+      previous: 'Previous demo',
+      next: 'Next demo',
+      listen: 'Listen',
+      artistNote: 'The artist’s note',
+      noArtistNote: 'The artist left no note.',
+      decision: 'Decision',
+      now: 'now',
+      submit: 'Save the decision',
+      file: 'File',
+      fileName: 'File name',
+      size: 'Size',
+      sent: 'Sent',
+      digest: 'SHA-256 digest',
+      openPage: 'Open the demo page',
+    },
   },
   lab: {
     pageTitle: 'Hash Lab · AFTER/FORM',
