@@ -20,34 +20,79 @@
     <a class="skip-link" href="#main" data-i18n="common.skipToContent">İçeriğe geç</a>
     <header id="site-header"></header>
     <main id="main" tabindex="-1">
-      <section class="container page-head" aria-labelledby="admin-title">
-        <p class="eyebrow"><span class="eyebrow__index">01</span><span data-i18n="common.areas.admin">Yönetim</span></p>
-        <h1 class="page-head__title" id="admin-title" data-i18n="admin.title">Gelen demolar</h1>
-        <p class="page-head__lead" data-i18n="admin.lead">Tüm sanatçıların gönderdiği demolar. Bir demonun durumunu değiştirdiğinde sanatçı yeni durumu ve notunu kendi sayfasında görür.</p>
+      <section class="scene-head scene-head--admin" aria-labelledby="admin-title" data-scene-head>
+        <div class="scene-head__media" aria-hidden="true">
+          <picture>
+            <source media="(max-width: 639px)" type="image/avif" srcset="/assets/photos/desk-tall-720.avif 720w, /assets/photos/desk-tall-1080.avif 1080w" sizes="100vw">
+            <source type="image/avif" srcset="/assets/photos/desk-wide-1280.avif 1280w, /assets/photos/desk-wide-1920.avif 1920w, /assets/photos/desk-wide-2560.avif 2560w" sizes="100vw">
+            <img class="scene-head__img" src="/assets/photos/desk-wide-1920.webp" alt="" width="1920" height="1200" fetchpriority="high">
+          </picture>
+        </div>
+        <div class="container scene-head__inner admin-head">
+          <div class="admin-head__copy">
+            <p class="scene-head__eyebrow enter">
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#headphones"></use></svg>
+              <span data-i18n="common.areas.admin">Yönetim</span>
+            </p>
+            <h1 class="scene-head__title enter enter-2" id="admin-title" data-i18n="admin.title">Gelen demolar</h1>
+            <p class="scene-head__lead enter enter-3" data-i18n="admin.lead">Sanatçıların gönderdiği demoları burada dinler, kararını verir ve sanatçıya not bırakırsın. Kaydettiğin karar sanatçının sayfasında hemen görünür.</p>
+          </div>
+          <div class="demo-stats enter enter-4" role="group" aria-labelledby="filter-status-label" data-stats>
+            <p class="visually-hidden" id="filter-status-label" data-i18n="demos.filters.status">Durum</p>
+            <button class="demo-stat" type="button" aria-pressed="true" data-status="">
+              <span class="demo-stat__label"><span data-i18n="demos.filters.all">Tümü</span></span>
+              <span class="demo-stat__count" data-count>–</span>
+            </button>
+            <button class="demo-stat demo-stat--pending" type="button" aria-pressed="false" data-status="pending">
+              <span class="demo-stat__label"><svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#status-pending"></use></svg><span data-i18n="status.pending">Beklemede</span></span>
+              <span class="demo-stat__count" data-count>–</span>
+            </button>
+            <button class="demo-stat demo-stat--in_review" type="button" aria-pressed="false" data-status="in_review">
+              <span class="demo-stat__label"><svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#status-in_review"></use></svg><span data-i18n="status.in_review">İnceleniyor</span></span>
+              <span class="demo-stat__count" data-count>–</span>
+            </button>
+            <button class="demo-stat demo-stat--accepted" type="button" aria-pressed="false" data-status="accepted">
+              <span class="demo-stat__label"><svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#status-accepted"></use></svg><span data-i18n="status.accepted">Kabul edildi</span></span>
+              <span class="demo-stat__count" data-count>–</span>
+            </button>
+            <button class="demo-stat demo-stat--rejected" type="button" aria-pressed="false" data-status="rejected">
+              <span class="demo-stat__label"><svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#status-rejected"></use></svg><span data-i18n="status.rejected">Reddedildi</span></span>
+              <span class="demo-stat__count" data-count>–</span>
+            </button>
+          </div>
+        </div>
       </section>
-      <section class="container list" aria-labelledby="admin-results-title">
+      <section class="container desk" aria-labelledby="admin-results-title">
         <h2 class="visually-hidden" id="admin-results-title" tabindex="-1" data-i18n="admin.results">Demolar</h2>
-        <form class="list-controls admin-controls" role="search" data-controls>
-          <div class="field admin-controls__search">
-            <label class="field__label" for="filter-q" data-i18n="admin.search.label">Ara</label>
-            <div class="input-group">
-              <input class="input" id="filter-q" name="q" type="search" autocomplete="off" aria-describedby="filter-q-hint">
-              <button class="input-group__button" type="submit" data-i18n="admin.search.submit">Ara</button>
+        <div class="desk__bar">
+          <p class="list-summary desk__summary" role="status" data-summary></p>
+          <form class="desk__controls" role="search" data-controls>
+            <div class="field desk__search">
+              <label class="visually-hidden" for="filter-q" data-i18n="admin.search.label">Ara</label>
+              <div class="input-group">
+                <svg class="icon desk__search-icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#search"></use></svg>
+                <input class="input" id="filter-q" name="q" type="search" autocomplete="off" aria-describedby="filter-q-hint" data-i18n-attr="placeholder:admin.search.placeholder">
+                <button class="input-group__button" type="submit" data-i18n="admin.search.submit">Ara</button>
+              </div>
+              <p class="visually-hidden" id="filter-q-hint" data-i18n="admin.search.hint">Parça adı ya da sanatçı adı.</p>
             </div>
-            <p class="field__hint" id="filter-q-hint" data-i18n="admin.search.hint">Parça adı ya da sanatçı adı.</p>
+            <div class="field field--inline">
+              <label class="field__label" for="filter-sort" data-i18n="demos.filters.sort">Sıralama</label>
+              <select class="select" id="filter-sort" name="sort"></select>
+            </div>
+          </form>
+        </div>
+        <div class="desk__layout">
+          <div class="desk__list list-results" data-results aria-busy="true">
+            <p class="visually-hidden" data-i18n="admin.loading">Demolar yükleniyor…</p>
           </div>
-          <div class="field">
-            <label class="field__label" for="filter-status" data-i18n="demos.filters.status">Durum</label>
-            <select class="select" id="filter-status" name="status"></select>
-          </div>
-          <div class="field">
-            <label class="field__label" for="filter-sort" data-i18n="demos.filters.sort">Sıralama</label>
-            <select class="select" id="filter-sort" name="sort"></select>
-          </div>
-        </form>
-        <p class="list-summary" role="status" data-summary></p>
-        <div class="list-results" data-results aria-busy="true">
-          <p class="visually-hidden" data-i18n="admin.loading">Demolar yükleniyor…</p>
+          <aside class="review" id="review-panel" aria-labelledby="review-title" data-review data-empty>
+            <div class="review__empty">
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#headphones"></use></svg>
+              <p class="review__empty-title" id="review-title" data-i18n="admin.review.empty.title">Bir demo seç</p>
+              <p class="review__empty-body" data-i18n="admin.review.empty.body">Listeden bir demo seçince burada dinleyip kararını verebilirsin.</p>
+            </div>
+          </aside>
         </div>
       </section>
     </main>

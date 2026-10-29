@@ -29,6 +29,8 @@ import { onLangChange, t } from '../core/i18n.js';
  * @property {Record<string, FieldRule>} fields keyed by the inputs' name attribute
  * @property {(values: Record<string, string>) => Promise<void>} submit The button stays
  *   busy after it resolves, because success normally navigates away.
+ * @property {boolean} [repeatable] the form stays on the page after a success and can be sent
+ *   again, so the button is released
  * @property {(error: ApiError, form: FormController) => boolean} [onError] true when handled
  * @property {() => void} [onCancel] the submit was aborted by the user; no error is shown
  */
@@ -243,6 +245,10 @@ export function enhanceForm(form, options) {
     syncButton();
     try {
       await options.submit(values);
+      if (options.repeatable) {
+        busy = false;
+        syncButton();
+      }
     } catch (error) {
       busy = false;
       if (error instanceof DOMException && error.name === 'AbortError') options.onCancel?.();
