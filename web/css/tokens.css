@@ -1,20 +1,30 @@
-:root {
-  color-scheme: dark;
+/* Two themes from one set of tokens: light-dark() picks a value by the used colour scheme, which
+   follows the system unless the visitor chose a theme (data-theme on <html>, set before the first
+   paint by /js/theme-boot.js). Every pairing below is measured against WCAG AA in both themes. */
 
-  --bg: #0c0c0d;
-  --surface-1: #141416;
-  --surface-2: #1c1c1f;
-  --text: #ece9e2;
-  --text-muted: #9a978f;
-  --line: #2a2a2e;
-  --line-strong: #70707a;
+:root {
+  color-scheme: dark light;
+
+  --bg: light-dark(#f3f3f1, #0c0c0d);
+  --surface-1: light-dark(#fbfbfa, #141416);
+  --surface-2: light-dark(#eaeae7, #1c1c1f);
+  --text: light-dark(#141416, #ece9e2);
+  --text-muted: light-dark(#55555b, #9a978f);
+  --line: light-dark(#dcdcd8, #2a2a2e);
+  --line-strong: light-dark(#7c7c83, #70707a);
+  /* Fills (buttons, bars) keep the brand orange; text in orange needs a darker tone on light. */
   --accent: #ff4b1f;
   --accent-hover: #ff6a40;
   --accent-ink: #0c0c0d;
-  --ok: #5fd38d;
-  --warn: #f2b84b;
-  --info: #6ea8ff;
-  --danger: #ff6b6b;
+  --accent-text: light-dark(#b3300b, #ff4b1f);
+  --focus: light-dark(#b3300b, #ff4b1f);
+  --ok: light-dark(#136f3f, #5fd38d);
+  --warn: light-dark(#875700, #f2b84b);
+  --info: light-dark(#2457b8, #6ea8ff);
+  --danger: light-dark(#b52a2a, #ff6b6b);
+  /* Tints the overlay behind a dialog; shadows exist only for things that float over the page. */
+  --scrim: light-dark(rgb(20 20 22 / 0.4), rgb(12 12 13 / 0.8));
+  --shadow-float: light-dark(0 18px 48px rgb(20 20 22 / 0.16), 0 18px 48px rgb(0 0 0 / 0.5));
 
   --radius: 2px;
 
@@ -26,6 +36,7 @@
   --space-6: 32px;
   --space-7: 48px;
   --space-8: 72px;
+  --space-9: 112px;
 
   --font-body: "Archivo", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
@@ -44,8 +55,22 @@
   --content-max: 1280px;
   --touch-min: 44px;
 
+  /* Motion. Strong ease-out for anything that enters or answers the user, ease-in-out for things
+     moving on screen; interface transitions stay under 300 ms, page reveals may take longer. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --duration: 180ms;
-  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --duration-press: 160ms;
+  --duration-exit: 140ms;
+  --duration-reveal: 700ms;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
 }
 
 @media (min-width: 768px) {

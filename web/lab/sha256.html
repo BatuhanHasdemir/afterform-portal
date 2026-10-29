@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title data-i18n="lab.sha256.pageTitle">SHA-256 adım adım · Hash Lab</title>
+    <meta name="color-scheme" content="dark light">
+    <script src="/js/theme-boot.js"></script>
     <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" href="/assets/fonts/archivo/archivo-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/assets/fonts/archivo/archivo-latin-ext-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -74,7 +76,7 @@
           <li>
             <section class="lab-step" aria-labelledby="step-rounds">
               <h2 class="lab-step__title" id="step-rounds"><span class="lab-step__index" aria-hidden="true">5</span><span data-i18n="lab.sha256.rounds.title">64 tur</span></h2>
-              <p class="lab-step__body" data-i18n="lab.sha256.rounds.body">Her turda a–h yazmaçları güncellenir.</p>
+              <p class="lab-step__body" data-i18n="lab.sha256.rounds.body">Her turda a-h yazmaçları güncellenir.</p>
               <div class="round-controls" data-round-controls>
                 <label class="field__label round-controls__label" for="round" data-i18n="lab.sha256.rounds.slider">Tur (t)</label>
                 <input class="round-controls__slider" id="round" type="range" min="0" max="63" step="1" value="0">
@@ -94,7 +96,7 @@
           <li>
             <section class="lab-step" aria-labelledby="step-feed">
               <h2 class="lab-step__title" id="step-feed"><span class="lab-step__index" aria-hidden="true">6</span><span data-i18n="lab.sha256.feedForward.title">Ara özetin eklenmesi</span></h2>
-              <p class="lab-step__body" data-i18n="lab.sha256.feedForward.body">64 tur bitince a–h ara özete eklenir.</p>
+              <p class="lab-step__body" data-i18n="lab.sha256.feedForward.body">64 tur bitince a-h ara özete eklenir.</p>
               <div data-view="feed"></div>
             </section>
           </li>
