@@ -1,6 +1,7 @@
 // @ts-check
 import { groupHex } from '../components/digest.js';
 import { fingerprint } from '../components/fingerprint.js';
+import { glassOver } from '../components/header.js';
 import { whenInView } from '../components/in-view.js';
 import { iterationBars } from '../components/iteration-bars.js';
 import { PBKDF2_PROJECT_ITERATIONS } from '../core/config.js';
@@ -17,7 +18,10 @@ import { derive, randomSalt } from '../lab/pbkdf2.js';
 // A sample, never a real password: the point is that the same input meets two different salts.
 const SAMPLE_PASSWORD = 'after-form-demo';
 
-await bootPage({ access: 'public' });
+const context = await bootPage({ access: 'public' });
+glassOver(qs('[data-scene-head]'));
+// The way to the submissions is for artists; the team reviews demos from its own panel.
+if (context?.user?.role === 'admin') qs('.security-section__link').hidden = true;
 
 const card = (/** @type {string} */ name) => qs(`[data-card="${name}"]`);
 const visual = (/** @type {string} */ name) => qs('[data-visual]', card(name));

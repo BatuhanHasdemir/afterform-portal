@@ -1,12 +1,267 @@
-.security {
-  display: grid;
-  gap: var(--space-6);
-  padding-bottom: var(--space-8);
+/* Security: what the portal does with an artist's account and files, in plain words, section by
+   section; the four methods behind it come last, each with its way into the Hash Lab. */
+
+.scene-head--security .scene-head__img {
+  object-position: 64% 55%;
 }
 
-.security__title {
-  font-size: var(--text-3xl);
-  letter-spacing: -0.03em;
+.security-jump__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+  padding: 0;
+  list-style: none;
+}
+
+.security-jump__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-min);
+  padding: 0 var(--space-4);
+  border: 1px solid rgb(255 255 255 / 0.22);
+  border-radius: var(--radius);
+  background: rgb(12 12 13 / 0.45);
+  color: var(--head-soft);
+  font-size: var(--text-sm);
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+  transition:
+    border-color var(--duration) var(--ease-out),
+    color var(--duration) var(--ease-out);
+}
+
+.security {
+  display: grid;
+  padding-block: var(--space-6) var(--space-8);
+}
+
+/* Each section: its title and one line on the left, what it says on the right. */
+.security-section {
+  display: grid;
+  gap: var(--space-5);
+  padding-block: var(--space-7);
+  border-top: 1px solid var(--line);
+}
+
+.security-section:first-child {
+  border-top: 0;
+}
+
+.security-section__head {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: var(--space-3);
+}
+
+.security-section__title {
+  font-size: var(--text-2xl);
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.security-section__lead {
+  max-width: 40ch;
+  color: var(--text-muted);
+}
+
+.security-section__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--touch-min);
+  color: var(--accent-text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.security-section__link .icon {
+  width: 1rem;
+  height: 1rem;
+  transition: transform var(--duration) var(--ease-out);
+}
+
+/* What is kept and what never is, side by side. */
+.security-ledger {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.security-ledger__col {
+  padding: var(--space-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+}
+
+.security-ledger__col--never {
+  color-scheme: dark;
+  background:
+    radial-gradient(110% 90% at 100% 0%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 62%),
+    var(--surface-1);
+  color: var(--text);
+}
+
+.security-ledger__title {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.security-ledger__list {
+  display: grid;
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.security-ledger__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding-block: var(--space-3);
+  border-top: 1px solid var(--line);
+}
+
+.security-ledger__item .icon {
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.15em;
+}
+
+.security-ledger__col--kept .icon {
+  color: var(--ok);
+}
+
+.security-ledger__col--never .icon {
+  color: var(--accent);
+}
+
+/* One fact per card: an icon, a short title, two or three sentences. */
+.security-facts {
+  display: grid;
+  gap: var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
+.security-fact {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+}
+
+.security-fact__icon {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface-2));
+  color: var(--accent-text);
+}
+
+.security-fact__icon .icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.security-fact__title {
+  font-size: var(--text-lg);
+  letter-spacing: -0.01em;
+}
+
+.security-fact__body {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+
+.security-methods {
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.security-tips {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: tip;
+}
+
+.security-tips__item {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-3);
+  counter-increment: tip;
+}
+
+.security-tips__item::before {
+  content: counter(tip);
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .security-jump__link:hover {
+    border-color: var(--accent);
+    color: var(--head-ink);
+  }
+
+  .security-section__link:hover .icon {
+    transform: translateX(3px);
+  }
+}
+
+@media (min-width: 768px) {
+  .security-ledger {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .security-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .security-section {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    column-gap: var(--space-8);
+    padding-block: var(--space-8);
+  }
+
+  /* The title stays beside its section while the section scrolls past. */
+  .security-section__head {
+    position: sticky;
+    top: calc(var(--header-h) + var(--space-6));
+  }
+
+  .security-tips {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-6);
+  }
 }
 
 /* Four cards in an offset bento: wide and narrow swap places on the second row. */

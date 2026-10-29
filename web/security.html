@@ -20,54 +20,199 @@
     <a class="skip-link" href="#main" data-i18n="common.skipToContent">İçeriğe geç</a>
     <header id="site-header"></header>
     <main id="main" tabindex="-1">
-      <section class="container page-head" aria-labelledby="security-title">
-        <p class="eyebrow enter" data-i18n="nav.security">Güvenlik</p>
-        <h1 class="page-head__title security__title enter enter-2" id="security-title" data-i18n="security.title">Arka planda ne oluyor?</h1>
-        <p class="page-head__lead enter enter-3" data-i18n="security.lead">Parolanı ve yüklediğin dosyaları korumak için kullandığımız yöntemler, dört kısa kartta. Her kartın altında aynı fikri kendin deneyebileceğin bir Hash Lab deneyi var.</p>
+      <section class="scene-head scene-head--security" aria-labelledby="security-title" data-scene-head>
+        <div class="scene-head__media" aria-hidden="true">
+          <picture>
+            <source media="(max-width: 639px)" type="image/avif" srcset="/assets/photos/smoke-tall-720.avif 720w, /assets/photos/smoke-tall-1080.avif 1080w" sizes="100vw">
+            <source type="image/avif" srcset="/assets/photos/smoke-wide-1280.avif 1280w, /assets/photos/smoke-wide-1920.avif 1920w, /assets/photos/smoke-wide-2560.avif 2560w" sizes="100vw">
+            <img class="scene-head__img" src="/assets/photos/smoke-wide-1920.webp" alt="" width="1920" height="1200" fetchpriority="high">
+          </picture>
+        </div>
+        <div class="container scene-head__inner">
+          <p class="scene-head__eyebrow enter">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#shield"></use></svg>
+            <span data-i18n="nav.security">Güvenlik</span>
+          </p>
+          <h1 class="scene-head__title enter enter-2" id="security-title" data-i18n="security.title">Hesabın ve demoların nasıl korunuyor?</h1>
+          <p class="scene-head__lead enter enter-3" data-i18n="security.lead">Portalın senin hesabına ve yüklediğin dosyalara ne yaptığı, sade bir dille: neyi saklar, neyi hiç saklamaz, girişte ve yüklemede seni nasıl korur. Algoritmaların içini merak edersen Hash Lab’de adım adım açabilirsin.</p>
+          <nav class="security-jump enter enter-4" aria-label="Bu sayfada" data-i18n-attr="aria-label:security.jump">
+            <ul class="security-jump__list" role="list">
+              <li><a class="security-jump__link" href="#store" data-i18n="security.store.title">Neyi saklıyoruz, neyi saklamıyoruz</a></li>
+              <li><a class="security-jump__link" href="#signin" data-i18n="security.signin.title">Giriş yaparken</a></li>
+              <li><a class="security-jump__link" href="#session" data-i18n="security.session.title">Oturumun</a></li>
+              <li><a class="security-jump__link" href="#files" data-i18n="security.files.title">Demoların</a></li>
+              <li><a class="security-jump__link" href="#methods" data-i18n="security.methods.title">Kullandığımız yöntemler</a></li>
+            </ul>
+          </nav>
+        </div>
       </section>
 
       <div class="container security">
-        <ul class="security-grid" role="list">
-          <li class="security-card security-card--wide reveal" data-card="sha256">
-            <article class="security-card__inner" aria-labelledby="card-sha256">
-              <h2 class="security-card__title" id="card-sha256" data-i18n="security.cards.sha256.title">SHA-256</h2>
-              <p class="security-card__body" data-i18n="security.cards.sha256.body">Yüklenen ses dosyasının özetini hesaplayıp saklıyoruz. Bu değer, sonraki bütünlük karşılaştırmalarında kullanılabilir.</p>
-              <div class="security-card__visual" aria-hidden="true" data-visual></div>
-              <a class="security-card__link" href="/lab/sha256.html"><span data-i18n="security.links.sha256">SHA-256’yı adım adım izle</span><svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#arrow-right"></use></svg></a>
-            </article>
-          </li>
-          <li class="security-card reveal" data-card="pbkdf2">
-            <article class="security-card__inner" aria-labelledby="card-pbkdf2">
-              <h2 class="security-card__title" id="card-pbkdf2" data-i18n="security.cards.pbkdf2.title">PBKDF2-HMAC-SHA512</h2>
-              <p class="security-card__body" data-i18n="security.cards.pbkdf2.body">Parolaları saklamak ve girişte doğrulamak için kullanıyoruz. SHA-512 burada HMAC ve PBKDF2 yapısının içinde kullanılıyor.</p>
-              <div class="security-card__visual" aria-hidden="true" data-visual></div>
-              <a class="security-card__link" href="/lab/pbkdf2.html"><span data-i18n="security.links.pbkdf2">Parola özetleme maliyetini dene</span><svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#arrow-right"></use></svg></a>
-            </article>
-          </li>
-          <li class="security-card reveal" data-card="salt">
-            <article class="security-card__inner" aria-labelledby="card-salt">
-              <h2 class="security-card__title" id="card-salt" data-i18n="security.cards.salt.title">Tuzlama (salt)</h2>
-              <p class="security-card__body" data-i18n="security.cards.salt.body">Her yeni parola özetleme işleminde rastgele tuz üretiyoruz. Aynı parola için farklı kayıtlar oluşmasını sağlıyor.</p>
-              <div class="security-card__visual" aria-hidden="true" data-visual></div>
-              <a class="security-card__link" href="/lab/pbkdf2.html#salt"><span data-i18n="security.links.salt">Aynı parola, farklı tuz</span><svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#arrow-right"></use></svg></a>
-            </article>
-          </li>
-          <li class="security-card security-card--wide reveal" data-card="iterations">
-            <article class="security-card__inner" aria-labelledby="card-iterations">
-              <h2 class="security-card__title" id="card-iterations" data-i18n="security.cards.iterations.title">İterasyon maliyeti</h2>
-              <p class="security-card__body" data-i18n="security.cards.iterations.body">PBKDF2'yi 220.000 iterasyonla yapılandırarak parola tahminlerinin hesaplama maliyetini artırıyoruz.</p>
-              <div class="security-card__visual" data-visual></div>
-              <a class="security-card__link" href="/lab/pbkdf2.html#cost"><span data-i18n="security.links.iterations">İterasyon ve süre grafiği</span><svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#arrow-right"></use></svg></a>
-            </article>
-          </li>
-        </ul>
-        <ul class="paths" role="list">
-          <li class="path reveal">
-            <h2 class="path__title"><a class="path__link" href="/lab/compare.html" data-i18n="security.more">Tüm algoritmaları karşılaştır</a></h2>
-            <p class="path__body" data-i18n="security.moreBody">MD5, SHA-1, SHA-2 ve SHA3-256 yan yana: aynı girdinin özetleri, yapıları ve bugünkü durumları.</p>
-            <svg class="icon path__arrow" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#arrow-right"></use></svg>
-          </li>
-        </ul>
+        <section class="security-section" id="store" aria-labelledby="store-title">
+          <div class="security-section__head">
+            <h2 class="security-section__title" id="store-title" data-i18n="security.store.title">Neyi saklıyoruz, neyi saklamıyoruz</h2>
+            <p class="security-section__lead" data-i18n="security.store.lead">Hesabın için gerekenden fazlasını tutmuyoruz.</p>
+          </div>
+          <div class="security-ledger">
+            <div class="security-ledger__col security-ledger__col--kept">
+              <h3 class="security-ledger__title" data-i18n="security.store.kept">Sakladıklarımız</h3>
+              <ul class="security-ledger__list" role="list">
+                <li class="security-ledger__item"><svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#status-accepted"></use></svg><span data-i18n="security.store.keptItems.account">E-posta adresin ve görünen adın</span></li>
+                <li class="security-ledger__item"><svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#status-accepted"></use></svg><span data-i18n="security.store.keptItems.password">Parolanın tuzlu özeti; parolanın kendisi değil</span></li>
+                <li class="security-ledger__item"><svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#status-accepted"></use></svg><span data-i18n="security.store.keptItems.file">Yüklediğin ses dosyası ve onun SHA-256 özeti</span></li>
+                <li class="security-ledger__item"><svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#status-accepted"></use></svg><span data-i18n="security.store.keptItems.demo">Demonun adı, türü, notun, durumu ve ekibin notu</span></li>
+              </ul>
+            </div>
+            <div class="security-ledger__col security-ledger__col--never">
+              <h3 class="security-ledger__title" data-i18n="security.store.never">Hiç saklamadıklarımız</h3>
+              <ul class="security-ledger__list" role="list">
+                <li class="security-ledger__item"><svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#eye-off"></use></svg><span data-i18n="security.store.neverItems.password">Parolanın kendisi: ne sunucuda ne tarayıcında</span></li>
+                <li class="security-ledger__item"><svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#eye-off"></use></svg><span data-i18n="security.store.neverItems.reset">Sıfırlama bağlantısının kendisi: yalnızca özeti tutulur</span></li>
+                <li class="security-ledger__item"><svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#eye-off"></use></svg><span data-i18n="security.store.neverItems.browser">Tarayıcında kişisel bilgi: orada yalnızca dil ve tema tercihin durur</span></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="security-section" id="signin" aria-labelledby="signin-title">
+          <div class="security-section__head">
+            <h2 class="security-section__title" id="signin-title" data-i18n="security.signin.title">Giriş yaparken</h2>
+            <p class="security-section__lead" data-i18n="security.signin.lead">Parolan her girişte yeniden özetlenir; deneme sayısı da sınırlıdır.</p>
+          </div>
+          <ul class="security-facts" role="list">
+            <li class="security-fact">
+              <span class="security-fact__icon" aria-hidden="true"><svg class="icon" focusable="false"><use href="/assets/icons.svg#key"></use></svg></span>
+              <h3 class="security-fact__title" data-i18n="security.signin.check.title">Parolan geri çözülmez</h3>
+              <p class="security-fact__body" data-i18n="security.signin.check.body">Girdiğin parola, kayıtlı tuz ve ayarlarla yeniden özetlenir. İki özet aynıysa içeri girersin; parolanın kendisine hiçbir zaman bakılmaz.</p>
+            </li>
+            <li class="security-fact">
+              <span class="security-fact__icon" aria-hidden="true"><svg class="icon" focusable="false"><use href="/assets/icons.svg#countdown"></use></svg></span>
+              <h3 class="security-fact__title" data-i18n="security.signin.lockout.title">5 hatalı denemede 15 dakika bekleme</h3>
+              <p class="security-fact__body" data-i18n="security.signin.lockout.body">Aynı e-posta için beş başarısız denemeden sonra 15 dakika beklemen istenir. E-posta kayıtlı olmasa da aynısı olur; böylece kimse bir adresin kayıtlı olup olmadığını öğrenemez.</p>
+            </li>
+            <li class="security-fact">
+              <span class="security-fact__icon" aria-hidden="true"><svg class="icon" focusable="false"><use href="/assets/icons.svg#shield"></use></svg></span>
+              <h3 class="security-fact__title" data-i18n="security.signin.rate.title">Dakikada en fazla 10 istek</h3>
+              <p class="security-fact__body" data-i18n="security.signin.rate.body">Aynı IP adresinden dakikada en fazla 10 giriş isteği kabul edilir. Parola tahmin eden bir program böylece yavaşlar.</p>
+            </li>
+            <li class="security-fact">
+              <span class="security-fact__icon" aria-hidden="true"><svg class="icon" focusable="false"><use href="/assets/icons.svg#link"></use></svg></span>
+              <h3 class="security-fact__title" data-i18n="security.signin.reset.title">Parolanı unutursan</h3>
+              <p class="security-fact__body" data-i18n="security.signin.reset.body">Yanıt her zaman aynıdır: “Bu e-posta kayıtlıysa sıfırlama bağlantısı gönderildi.” Bağlantı bir saat geçerlidir, bir kez kullanılır ve açıldığında adres çubuğundan silinir.</p>
+            </li>
+          </ul>
+        </section>
+
+        <section class="security-section" id="session" aria-labelledby="session-title">
+          <div class="security-section__head">
+            <h2 class="security-section__title" id="session-title" data-i18n="security.session.title">Oturumun</h2>
+            <p class="security-section__lead" data-i18n="security.session.lead">Giriş yaptığını tarayıcın bir çerezle hatırlar; o çerez sayfadaki betiklere kapalıdır.</p>
+          </div>
+          <ul class="security-facts" role="list">
+            <li class="security-fact">
+              <span class="security-fact__icon" aria-hidden="true"><svg class="icon" focusable="false"><use href="/assets/icons.svg#cookie"></use></svg></span>
+              <h3 class="security-fact__title" data-i18n="security.session.cookie.title">Betiklerin okuyamadığı çerez</h3>
+              <p class="security-fact__body" data-i18n="security.session.cookie.body">Oturum HttpOnly bir çerezde durur: sayfadaki hiçbir betik onu okuyamaz. SameSite=Lax sayesinde başka sitelerden gelen isteklere eklenmez; HTTPS’te yalnızca şifreli bağlantıda gönderilir.</p>
+            </li>
+            <li class="security-fact">
+              <span class="security-fact__icon" aria-hidden="true"><svg class="icon" focusable="false"><use href="/assets/icons.svg#shield"></use></svg></span>
+              <h3 class="security-fact__title" data-i18n="security.session.csrf.title">Her değişiklikte ayrı bir belirteç</h3>
+              <p class="security-fact__body" data-i18n="security.session.csrf.body">Bir şeyi değiştiren her istek (yükleme, durum değişikliği, çıkış) ayrıca bir CSRF belirteci taşır. Başka bir site senin adına istek gönderemez; belirteç girişte ve çıkışta yenilenir.</p>
+            </li>
+            <li class="security-fact">
+              <span class="security-fact__icon" aria-hidden="true"><svg class="icon" focusable="false"><use href="/assets/icons.svg#sign-out"></use></svg></span>
+              <h3 class="security-fact__title" data-i18n="security.session.signout.title">Çıkış yapınca</h3>
+              <p class="security-fact__body" data-i18n="security.session.signout.body">Sunucu oturum çerezini siler; sayfa seni giriş ekranına götürür.</p>
+            </li>
+          </ul>
+        </section>
+
+        <section class="security-section" id="files" aria-labelledby="files-title">
+          <div class="security-section__head">
+            <h2 class="security-section__title" id="files-title" data-i18n="security.files.title">Demoların</h2>
+            <p class="security-section__lead" data-i18n="security.files.lead">Gönderdiğin dosya seninle ekip arasında kalır.</p>
+            <a class="security-section__link" href="/portal/demos.html"><span data-i18n="security.files.link">Gönderilerime git</span><svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#arrow-right"></use></svg></a>
+          </div>
+          <ul class="security-facts" role="list">
+            <li class="security-fact">
+              <span class="security-fact__icon" aria-hidden="true"><svg class="icon" focusable="false"><use href="/assets/icons.svg#user"></use></svg></span>
+              <h3 class="security-fact__title" data-i18n="security.files.owner.title">Yalnızca sen ve ekip</h3>
+              <p class="security-fact__body" data-i18n="security.files.owner.body">Bir demoyu yalnızca yükleyen sanatçı ve yönetim ekibi görür. Başka bir sanatçı adresini bilse bile “bulunamadı” yanıtı alır; demonun var olduğu bile anlaşılmaz.</p>
+            </li>
+            <li class="security-fact">
+              <span class="security-fact__icon" aria-hidden="true"><svg class="icon" focusable="false"><use href="/assets/icons.svg#folder-lock"></use></svg></span>
+              <h3 class="security-fact__title" data-i18n="security.files.storage.title">Herkese açık klasörde değil</h3>
+              <p class="security-fact__body" data-i18n="security.files.storage.body">Ses dosyaları sitenin kendi dosyalarından ayrı, özel bir yerde saklanır. Yalnızca yetkisi olan kişiye oynatılır ve tarayıcı önbelleğine yazılmaz.</p>
+            </li>
+            <li class="security-fact">
+              <span class="security-fact__icon" aria-hidden="true"><svg class="icon" focusable="false"><use href="/assets/icons.svg#fingerprint"></use></svg></span>
+              <h3 class="security-fact__title" data-i18n="security.files.verify.title">Dosyanı kendin doğrula</h3>
+              <p class="security-fact__body" data-i18n="security.files.verify.body">Yüklerken dosyanın SHA-256 özeti tarayıcında da hesaplanır ve sunucununkiyle karşılaştırılır. Sonradan elindeki kopyayı demo sayfasında “Dosyayı doğrula” ile yeniden karşılaştırabilirsin; dosya bu sırada hiçbir yere gönderilmez.</p>
+            </li>
+          </ul>
+        </section>
+
+        <section class="security-section" id="methods" aria-labelledby="methods-title">
+          <div class="security-section__head">
+            <h2 class="security-section__title" id="methods-title" data-i18n="security.methods.title">Kullandığımız yöntemler</h2>
+            <p class="security-section__lead" data-i18n="security.methods.lead">Yukarıdakilerin arkasındaki dört yöntem. İçlerini Hash Lab’de adım adım açabilirsin.</p>
+          </div>
+          <div class="security-methods">
+            <ul class="security-grid" role="list">
+              <li class="security-card security-card--wide reveal" data-card="sha256">
+                <article class="security-card__inner" aria-labelledby="card-sha256">
+                  <h3 class="security-card__title" id="card-sha256" data-i18n="security.cards.sha256.title">SHA-256</h3>
+                  <p class="security-card__body" data-i18n="security.cards.sha256.body">Yüklenen ses dosyasının özetini hesaplayıp saklıyoruz. Bu değer, sonraki bütünlük karşılaştırmalarında kullanılabilir.</p>
+                  <div class="security-card__visual" aria-hidden="true" data-visual></div>
+                  <a class="security-card__link" href="/lab/sha256.html"><span data-i18n="security.links.sha256">SHA-256’yı adım adım izle</span><svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#arrow-right"></use></svg></a>
+                </article>
+              </li>
+              <li class="security-card reveal" data-card="pbkdf2">
+                <article class="security-card__inner" aria-labelledby="card-pbkdf2">
+                  <h3 class="security-card__title" id="card-pbkdf2" data-i18n="security.cards.pbkdf2.title">PBKDF2-HMAC-SHA512</h3>
+                  <p class="security-card__body" data-i18n="security.cards.pbkdf2.body">Parolaları saklamak ve girişte doğrulamak için kullanıyoruz. SHA-512 burada HMAC ve PBKDF2 yapısının içinde kullanılıyor.</p>
+                  <div class="security-card__visual" aria-hidden="true" data-visual></div>
+                  <a class="security-card__link" href="/lab/pbkdf2.html"><span data-i18n="security.links.pbkdf2">Parola özetleme maliyetini dene</span><svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#arrow-right"></use></svg></a>
+                </article>
+              </li>
+              <li class="security-card reveal" data-card="salt">
+                <article class="security-card__inner" aria-labelledby="card-salt">
+                  <h3 class="security-card__title" id="card-salt" data-i18n="security.cards.salt.title">Tuzlama (salt)</h3>
+                  <p class="security-card__body" data-i18n="security.cards.salt.body">Her yeni parola özetleme işleminde rastgele tuz üretiyoruz. Aynı parola için farklı kayıtlar oluşmasını sağlıyor.</p>
+                  <div class="security-card__visual" aria-hidden="true" data-visual></div>
+                  <a class="security-card__link" href="/lab/pbkdf2.html#salt"><span data-i18n="security.links.salt">Aynı parola, farklı tuz</span><svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#arrow-right"></use></svg></a>
+                </article>
+              </li>
+              <li class="security-card security-card--wide reveal" data-card="iterations">
+                <article class="security-card__inner" aria-labelledby="card-iterations">
+                  <h3 class="security-card__title" id="card-iterations" data-i18n="security.cards.iterations.title">İterasyon maliyeti</h3>
+                  <p class="security-card__body" data-i18n="security.cards.iterations.body">PBKDF2'yi 220.000 iterasyonla yapılandırarak parola tahminlerinin hesaplama maliyetini artırıyoruz.</p>
+                  <div class="security-card__visual" data-visual></div>
+                  <a class="security-card__link" href="/lab/pbkdf2.html#cost"><span data-i18n="security.links.iterations">İterasyon ve süre grafiği</span><svg class="icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#arrow-right"></use></svg></a>
+                </article>
+              </li>
+            </ul>
+            <ul class="paths" role="list">
+              <li class="path reveal">
+                <h3 class="path__title"><a class="path__link" href="/lab/compare.html" data-i18n="security.more">Tüm algoritmaları karşılaştır</a></h3>
+                <p class="path__body" data-i18n="security.moreBody">MD5, SHA-1, SHA-2 ve SHA3-256 yan yana: aynı girdinin özetleri, yapıları ve bugünkü durumları.</p>
+                <svg class="icon path__arrow" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#arrow-right"></use></svg>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="security-section security-section--tips" id="tips" aria-labelledby="tips-title">
+          <div class="security-section__head">
+            <h2 class="security-section__title" id="tips-title" data-i18n="security.tips.title">Hesabını korumak için</h2>
+          </div>
+          <ol class="security-tips" role="list">
+            <li class="security-tips__item" data-i18n="security.tips.long">En az 12 karakterli, sana özel bir parola seç: uzun bir cümlenin hatırlaması kolay, tahmini zordur.</li>
+            <li class="security-tips__item" data-i18n="security.tips.unique">Başka bir sitede kullandığın parolayı burada kullanma.</li>
+            <li class="security-tips__item" data-i18n="security.tips.shared">Ortak bir bilgisayardaysan işin bitince Çıkış yap’a bas.</li>
+            <li class="security-tips__item" data-i18n="security.tips.reset">Sıfırlama bağlantısını kimseyle paylaşma: bağlantıyı açan, parolanı değiştirebilir.</li>
+          </ol>
+        </section>
       </div>
     </main>
     <footer id="site-footer"></footer>
