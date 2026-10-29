@@ -61,4 +61,4 @@ Yazı tipleri (Archivo, IBM Plex Mono) kendi sunucumuzdan verilir ve SIL Open Fo
 
 İkonlar Phosphor Icons setinden (regular ağırlık) bir kez kopyalanmıştır ve MIT lisanslıdır; lisans metni `web/assets/icons-LICENSE.txt` dosyasındadır.
 
-Ana sayfadaki sahne fotoğrafı Gene Brutty'nin Unsplash'te yayımladığı bir fotoğraftır ve Unsplash License ile ücretsiz kullanılır. Kırpılıp birkaç genişlikte yeniden kodlanmış hâlleri `web/assets/photos/` klasöründedir ve kendi sunucumuzdan verilir. Kaynağı ve lisans bağlantısı `web/assets/photos/LICENSE.txt` dosyasındadır.
+Sitedeki sekiz fotoğraf Unsplash'te yayımlanmıştır ve Unsplash License ile ücretsiz kullanılır; her biri tek bir yerde durur. Ana sayfanın hero'sundaki dördü Gene Brutty, Varun Praveen, Bogomil Mihaylov ve Anya Rokenroll'un; Gönderilerim, Demo yükle, Güvenlik ve yönetim panelinin başındakiler Karsten Winegeart, Leo Wieling, Francisco Moreno ve Rob Wingate'in. Kırpılıp birkaç genişlikte yeniden kodlanmış hâlleri `web/assets/photos/` klasöründedir ve kendi sunucumuzdan verilir. Kaynakları ve lisans bağlantısı `web/assets/photos/LICENSE.txt` dosyasındadır.
