@@ -1,10 +1,27 @@
-Stage photo on the home page (stage-*.avif, stage-*.webp)
+Photos used on the site, each in one place only: band-*, singer-*, mic-* and frame-* behind the
+home page hero; wall-* heads the submissions, studio-* the upload page, smoke-* the security page
+and desk-* the review desk.
 
-"A group of people standing on top of a stage" by Gene Brutty (@genebrut)
-https://unsplash.com/photos/XiQNkiI7bwg
-
-Published on Unsplash on 8 November 2021 and free to use under the Unsplash License:
+All eight were published on Unsplash and are free to use under the Unsplash License:
 https://unsplash.com/license
 
-The files in this folder are crops of the original photo (a wide one for tablets and desktops,
-a 4:5 one for phones), re-encoded at several widths.
+band    "A group of people standing on top of a stage" by Gene Brutty (@genebrut)
+        https://unsplash.com/photos/XiQNkiI7bwg
+singer  "Silhouette of a singer performing on stage with red lighting" by Varun Praveen (@varun_ihus)
+        https://unsplash.com/photos/gB_AQ6Yc6-w
+mic     "A microphone that is sitting on a stand" by Bogomil Mihaylov (@bogomi)
+        https://unsplash.com/photos/ekHSHvgr27k
+frame   "Stage with orange lights" by Anya Rokenroll (@anyarokenroll)
+        https://unsplash.com/photos/yZ-yNUYXEp0
+wall    "A silhouette stands on stage under red light" by Karsten Winegeart (@_karsten)
+        https://unsplash.com/photos/ek2R4dOGPsI
+studio  "Grayscale photo of condenser microphone beside pop filter" by Leo Wieling (@leowieling)
+        https://unsplash.com/photos/bG8U3kaZltE
+smoke   "Silhouette photo of guitarist" by Francisco Moreno (@franciscomoreno)
+        https://unsplash.com/photos/GrIty4BNJEE
+desk    "Someone is operating a sound mixing console" by Rob Wingate (@robwingate)
+        https://unsplash.com/photos/oQVkFSG9ezU
+
+The files in this folder are crops of the originals (16:10 for tablets and desktops, 9:16 for
+phones), re-encoded at several widths. smoke-* and desk-* are also mirrored, so the subject stands
+clear of the page's words; wall-* is slightly softened.
