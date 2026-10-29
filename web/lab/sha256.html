@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title data-i18n="lab.sha256.pageTitle">SHA-256 adım adım · Hash Lab</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="preload" href="/assets/fonts/archivo/archivo-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/archivo/archivo-latin-ext-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/ibm-plex-mono/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/pages/lab.css">
+    <script type="module" src="/js/pages/lab-sha256.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main" data-i18n="common.skipToContent">İçeriğe geç</a>
+    <header id="site-header"></header>
+    <main id="main" tabindex="-1">
+      <section class="container page-head" aria-labelledby="sha-title">
+        <p class="lab-crumb"><a href="/lab/" data-i18n="lab.back">Hash Lab’e dön</a></p>
+        <h1 class="page-head__title" id="sha-title" data-i18n="lab.sha256.title">SHA-256, adım adım</h1>
+        <p class="page-head__lead" data-i18n="lab.sha256.lead">Bir metnin SHA-256 özetinin nasıl oluştuğunu yedi adımda izle. Adımlar FIPS 180-4’teki tanımı izler.</p>
+        <p class="lab-note" data-i18n="lab.note">Eğitim amaçlıdır; üretimde platformun kriptografi kütüphanesi kullanılır.</p>
+      </section>
+
+      <div class="container lab">
+        <section class="lab-panel" aria-labelledby="sha-input-title">
+          <h2 class="lab-panel__title" id="sha-input-title" data-i18n="lab.sha256.input.title">Girdi</h2>
+          <div class="field">
+            <label class="field__label" for="sha-input" data-i18n="lab.sha256.input.label">Metin</label>
+            <p class="field__hint" id="sha-input-hint" data-i18n="lab.sha256.input.hint">UTF-8 ile baytlara çevrilir.</p>
+            <p class="field__error" id="sha-input-error" data-input-error hidden></p>
+            <textarea class="textarea lab-text" id="sha-input" rows="2" spellcheck="false" autocapitalize="off" autocomplete="off" aria-describedby="sha-input-hint sha-input-error sha-input-stats">abc</textarea>
+            <p class="lab-stats" id="sha-input-stats" data-stats></p>
+          </div>
+        </section>
+
+        <ol class="lab-steps" role="list">
+          <li>
+            <section class="lab-step" aria-labelledby="step-bytes">
+              <h2 class="lab-step__title" id="step-bytes"><span class="lab-step__index" aria-hidden="true">1</span><span data-i18n="lab.sha256.bytes.title">Mesaj baytları</span></h2>
+              <p class="lab-step__body" data-i18n="lab.sha256.bytes.body">SHA-256 harflerle değil baytlarla çalışır.</p>
+              <div data-view="bytes"></div>
+            </section>
+          </li>
+          <li>
+            <section class="lab-step" aria-labelledby="step-padding">
+              <h2 class="lab-step__title" id="step-padding"><span class="lab-step__index" aria-hidden="true">2</span><span data-i18n="lab.sha256.padding.title">Dolgu</span></h2>
+              <p class="lab-step__body" data-i18n="lab.sha256.padding.body">Mesajın sonuna önce 0x80 eklenir.</p>
+              <div data-view="padding"></div>
+            </section>
+          </li>
+          <li>
+            <section class="lab-step" aria-labelledby="step-blocks">
+              <h2 class="lab-step__title" id="step-blocks"><span class="lab-step__index" aria-hidden="true">3</span><span data-i18n="lab.sha256.blocks.title">512 bitlik bloklar</span></h2>
+              <p class="lab-step__body" data-i18n="lab.sha256.blocks.body">Dolgulu mesaj 64 baytlık bloklara bölünür.</p>
+              <div class="field lab-block-field" data-block-field hidden>
+                <label class="field__label" for="block" data-i18n="lab.sha256.blocks.select">Gösterilen blok</label>
+                <select class="select" id="block"></select>
+              </div>
+              <div data-view="words"></div>
+            </section>
+          </li>
+          <li>
+            <section class="lab-step" aria-labelledby="step-schedule">
+              <h2 class="lab-step__title" id="step-schedule"><span class="lab-step__index" aria-hidden="true">4</span><span data-i18n="lab.sha256.schedule.title">Mesaj çizelgesi</span></h2>
+              <p class="lab-step__body" data-i18n="lab.sha256.schedule.body">İlk 16 kelime bloğun kendisidir.</p>
+              <p class="lab-step__hint" data-i18n="lab.sha256.schedule.highlight">Seçili turun kullandığı W[t] vurgulu.</p>
+              <div data-view="schedule"></div>
+            </section>
+          </li>
+          <li>
+            <section class="lab-step" aria-labelledby="step-rounds">
+              <h2 class="lab-step__title" id="step-rounds"><span class="lab-step__index" aria-hidden="true">5</span><span data-i18n="lab.sha256.rounds.title">64 tur</span></h2>
+              <p class="lab-step__body" data-i18n="lab.sha256.rounds.body">Her turda a–h yazmaçları güncellenir.</p>
+              <div class="round-controls" data-round-controls>
+                <label class="field__label round-controls__label" for="round" data-i18n="lab.sha256.rounds.slider">Tur (t)</label>
+                <input class="round-controls__slider" id="round" type="range" min="0" max="63" step="1" value="0">
+                <div class="round-controls__buttons">
+                  <button class="btn btn--secondary" type="button" data-step="-1" data-i18n="lab.sha256.rounds.previous">Önceki tur</button>
+                  <button class="btn btn--secondary" type="button" data-step="1" data-i18n="lab.sha256.rounds.next">Sonraki tur</button>
+                  <button class="btn btn--ghost" type="button" aria-pressed="false" data-play data-i18n="lab.sha256.rounds.play">Otomatik oynat</button>
+                </div>
+                <p class="round-controls__position mono" data-round-position></p>
+                <p class="lab-step__hint" data-motion-note hidden data-i18n="lab.sha256.rounds.reducedMotion">Otomatik oynatma kapalı.</p>
+                <p class="visually-hidden" aria-live="polite" data-round-status></p>
+              </div>
+              <div data-view="round"></div>
+              <div data-view="constants"></div>
+            </section>
+          </li>
+          <li>
+            <section class="lab-step" aria-labelledby="step-feed">
+              <h2 class="lab-step__title" id="step-feed"><span class="lab-step__index" aria-hidden="true">6</span><span data-i18n="lab.sha256.feedForward.title">Ara özetin eklenmesi</span></h2>
+              <p class="lab-step__body" data-i18n="lab.sha256.feedForward.body">64 tur bitince a–h ara özete eklenir.</p>
+              <div data-view="feed"></div>
+            </section>
+          </li>
+          <li>
+            <section class="lab-step" aria-labelledby="step-digest">
+              <h2 class="lab-step__title" id="step-digest"><span class="lab-step__index" aria-hidden="true">7</span><span data-i18n="lab.sha256.digest.title">Son özet</span></h2>
+              <p class="lab-step__body" data-i18n="lab.sha256.digest.body">Son bloğun ara özeti SHA-256 özetidir.</p>
+              <div data-view="digest"></div>
+            </section>
+          </li>
+        </ol>
+      </div>
+    </main>
+    <footer id="site-footer"></footer>
+  </body>
+</html>

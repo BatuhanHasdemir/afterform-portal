@@ -1,0 +1,68 @@
+{
+  "users": [
+    {
+      "email": "artist@afterform.test",
+      "displayName": "Deniz Aras",
+      "role": "artist",
+      "password": "mock-artist-pass-01"
+    },
+    {
+      "email": "artist2@afterform.test",
+      "displayName": "Mira Kaya",
+      "role": "artist",
+      "password": "mock-artist-pass-02"
+    },
+    {
+      "email": "admin@afterform.test",
+      "displayName": "AFTER/FORM A&R",
+      "role": "admin",
+      "password": "mock-admin-pass-01"
+    }
+  ],
+  "demos": [
+    {
+      "owner": "artist@afterform.test",
+      "title": "Gece Yürüyüşü",
+      "genre": "ambient",
+      "note": "İlk taslak; vokal yok.",
+      "status": "pending",
+      "statusNote": null,
+      "createdDaysAgo": 1,
+      "updatedDaysAgo": 1,
+      "audio": { "originalName": "gece-yuruyusu.mp3", "frequency": 167, "seconds": 8 }
+    },
+    {
+      "owner": "artist@afterform.test",
+      "title": "Paralel Hat",
+      "genre": "electronic",
+      "note": "",
+      "status": "in_review",
+      "statusNote": null,
+      "createdDaysAgo": 6,
+      "updatedDaysAgo": 3,
+      "audio": { "originalName": "paralel-hat_v2.mp3", "frequency": 333, "seconds": 7 }
+    },
+    {
+      "owner": "artist@afterform.test",
+      "title": "Kırık Saat",
+      "genre": "experimental",
+      "note": "Miks henüz bitmedi.",
+      "status": "accepted",
+      "statusNote": "Ekim derlemesine alındı.",
+      "createdDaysAgo": 20,
+      "updatedDaysAgo": 12,
+      "audio": { "originalName": "kirik-saat.mp3", "frequency": 250, "seconds": 10 }
+    },
+    {
+      "owner": "artist2@afterform.test",
+      "title": "Northbound",
+      "genre": "jazz",
+      "note": "",
+      "status": "rejected",
+      "statusNote": "Şu anki katalogla örtüşmüyor.",
+      "createdDaysAgo": 14,
+      "updatedDaysAgo": 9,
+      "audio": { "originalName": "northbound.mp3", "frequency": 417, "seconds": 6 }
+    }
+  ]
+}

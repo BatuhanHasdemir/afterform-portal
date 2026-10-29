@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title data-i18n="lab.avalanche.pageTitle">Çığ etkisi · Hash Lab</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="preload" href="/assets/fonts/archivo/archivo-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/archivo/archivo-latin-ext-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/ibm-plex-mono/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/pages/lab.css">
+    <script type="module" src="/js/pages/lab-avalanche.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main" data-i18n="common.skipToContent">İçeriğe geç</a>
+    <header id="site-header"></header>
+    <main id="main" tabindex="-1">
+      <section class="container page-head" aria-labelledby="av-title">
+        <p class="lab-crumb"><a href="/lab/" data-i18n="lab.back">Hash Lab’e dön</a></p>
+        <h1 class="page-head__title" id="av-title" data-i18n="lab.avalanche.title">Çığ etkisi</h1>
+        <p class="page-head__lead" data-i18n="lab.avalanche.lead">İki girdi neredeyse aynı: ikincisi, birincinin tek bir biti çevrilmiş hâli.</p>
+        <p class="lab-note" data-i18n="lab.note">Eğitim amaçlıdır; üretimde platformun kriptografi kütüphanesi kullanılır.</p>
+      </section>
+
+      <div class="container lab">
+        <section class="lab-panel" aria-labelledby="av-controls-title">
+          <h2 class="lab-panel__title" id="av-controls-title" data-i18n="lab.avalanche.controls">Deney</h2>
+          <div class="av-controls">
+            <div class="field av-controls__text">
+              <label class="field__label" for="av-input" data-i18n="lab.avalanche.input">Girdi A</label>
+              <p class="field__hint" id="av-input-hint" data-i18n="lab.avalanche.inputHint">Girdi B, A’nın seçtiğin biti çevrilerek oluşturulur.</p>
+              <p class="field__error" id="av-input-error" data-input-error hidden></p>
+              <textarea class="textarea lab-text" id="av-input" rows="2" spellcheck="false" autocapitalize="off" autocomplete="off" aria-describedby="av-input-hint av-input-error">abc</textarea>
+            </div>
+            <div class="field">
+              <label class="field__label" for="av-algorithm" data-i18n="lab.avalanche.algorithm">Algoritma</label>
+              <select class="select" id="av-algorithm"></select>
+            </div>
+            <div class="field av-controls__bit">
+              <label class="field__label" for="av-bit" data-i18n="lab.avalanche.bit">Çevrilecek bit</label>
+              <p class="field__hint" id="av-bit-hint" data-i18n="lab.avalanche.bitNote">Baytlar ve bitler 0’dan sayılır.</p>
+              <input class="round-controls__slider" id="av-bit" type="range" min="0" max="23" step="1" value="23" aria-describedby="av-bit-hint">
+              <p class="mono" data-bit-value></p>
+              <button class="btn btn--secondary av-controls__random" type="button" data-random data-i18n="lab.avalanche.random">Rastgele bir bit seç</button>
+            </div>
+          </div>
+          <p class="muted" data-empty hidden data-i18n="lab.avalanche.empty">Bit çevirebilmek için en az bir karakter yaz.</p>
+        </section>
+
+        <div data-experiment>
+          <section class="lab-panel" aria-labelledby="av-inputs-title">
+            <h2 class="lab-panel__title" id="av-inputs-title" data-i18n="lab.avalanche.inputs">Girdiler</h2>
+            <div class="av-pair" data-inputs></div>
+          </section>
+
+          <section class="lab-panel" aria-labelledby="av-result-title">
+            <h2 class="lab-panel__title" id="av-result-title" data-i18n="lab.avalanche.result">Sonuç</h2>
+            <p class="av-result" role="status" data-result></p>
+            <p class="muted" data-i18n="lab.avalanche.expected">Beklenen: bitlerin yaklaşık yarısı.</p>
+            <div class="av-digests" data-digests></div>
+            <h3 class="lab-panel__subtitle" data-i18n="lab.avalanche.grid">Değişen bitler</h3>
+            <ul class="legend" role="list">
+              <li class="legend__item"><span class="legend__swatch bit-grid__cell is-changed" aria-hidden="true"></span><span data-i18n="lab.avalanche.gridLegendChanged">Değişen</span></li>
+              <li class="legend__item"><span class="legend__swatch bit-grid__cell" aria-hidden="true"></span><span data-i18n="lab.avalanche.gridLegendSame">Aynı kalan</span></li>
+            </ul>
+            <div class="bit-grid" aria-hidden="true" data-grid></div>
+            <h3 class="lab-panel__subtitle" data-i18n="lab.avalanche.prints">Parmak izleri</h3>
+            <div class="av-pair av-prints" data-prints></div>
+          </section>
+        </div>
+      </div>
+    </main>
+    <footer id="site-footer"></footer>
+  </body>
+</html>

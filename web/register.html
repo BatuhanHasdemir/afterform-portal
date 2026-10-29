@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title data-i18n="auth.register.pageTitle">Hesap oluştur · AFTER/FORM</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="preload" href="/assets/fonts/archivo/archivo-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/archivo/archivo-latin-ext-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/ibm-plex-mono/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/pages/auth.css">
+    <script type="module" src="/js/pages/register.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main" data-i18n="common.skipToContent">İçeriğe geç</a>
+    <header id="site-header"></header>
+    <main id="main" tabindex="-1">
+      <div class="container auth">
+        <p class="eyebrow" data-i18n="common.areas.artist">Sanatçı portalı</p>
+        <h1 class="auth__title" id="register-title" data-i18n="auth.register.title">Hesap oluştur</h1>
+        <p class="auth__lead" data-i18n="auth.register.lead">Demolarını göndermek ve değerlendirmeyi izlemek için bir hesap aç.</p>
+        <form class="form-stack auth__form" id="register-form" aria-labelledby="register-title" novalidate>
+          <div class="field">
+            <label class="field__label" for="register-name" data-i18n="auth.fields.displayName">Görünen ad</label>
+            <p class="field__hint" id="register-name-hint" data-i18n="auth.hints.displayName">Sanatçı ya da proje adın; 2–60 karakter.</p>
+            <input class="input" id="register-name" name="displayName" type="text" autocomplete="nickname" aria-describedby="register-name-hint" required>
+          </div>
+          <div class="field">
+            <label class="field__label" for="register-email" data-i18n="auth.fields.email">E-posta adresi</label>
+            <input class="input" id="register-email" name="email" type="email" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+          </div>
+          <div class="field">
+            <label class="field__label" for="register-password" data-i18n="auth.fields.password">Parola</label>
+            <p class="field__hint" id="register-password-hint" data-i18n="auth.hints.password">En az 12 karakter. Kolay hatırladığın uzun bir cümle iyi bir parola olur.</p>
+            <div class="input-group">
+              <input class="input" id="register-password" name="password" type="password" autocomplete="new-password" autocapitalize="none" spellcheck="false" aria-describedby="register-password-hint register-password-strength" required>
+              <button class="input-group__button" type="button" aria-controls="register-password" aria-pressed="false" aria-label="Parolayı göster" data-password-toggle data-i18n="auth.password.show" data-i18n-attr="aria-label:auth.password.showLabel">Göster</button>
+            </div>
+            <div class="password-meter" id="register-password-strength" data-level="empty">
+              <span class="password-meter__bar" aria-hidden="true"><span></span><span></span><span></span></span>
+              <span class="password-meter__text" data-strength-text></span>
+            </div>
+          </div>
+          <button class="btn btn--primary auth__submit" type="submit" data-i18n="auth.register.submit">Hesap oluştur</button>
+        </form>
+        <ul class="auth__links" role="list">
+          <li><span data-i18n="auth.register.haveAccount">Zaten hesabın var mı?</span> <a href="/login.html" data-login-link data-i18n="auth.register.login">Giriş yap</a></li>
+        </ul>
+        <div data-info-card></div>
+      </div>
+    </main>
+    <footer id="site-footer"></footer>
+  </body>
+</html>

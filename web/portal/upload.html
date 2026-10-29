@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title data-i18n="upload.pageTitle">Demo yükle · AFTER/FORM</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="preload" href="/assets/fonts/archivo/archivo-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/archivo/archivo-latin-ext-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/ibm-plex-mono/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/pages/portal.css">
+    <script type="module" src="/js/pages/portal-upload.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main" data-i18n="common.skipToContent">İçeriğe geç</a>
+    <header id="site-header"></header>
+    <main id="main" tabindex="-1">
+      <section class="container page-head" aria-labelledby="upload-title">
+        <p class="eyebrow"><span class="eyebrow__index">02</span><span data-i18n="common.areas.artist">Sanatçı portalı</span></p>
+        <h1 class="page-head__title" id="upload-title" data-i18n="upload.title">Demo yükle</h1>
+        <p class="page-head__lead" data-i18n="upload.lead">Parçanı birkaç bilgiyle gönder; değerlendirme durumunu Gönderilerim sayfasından izleyebilirsin.</p>
+      </section>
+      <div class="container upload">
+        <p class="notice" role="status" data-status></p>
+        <form class="upload__form" id="upload-form" aria-labelledby="upload-title" novalidate>
+          <fieldset class="form-stack" data-fields>
+            <legend class="visually-hidden" data-i18n="upload.legend">Demo bilgileri</legend>
+            <div class="field">
+              <label class="field__label" for="upload-title-input" data-i18n="upload.fields.title">Parça adı</label>
+              <p class="field__hint" id="upload-title-hint" data-i18n="upload.hints.title">En fazla 120 karakter.</p>
+              <input class="input" id="upload-title-input" name="title" type="text" autocomplete="off" aria-describedby="upload-title-hint" required>
+            </div>
+            <div class="field">
+              <label class="field__label" for="upload-genre" data-i18n="upload.fields.genre">Tür</label>
+              <select class="select" id="upload-genre" name="genre" required>
+                <option value="" data-i18n="upload.genrePlaceholder">Bir tür seç</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="field__label" for="upload-note" data-i18n="upload.fields.note">Not</label>
+              <p class="field__hint" id="upload-note-hint" data-i18n="upload.hints.note">İsteğe bağlı; ekibe iletmek istediğin kısa bir not. En fazla 1000 karakter.</p>
+              <textarea class="textarea" id="upload-note" name="note" rows="4" aria-describedby="upload-note-hint"></textarea>
+            </div>
+            <div class="field">
+              <label class="field__label" id="upload-file-label" for="upload-file" data-i18n="upload.fields.file">Ses dosyası</label>
+              <div class="file-drop" data-file-drop>
+                <input class="file-drop__input" id="upload-file" name="file" type="file" aria-labelledby="upload-file-label" aria-describedby="upload-file-hint upload-file-selected" required>
+                <label class="file-drop__zone" for="upload-file" data-file-zone>
+                  <svg class="icon file-drop__icon" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#upload"></use></svg>
+                  <span class="file-drop__title" data-i18n="upload.drop.title">Dosyayı buraya bırak ya da seçmek için tıkla</span>
+                  <span class="file-drop__hint" id="upload-file-hint" data-upload-rules><span data-i18n="upload.drop.hint">Tek bir ses dosyası.</span></span>
+                </label>
+                <p class="file-drop__selected" id="upload-file-selected" aria-live="polite" data-file-selected></p>
+              </div>
+            </div>
+          </fieldset>
+          <div class="upload__actions">
+            <button class="btn btn--primary" type="submit" data-i18n="upload.submit">Yükle</button>
+          </div>
+          <div class="upload-progress" data-progress hidden>
+            <p class="upload-progress__label" id="upload-progress-label" data-i18n="upload.progressLabel">Yükleme ilerlemesi</p>
+            <progress class="upload-progress__bar" max="100" value="0" aria-labelledby="upload-progress-label"></progress>
+            <p class="upload-progress__text" data-progress-text></p>
+            <p class="visually-hidden" role="status" data-progress-milestone></p>
+            <button class="btn btn--secondary" type="button" data-cancel data-i18n="upload.cancel">Yüklemeyi iptal et</button>
+          </div>
+        </form>
+      </div>
+    </main>
+    <footer id="site-footer"></footer>
+  </body>
+</html>

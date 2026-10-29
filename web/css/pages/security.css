@@ -1,0 +1,62 @@
+.security {
+  padding-bottom: var(--space-6);
+}
+
+.security-cards {
+  display: grid;
+  gap: var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
+.security-card {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  height: 100%;
+  padding: var(--space-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+}
+
+.security-card__index {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.security-card__title {
+  font-size: var(--text-lg);
+}
+
+.security-card__body {
+  color: var(--text-muted);
+}
+
+.security-card__link,
+.security-more a {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  min-height: var(--touch-min);
+}
+
+/* An inline-block arrow does not inherit the link's underline. */
+.security-card__link::after {
+  content: "\2192";
+  content: "\2192" / "";
+  display: inline-block;
+  margin-left: var(--space-2);
+  color: var(--accent);
+}
+
+.security-more {
+  margin-top: var(--space-5);
+}
+
+@media (min-width: 768px) {
+  .security-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

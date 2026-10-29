@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title data-i18n="security.pageTitle">Arka planda ne oluyor? · AFTER/FORM</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="preload" href="/assets/fonts/archivo/archivo-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/archivo/archivo-latin-ext-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/ibm-plex-mono/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/pages/security.css">
+    <script type="module" src="/js/pages/security.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main" data-i18n="common.skipToContent">İçeriğe geç</a>
+    <header id="site-header"></header>
+    <main id="main" tabindex="-1">
+      <section class="container page-head" aria-labelledby="security-title">
+        <p class="eyebrow" data-i18n="nav.security">Güvenlik</p>
+        <h1 class="page-head__title" id="security-title" data-i18n="security.title">Arka planda ne oluyor?</h1>
+        <p class="page-head__lead" data-i18n="security.lead">Parolanı ve yüklediğin dosyaları korumak için kullandığımız yöntemler, dört kısa kartta. Her kartın altında aynı fikri kendin deneyebileceğin bir Hash Lab deneyi var.</p>
+      </section>
+
+      <div class="container security">
+        <ul class="security-cards" role="list">
+          <li>
+            <article class="security-card" aria-labelledby="card-sha256">
+              <p class="security-card__index" aria-hidden="true">01</p>
+              <h2 class="security-card__title" id="card-sha256" data-i18n="security.cards.sha256.title">SHA-256</h2>
+              <p class="security-card__body" data-i18n="security.cards.sha256.body">Yüklenen ses dosyasının özetini hesaplayıp saklıyoruz. Bu değer, sonraki bütünlük karşılaştırmalarında kullanılabilir.</p>
+              <a class="security-card__link" href="/lab/sha256.html" data-i18n="security.links.sha256">SHA-256’yı adım adım izle</a>
+            </article>
+          </li>
+          <li>
+            <article class="security-card" aria-labelledby="card-pbkdf2">
+              <p class="security-card__index" aria-hidden="true">02</p>
+              <h2 class="security-card__title" id="card-pbkdf2" data-i18n="security.cards.pbkdf2.title">PBKDF2-HMAC-SHA512</h2>
+              <p class="security-card__body" data-i18n="security.cards.pbkdf2.body">Parolaları saklamak ve girişte doğrulamak için kullanıyoruz. SHA-512 burada HMAC ve PBKDF2 yapısının içinde kullanılıyor.</p>
+              <a class="security-card__link" href="/lab/pbkdf2.html" data-i18n="security.links.pbkdf2">Parola özetleme maliyetini dene</a>
+            </article>
+          </li>
+          <li>
+            <article class="security-card" aria-labelledby="card-salt">
+              <p class="security-card__index" aria-hidden="true">03</p>
+              <h2 class="security-card__title" id="card-salt" data-i18n="security.cards.salt.title">Tuzlama (salt)</h2>
+              <p class="security-card__body" data-i18n="security.cards.salt.body">Her yeni parola özetleme işleminde rastgele tuz üretiyoruz. Aynı parola için farklı kayıtlar oluşmasını sağlıyor.</p>
+              <a class="security-card__link" href="/lab/pbkdf2.html#salt" data-i18n="security.links.salt">Aynı parola, farklı tuz</a>
+            </article>
+          </li>
+          <li>
+            <article class="security-card" aria-labelledby="card-iterations">
+              <p class="security-card__index" aria-hidden="true">04</p>
+              <h2 class="security-card__title" id="card-iterations" data-i18n="security.cards.iterations.title">İterasyon maliyeti</h2>
+              <p class="security-card__body" data-i18n="security.cards.iterations.body">PBKDF2'yi 220.000 iterasyonla yapılandırarak parola tahminlerinin hesaplama maliyetini artırıyoruz.</p>
+              <a class="security-card__link" href="/lab/pbkdf2.html#cost" data-i18n="security.links.iterations">İterasyon ve süre grafiği</a>
+            </article>
+          </li>
+        </ul>
+        <p class="security-more"><a href="/lab/compare.html" data-i18n="security.more">Tüm algoritmaları karşılaştır</a></p>
+      </div>
+    </main>
+    <footer id="site-footer"></footer>
+  </body>
+</html>

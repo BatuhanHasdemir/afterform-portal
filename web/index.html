@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title data-i18n="home.pageTitle">AFTER/FORM · Sanatçı Portalı</title>
+    <meta name="description" content="AFTER/FORM sanatçı portalı: demonu yükle, değerlendirmeyi izle; parolaların ve dosyaların nasıl korunduğunu gör." data-i18n-attr="content:home.metaDescription">
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="preload" href="/assets/fonts/archivo/archivo-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/archivo/archivo-latin-ext-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/ibm-plex-mono/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/pages/home.css">
+    <script type="module" src="/js/pages/home.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main" data-i18n="common.skipToContent">İçeriğe geç</a>
+    <header id="site-header"></header>
+    <main id="main" tabindex="-1">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="container">
+          <p class="eyebrow" data-i18n="home.hero.eyebrow">Bağımsız müzik şirketi</p>
+          <h1 class="hero__title" id="hero-title" data-i18n="home.tagline">Biçimden sonra gelen ses.</h1>
+          <p class="hero__lead" data-i18n="home.hero.lead">AFTER/FORM, sesini arayan sanatçıların demolarını dinler. Parçanı yükle, değerlendirmenin her adımını buradan izle.</p>
+          <div class="actions" data-show-for="guest">
+            <a class="btn btn--primary" href="/register.html" data-i18n="home.hero.primary">Demonu gönder</a>
+            <a class="btn btn--secondary" href="/login.html" data-i18n="home.hero.secondary">Giriş yap</a>
+          </div>
+          <div class="actions" data-show-for="user" hidden>
+            <a class="btn btn--primary" href="/" data-home-link data-i18n="home.continue">Kaldığın yerden devam et</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="artists-title">
+        <div class="container section__grid">
+          <div class="section__head">
+            <p class="eyebrow"><span class="eyebrow__index">01</span><span data-i18n="home.artists.eyebrow">Sanatçılar için</span></p>
+            <h2 class="section__title" id="artists-title" data-i18n="home.artists.title">Demodan karara üç adım</h2>
+          </div>
+          <div class="section__content">
+            <ol class="steps" role="list">
+              <li class="steps__item">
+                <h3 class="steps__title" data-i18n="home.artists.step1.title">Hesap aç</h3>
+                <p class="steps__body" data-i18n="home.artists.step1.body">E-posta adresin ve bir parolayla hesabını oluştur.</p>
+              </li>
+              <li class="steps__item">
+                <h3 class="steps__title" data-i18n="home.artists.step2.title">Demonu yükle</h3>
+                <p class="steps__body" data-i18n="home.artists.step2.body">Parçanın adını ve türünü yaz; istersen kısa bir not ekle.</p>
+              </li>
+              <li class="steps__item">
+                <h3 class="steps__title" data-i18n="home.artists.step3.title">Durumu izle</h3>
+                <p class="steps__body" data-i18n="home.artists.step3.body">Değerlendirme ilerledikçe demonun durumu ve ekibin notu burada görünür.</p>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="behind-title">
+        <div class="container section__grid">
+          <div class="section__head">
+            <p class="eyebrow"><span class="eyebrow__index">02</span><span data-i18n="home.behind.eyebrow">Güvenlik ve Lab</span></p>
+            <h2 class="section__title" id="behind-title" data-i18n="home.behind.title">Arka planda ne oluyor?</h2>
+          </div>
+          <div class="section__content">
+            <p class="section__lead" data-i18n="home.behind.body">Parolan düz metin olarak saklanmaz: her özetlemede yeni üretilen rastgele bir tuz (salt) ile, PBKDF2-HMAC-SHA512 ve 220.000 iterasyonla özetlenir. Yüklediğin her dosyanın SHA-256 özeti hesaplanıp saklanır.</p>
+            <ul class="teasers" role="list">
+              <li class="teaser">
+                <h3 class="teaser__title"><a class="teaser__link" href="/security.html" data-i18n="home.behind.security.title">Güvenlik</a></h3>
+                <p class="teaser__body" data-i18n="home.behind.security.body">Parolaların ve dosyaların nasıl korunduğu, dört kısa kartta.</p>
+              </li>
+              <li class="teaser">
+                <h3 class="teaser__title"><a class="teaser__link" href="/lab/" data-i18n="home.behind.lab.title">Hash Lab</a></h3>
+                <p class="teaser__body" data-i18n="home.behind.lab.body">SHA-256’nın içini adım adım aç: dolgu, mesaj çizelgesi, 64 tur ve çığ etkisi.</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="cta-title" data-show-for="guest">
+        <div class="container section__grid">
+          <div class="section__head">
+            <p class="eyebrow"><span class="eyebrow__index">03</span><span data-i18n="home.cta.eyebrow">Başla</span></p>
+            <h2 class="section__title" id="cta-title" data-i18n="home.cta.title">Sıradaki demo seninki olabilir.</h2>
+          </div>
+          <div class="section__content">
+            <p class="section__lead" data-i18n="home.cta.body">Hesabın varsa giriş yap; yoksa birkaç dakikada oluştur.</p>
+            <div class="actions">
+              <a class="btn btn--primary" href="/register.html" data-i18n="home.cta.register">Hesap oluştur</a>
+              <a class="btn btn--secondary" href="/login.html" data-i18n="home.cta.login">Giriş yap</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer id="site-footer"></footer>
+  </body>
+</html>

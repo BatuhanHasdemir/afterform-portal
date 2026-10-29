@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <title data-i18n="common.notFound.pageTitle">Sayfa bulunamadı · AFTER/FORM</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="preload" href="/assets/fonts/archivo/archivo-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/archivo/archivo-latin-ext-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/ibm-plex-mono/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <script type="module" src="/js/pages/not-found.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main" data-i18n="common.skipToContent">İçeriğe geç</a>
+    <header id="site-header"></header>
+    <main id="main" tabindex="-1">
+      <section class="state-view container" aria-labelledby="not-found-title">
+        <p class="eyebrow"><span class="eyebrow__index">404</span><span data-i18n="common.notFound.eyebrow">Hata</span></p>
+        <h1 class="state-view__title" id="not-found-title" data-i18n="common.notFound.title">Sayfa bulunamadı</h1>
+        <p class="state-view__body" data-i18n="common.notFound.body">Aradığın sayfa taşınmış, kaldırılmış ya da hiç var olmamış olabilir.</p>
+        <div class="state-view__actions">
+          <a class="btn btn--primary" href="/" data-i18n="common.backHome">Ana sayfaya dön</a>
+        </div>
+      </section>
+    </main>
+    <footer id="site-footer"></footer>
+  </body>
+</html>

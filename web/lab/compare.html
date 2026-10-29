@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title data-i18n="lab.compare.pageTitle">Karşılaştırma · Hash Lab</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="preload" href="/assets/fonts/archivo/archivo-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/archivo/archivo-latin-ext-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/ibm-plex-mono/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/pages/lab.css">
+    <script type="module" src="/js/pages/lab-compare.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main" data-i18n="common.skipToContent">İçeriğe geç</a>
+    <header id="site-header"></header>
+    <main id="main" tabindex="-1">
+      <section class="container page-head" aria-labelledby="cmp-title">
+        <p class="lab-crumb"><a href="/lab/" data-i18n="lab.back">Hash Lab’e dön</a></p>
+        <h1 class="page-head__title" id="cmp-title" data-i18n="lab.compare.title">Özet fonksiyonlarını karşılaştır</h1>
+        <p class="page-head__lead" data-i18n="lab.compare.lead">Aynı girdi, farklı algoritmalar.</p>
+        <p class="lab-note" data-i18n="lab.note">Eğitim amaçlıdır; üretimde platformun kriptografi kütüphanesi kullanılır.</p>
+      </section>
+
+      <div class="container lab">
+        <section class="lab-panel" aria-labelledby="cmp-input-title">
+          <h2 class="lab-panel__title" id="cmp-input-title" data-i18n="lab.compare.input">Girdi</h2>
+          <div class="field">
+            <label class="visually-hidden" for="cmp-input" data-i18n="lab.compare.input">Girdi</label>
+            <p class="field__hint" id="cmp-input-hint" data-i18n="lab.compare.inputHint">Özetler her değişiklikte yeniden hesaplanır: tarayıcıda karşılığı olanlar Web Crypto ile, MD5 ve SHA3-256 Lab uygulamasıyla.</p>
+            <textarea class="textarea lab-text" id="cmp-input" rows="2" spellcheck="false" autocapitalize="off" autocomplete="off" aria-describedby="cmp-input-hint">abc</textarea>
+          </div>
+        </section>
+
+        <section class="lab-panel" aria-labelledby="cmp-digests-title">
+          <h2 class="lab-panel__title" id="cmp-digests-title" data-i18n="lab.compare.digests">Özetler</h2>
+          <ul class="cmp-digests" role="list" data-digests></ul>
+        </section>
+
+        <section class="lab-panel" aria-labelledby="cmp-structure-title">
+          <h2 class="lab-panel__title" id="cmp-structure-title" data-i18n="lab.compare.structureTitle">Yapı ve durum</h2>
+          <p class="muted" data-i18n="lab.compare.structureBody">Durum sütunu çakışma dayanıklılığının bugünkü hâlini özetler.</p>
+          <table class="data-table stack-table" role="table" aria-labelledby="cmp-structure-title">
+            <thead role="rowgroup">
+              <tr role="row">
+                <th scope="col" role="columnheader" data-i18n="lab.compare.columns.algorithm">Algoritma</th>
+                <th scope="col" role="columnheader" data-i18n="lab.compare.columns.digest">Özet</th>
+                <th scope="col" role="columnheader" data-i18n="lab.compare.columns.block">Blok</th>
+                <th scope="col" role="columnheader" data-i18n="lab.compare.columns.structure">Yapı</th>
+                <th scope="col" role="columnheader" data-i18n="lab.compare.columns.rounds">Tur</th>
+                <th scope="col" role="columnheader" data-i18n="lab.compare.columns.status">Durum</th>
+              </tr>
+            </thead>
+            <tbody role="rowgroup" data-structure></tbody>
+          </table>
+        </section>
+
+        <section class="lab-panel" aria-labelledby="cmp-constructions-title">
+          <h2 class="lab-panel__title" id="cmp-constructions-title" data-i18n="lab.compare.constructions.title">İki yapı yan yana</h2>
+          <ul class="cmp-constructions" role="list">
+            <li class="cmp-construction">
+              <h3 class="cmp-construction__title" data-i18n="lab.compare.constructions.md.title">Merkle–Damgård</h3>
+              <p class="cmp-construction__used" data-i18n="lab.compare.constructions.md.used">MD5, SHA-1 ve SHA-2 ailesi</p>
+              <p class="cmp-construction__body" data-i18n="lab.compare.constructions.md.body">Mesaj dolgulanıp sabit uzunlukta bloklara bölünür ve bloklar sırayla bir sıkıştırma fonksiyonundan geçer; her adımın girdisi bir önceki adımın ara özetidir. Son ara özet, mesajın özetidir (FIPS 180-4, RFC 1321).</p>
+            </li>
+            <li class="cmp-construction">
+              <h3 class="cmp-construction__title" data-i18n="lab.compare.constructions.sponge.title">Sünger</h3>
+              <p class="cmp-construction__used" data-i18n="lab.compare.constructions.sponge.used">SHA-3 ailesi</p>
+              <p class="cmp-construction__body" data-i18n="lab.compare.constructions.sponge.body">1600 bitlik durum, rate ve capacity adlı iki kısma ayrılır. Emme aşamasında her mesaj bloğu rate kısmına XOR’lanır ve durum Keccak-f[1600] permütasyonuyla karıştırılır; sıkma aşamasında özet rate kısmından okunur. Capacity hiçbir zaman doğrudan girdi almaz ve çıktı vermez (FIPS 202).</p>
+            </li>
+          </ul>
+          <p class="lab-sources" data-i18n="lab.sources">Kaynaklar: FIPS 180-4 (Secure Hash Standard), FIPS 202 (SHA-3), RFC 1321 (MD5) ve RFC 8018 (PKCS #5).</p>
+        </section>
+      </div>
+    </main>
+    <footer id="site-footer"></footer>
+  </body>
+</html>

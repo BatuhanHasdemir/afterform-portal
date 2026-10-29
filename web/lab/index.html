@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title data-i18n="lab.pageTitle">Hash Lab · AFTER/FORM</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="preload" href="/assets/fonts/archivo/archivo-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/archivo/archivo-latin-ext-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/ibm-plex-mono/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/pages/lab.css">
+    <script type="module" src="/js/pages/lab-index.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main" data-i18n="common.skipToContent">İçeriğe geç</a>
+    <header id="site-header"></header>
+    <main id="main" tabindex="-1">
+      <section class="container page-head" aria-labelledby="lab-title">
+        <p class="eyebrow" data-i18n="lab.eyebrow">Hash Lab</p>
+        <h1 class="page-head__title" id="lab-title" data-i18n="lab.title">Özet fonksiyonlarının içi</h1>
+        <p class="page-head__lead" data-i18n="lab.lead">Bir özet fonksiyonu her uzunluktaki veriyi sabit uzunlukta bir değere dönüştürür. Burada SHA-256’nın adımlarını tek tek izleyebilir, tek bir bitin özeti nasıl değiştirdiğini görebilirsin.</p>
+        <p class="lab-note" data-i18n="lab.note">Eğitim amaçlıdır; üretimde platformun kriptografi kütüphanesi kullanılır.</p>
+      </section>
+
+      <section class="container lab-section" aria-labelledby="concepts-title">
+        <h2 class="eyebrow" id="concepts-title"><span class="eyebrow__index">01</span><span data-i18n="lab.concepts.title">Üç temel özellik</span></h2>
+        <ul class="concepts" role="list">
+          <li class="concept">
+            <h3 class="concept__title" data-i18n="lab.concepts.oneWay.title">Tek yönlülük</h3>
+            <p class="concept__body" data-i18n="lab.concepts.oneWay.body">Verilen bir özetten, onu üreten girdiyi bulmak hesaplama açısından mümkün olmamalıdır (FIPS 180-4).</p>
+          </li>
+          <li class="concept">
+            <h3 class="concept__title" data-i18n="lab.concepts.collision.title">Çakışma dayanıklılığı</h3>
+            <p class="concept__body" data-i18n="lab.concepts.collision.body">Aynı özeti veren iki farklı girdi bulmak hesaplama açısından mümkün olmamalıdır (FIPS 180-4).</p>
+          </li>
+          <li class="concept">
+            <h3 class="concept__title" data-i18n="lab.concepts.avalanche.title">Çığ etkisi</h3>
+            <p class="concept__body" data-i18n="lab.concepts.avalanche.body">Girdideki tek bir bitin değişmesi bile, çok yüksek bir olasılıkla bambaşka bir özet verir (FIPS 180-4).</p>
+          </li>
+        </ul>
+      </section>
+
+      <section class="container lab-section" aria-labelledby="experiments-title">
+        <h2 class="eyebrow" id="experiments-title"><span class="eyebrow__index">02</span><span data-i18n="lab.experiments.title">Deneyler</span></h2>
+        <ul class="experiments" role="list">
+          <li class="experiment">
+            <h3 class="experiment__title"><a class="experiment__link" href="/lab/sha256.html" data-i18n="lab.experiments.sha256.title">SHA-256, adım adım</a></h3>
+            <p class="experiment__body" data-i18n="lab.experiments.sha256.body">Dolgu, mesaj çizelgesi, 64 tur ve ara özetin geri eklenmesi.</p>
+          </li>
+          <li class="experiment">
+            <h3 class="experiment__title"><a class="experiment__link" href="/lab/avalanche.html" data-i18n="lab.experiments.avalanche.title">Çığ etkisi</a></h3>
+            <p class="experiment__body" data-i18n="lab.experiments.avalanche.body">Girdide tek bir biti çevir; özetin kaç bitinin değiştiğine bak.</p>
+          </li>
+          <li class="experiment">
+            <h3 class="experiment__title"><a class="experiment__link" href="/lab/pbkdf2.html" data-i18n="lab.experiments.pbkdf2.title">Parola özetleme maliyeti</a></h3>
+            <p class="experiment__body" data-i18n="lab.experiments.pbkdf2.body">Tuz ve iterasyon sayısının PBKDF2 çıktısını ve süresini nasıl değiştirdiğini ölç.</p>
+          </li>
+          <li class="experiment">
+            <h3 class="experiment__title"><a class="experiment__link" href="/lab/compare.html" data-i18n="lab.experiments.compare.title">Karşılaştırma</a></h3>
+            <p class="experiment__body" data-i18n="lab.experiments.compare.body">Aynı girdinin farklı algoritmalardaki özeti; yapıları ve bugünkü durumları.</p>
+          </li>
+        </ul>
+        <p class="lab-sources" data-i18n="lab.sources">Kaynaklar: FIPS 180-4 (Secure Hash Standard) ve RFC 8018 (PKCS #5).</p>
+      </section>
+    </main>
+    <footer id="site-footer"></footer>
+  </body>
+</html>

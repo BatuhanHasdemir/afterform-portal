@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title data-i18n="admin.pageTitle">Yönetim paneli · AFTER/FORM</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="preload" href="/assets/fonts/archivo/archivo-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/archivo/archivo-latin-ext-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/ibm-plex-mono/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/pages/admin.css">
+    <script type="module" src="/js/pages/admin.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main" data-i18n="common.skipToContent">İçeriğe geç</a>
+    <header id="site-header"></header>
+    <main id="main" tabindex="-1">
+      <section class="container page-head" aria-labelledby="admin-title">
+        <p class="eyebrow"><span class="eyebrow__index">01</span><span data-i18n="common.areas.admin">Yönetim</span></p>
+        <h1 class="page-head__title" id="admin-title" data-i18n="admin.title">Gelen demolar</h1>
+        <p class="page-head__lead" data-i18n="admin.lead">Tüm sanatçıların gönderdiği demolar. Bir demonun durumunu değiştirdiğinde sanatçı yeni durumu ve notunu kendi sayfasında görür.</p>
+      </section>
+      <section class="container list" aria-labelledby="admin-results-title">
+        <h2 class="visually-hidden" id="admin-results-title" tabindex="-1" data-i18n="admin.results">Demolar</h2>
+        <form class="list-controls admin-controls" role="search" data-controls>
+          <div class="field admin-controls__search">
+            <label class="field__label" for="filter-q" data-i18n="admin.search.label">Ara</label>
+            <div class="input-group">
+              <input class="input" id="filter-q" name="q" type="search" autocomplete="off" aria-describedby="filter-q-hint">
+              <button class="input-group__button" type="submit" data-i18n="admin.search.submit">Ara</button>
+            </div>
+            <p class="field__hint" id="filter-q-hint" data-i18n="admin.search.hint">Parça adı ya da sanatçı adı.</p>
+          </div>
+          <div class="field">
+            <label class="field__label" for="filter-status" data-i18n="demos.filters.status">Durum</label>
+            <select class="select" id="filter-status" name="status"></select>
+          </div>
+          <div class="field">
+            <label class="field__label" for="filter-sort" data-i18n="demos.filters.sort">Sıralama</label>
+            <select class="select" id="filter-sort" name="sort"></select>
+          </div>
+        </form>
+        <p class="list-summary" role="status" data-summary></p>
+        <div class="list-results" data-results aria-busy="true">
+          <p class="visually-hidden" data-i18n="admin.loading">Demolar yükleniyor…</p>
+        </div>
+      </section>
+    </main>
+    <footer id="site-footer"></footer>
+  </body>
+</html>

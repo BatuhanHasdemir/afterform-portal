@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title data-i18n="lab.pbkdf2.pageTitle">Parola özetleme maliyeti · Hash Lab</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="preload" href="/assets/fonts/archivo/archivo-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/archivo/archivo-latin-ext-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/ibm-plex-mono/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/pages/lab.css">
+    <script type="module" src="/js/pages/lab-pbkdf2.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main" data-i18n="common.skipToContent">İçeriğe geç</a>
+    <header id="site-header"></header>
+    <main id="main" tabindex="-1">
+      <section class="container page-head" aria-labelledby="pb-title">
+        <p class="lab-crumb"><a href="/lab/" data-i18n="lab.back">Hash Lab’e dön</a></p>
+        <h1 class="page-head__title" id="pb-title" data-i18n="lab.pbkdf2.title">Parola özetleme maliyeti</h1>
+        <p class="page-head__lead" data-i18n="lab.pbkdf2.lead">PBKDF2, parolayı tuzla birlikte binlerce kez HMAC-SHA512’den geçirir.</p>
+        <p class="lab-note" data-i18n="lab.note">Eğitim amaçlıdır; üretimde platformun kriptografi kütüphanesi kullanılır.</p>
+        <p class="lab-note" data-i18n="lab.pbkdf2.serverNote">Girişte parola sunucuda özetlenir.</p>
+      </section>
+
+      <div class="container lab">
+        <section class="lab-panel" aria-labelledby="pb-inputs-title">
+          <h2 class="lab-panel__title" id="pb-inputs-title" data-i18n="lab.pbkdf2.inputs">Girdiler</h2>
+          <div class="pb-controls">
+            <div class="field">
+              <label class="field__label" for="pb-password" data-i18n="lab.pbkdf2.password">Parola</label>
+              <p class="field__hint" id="pb-password-hint" data-i18n="lab.pbkdf2.passwordHint">Gerçek bir parola yazma.</p>
+              <input class="input" id="pb-password" type="text" value="örnek parola" spellcheck="false" autocomplete="off" autocapitalize="off" aria-describedby="pb-password-hint">
+            </div>
+            <div class="field">
+              <label class="field__label" for="pb-iterations" data-i18n="lab.pbkdf2.iterations">İterasyon sayısı</label>
+              <input class="round-controls__slider" id="pb-iterations" type="range" min="0" max="300" step="1" list="pb-ticks">
+              <datalist id="pb-ticks"><option data-project-tick></option></datalist>
+              <div class="pb-scale" aria-hidden="true"><span class="pb-scale__mark" data-project-mark data-i18n="lab.pbkdf2.projectSetting">Projedeki ayar</span></div>
+              <p class="pb-value mono" data-iterations-value></p>
+              <button class="btn btn--secondary pb-project" type="button" data-project></button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lab-panel" id="salt" aria-labelledby="pb-salt-title" data-records>
+          <h2 class="lab-panel__title" id="pb-salt-title" data-i18n="lab.pbkdf2.saltTitle">Aynı parola, farklı tuz</h2>
+          <p class="muted" data-i18n="lab.pbkdf2.saltBody">İki kayıt aynı parolayı kullanıyor.</p>
+          <div class="av-pair">
+            <article class="pb-record" data-record="a" aria-labelledby="pb-record-a">
+              <h3 class="lab-panel__subtitle" id="pb-record-a" data-i18n="lab.pbkdf2.recordA">Kayıt A</h3>
+              <dl class="facts">
+                <div class="facts__row"><dt data-i18n="lab.pbkdf2.salt">Tuz (16 bayt)</dt><dd><code class="digest__value pb-hex" translate="no" data-salt></code></dd></div>
+                <div class="facts__row"><dt data-i18n="lab.pbkdf2.output">Çıktı (32 bayt)</dt><dd><code class="digest__value pb-hex" translate="no" data-output></code></dd></div>
+                <div class="facts__row"><dt data-i18n="lab.pbkdf2.duration">Süre</dt><dd class="mono" data-duration></dd></div>
+              </dl>
+              <button class="btn btn--secondary pb-record__salt" type="button" data-new-salt data-i18n="lab.pbkdf2.newSalt">Tuzu yenile</button>
+            </article>
+            <article class="pb-record" data-record="b" aria-labelledby="pb-record-b">
+              <h3 class="lab-panel__subtitle" id="pb-record-b" data-i18n="lab.pbkdf2.recordB">Kayıt B</h3>
+              <dl class="facts">
+                <div class="facts__row"><dt data-i18n="lab.pbkdf2.salt">Tuz (16 bayt)</dt><dd><code class="digest__value pb-hex" translate="no" data-salt></code></dd></div>
+                <div class="facts__row"><dt data-i18n="lab.pbkdf2.output">Çıktı (32 bayt)</dt><dd><code class="digest__value pb-hex" translate="no" data-output></code></dd></div>
+                <div class="facts__row"><dt data-i18n="lab.pbkdf2.duration">Süre</dt><dd class="mono" data-duration></dd></div>
+              </dl>
+              <button class="btn btn--secondary pb-record__salt" type="button" data-new-salt data-i18n="lab.pbkdf2.newSalt">Tuzu yenile</button>
+            </article>
+          </div>
+          <p class="pb-verdict" role="status" data-verdict></p>
+        </section>
+
+        <section class="lab-panel" id="cost" aria-labelledby="pb-cost-title">
+          <h2 class="lab-panel__title" id="pb-cost-title" data-i18n="lab.pbkdf2.costTitle">İterasyon ve süre</h2>
+          <p class="muted" data-i18n="lab.pbkdf2.costBody">Her iterasyon bir HMAC-SHA512 hesabı daha demektir.</p>
+          <div class="actions">
+            <button class="btn btn--primary" type="button" data-measure data-i18n="lab.pbkdf2.measure">Süreleri ölç</button>
+          </div>
+          <p class="muted" role="status" data-measure-status></p>
+          <figure class="cost-chart" data-chart hidden>
+            <figcaption class="cost-chart__title" id="pb-chart-title" data-i18n="lab.pbkdf2.chartTitle">Bu cihazda, iterasyon sayısına göre süre</figcaption>
+            <div class="cost-chart__plot" data-chart-plot></div>
+            <p class="lab-step__hint" data-i18n="lab.pbkdf2.deviceNote">Süre cihaza ve tarayıcıya bağlıdır.</p>
+            <details class="info-card cost-chart__table">
+              <summary class="info-card__summary" data-i18n="lab.pbkdf2.table">Değerleri tablo olarak göster</summary>
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th scope="col" data-i18n="lab.pbkdf2.columnIterations">İterasyon</th>
+                    <th scope="col" data-i18n="lab.pbkdf2.columnDuration">Süre</th>
+                  </tr>
+                </thead>
+                <tbody data-chart-rows></tbody>
+              </table>
+            </details>
+          </figure>
+        </section>
+      </div>
+    </main>
+    <footer id="site-footer"></footer>
+  </body>
+</html>
